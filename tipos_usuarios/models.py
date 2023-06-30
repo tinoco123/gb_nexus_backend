@@ -26,7 +26,7 @@ class UserBaseAccount(AbstractBaseUser):
 
     is_superuser = models.BooleanField(default=False)
 
-    USERNAME_FIELD = ["email"]
+    USERNAME_FIELD = "email"
     objects = UserBaseAccountManager()
 
     def __str__(self):
