@@ -1,7 +1,6 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
-
-# Create your models here.
+from django.contrib.auth.models import AbstractBaseUser
+from managers import UserBaseAccountManager
 
 
 class UserBaseAccount(AbstractBaseUser):
@@ -25,7 +24,10 @@ class UserBaseAccount(AbstractBaseUser):
     is_usuario = models.BooleanField(default=False)
     is_cliente = models.BooleanField(default=False)
 
+    is_superuser = models.BooleanField(default=False)
+
     USERNAME_FIELD = ["email"]
+    objects = UserBaseAccountManager()
 
     def __str__(self):
         return str(self.email)
