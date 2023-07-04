@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
-from .managers import UserBaseAccountManager, AdministradorManager
+from .managers import UserBaseAccountManager, AdministradorManager, UsuarioManager
 from .utils import UserTypes
 
 
@@ -32,3 +32,11 @@ class Administrador(UserBaseAccount):
         return super().save(*args,  **kwargs)
 
 
+class Usuario(UserBaseAccount):
+    class Meta:
+        proxy = True
+    objects = UsuarioManager()
+
+    def save(self, *args,  **kwargs):
+        self.user_type = UserTypes.USUARIO
+        return super().save(*args,  **kwargs)
