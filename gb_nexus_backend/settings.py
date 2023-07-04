@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'tipos_usuarios'
+    'tipos_usuarios',
+    'authentication'
 ]
 
 MIDDLEWARE = [
@@ -134,3 +135,5 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = "tipos_usuarios.UserBaseAccount"
+
+LOGIN_URL = 'login/'

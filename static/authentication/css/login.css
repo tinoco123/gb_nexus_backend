@@ -1,0 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+body{
+    font-family: 'Inter', sans-serif;
+}
+.titulo, .divisor, label{
+    color: #024795;
+}
+.input-color, .input-color:focus{
+    border-color: #024795 ;
+}
+
+.olvide-contrasena{
+    color: gray;
+}
+
+.modal-content{
+    border: 3px #024795 solid;
+}
