@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 from dotenv import load_dotenv
 from pathlib import Path
+from django.contrib.messages import constants as messages
 import os
 
 load_dotenv()
@@ -136,4 +137,14 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = "tipos_usuarios.UserBaseAccount"
 
-LOGIN_URL = 'login/'
+LOGIN_URL = '/login/'
+
+LOGIN_REDIRECT_URL = '/home'
+
+MESSAGE_TAGS = {
+    messages.DEBUG: 'alert-dark',
+    messages.INFO: 'alert-info',
+    messages.SUCCESS: 'alert-success',
+    messages.WARNING: 'alert-warning',
+    messages.ERROR: 'alert-danger',
+}
