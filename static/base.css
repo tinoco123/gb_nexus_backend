@@ -1,0 +1,102 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+body,
+html {
+    height: 100%;
+    font-family: 'Roboto', sans-serif;
+}
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 75px;
+    background-image: radial-gradient(circle 975px at 2.6% 48.3%, rgba(1, 62, 210, 1) 0%, rgba(0, 57, 197, 1) 99.7%);
+    height: 100%;
+    transition: all 0.3s ease;
+}
+
+.sidebar-nav {
+    height: auto;
+}
+
+.sidebar-nav li a {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    border-radius: 16px;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.4s ease;
+}
+
+.active {
+    border: 1px solid white;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-nav li {
+    border-radius: 16px;
+}
+
+.sidebar-nav li a:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-footer {
+    position: fixed;
+    left: 0px;
+    bottom: 0px;
+    width: 75px;
+}
+
+.menu-item {
+    display: none;
+}
+
+.profile {
+    display: none;
+}
+
+.content {
+    position: absolute;
+    top: 0;
+    left: 75px;
+    width: calc(100% - 75px)
+}
+
+
+@media (min-width: 992px) {
+
+    /* Estilos que se aplicarán cuando el ancho de la pantalla sea mayor a 991px */
+    .sidebar {
+        width: 260px;
+    }
+
+    .sidebar-nav li a {
+        justify-content: start;
+    }
+
+    .sidebar-footer {
+        width: 260px;
+    }
+
+    .content {
+        left: 260px;
+        width: calc(100% - 260px)
+    }
+
+    .menu-item {
+        display: inline;
+    }
+
+    .profile {
+        display: flex;
+    }
+}
+
+@media (max-width: 991px) {
+    .tabulator .tabulator-footer .tabulator-footer-contents{
+        flex-direction: column;
+    }
+}
