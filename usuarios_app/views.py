@@ -1,7 +1,10 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse, HttpResponseForbidden
+from django.http import HttpResponseForbidden
 from tipos_usuarios.models import Usuario
+from datetime import date, datetime
+import json
+
 
 @login_required
 def users(request):
@@ -9,13 +12,13 @@ def users(request):
         return HttpResponseForbidden()
     else:
         if request.method == "GET":
-            return render(request, 'usuarios.html')
+            users = list(Usuario.objects.values(
+                "id", "first_name", "last_name", "company", "date_joined"))
+            usuarios_json = json.dumps(users, default=date_serializer)
+            return render(request, 'usuarios.html', {"users": usuarios_json})
 
 
-@login_required
-def get_users(request):
-    if not request.user.user_type == "ADMINISTRADOR":
-        return HttpResponseForbidden()
-    else:
-        users = list(Usuario.objects.all().values("id" , "first_name", "last_name", "company", "date_joined"))
-        return JsonResponse(users, safe=False)
+def date_serializer(obj):
+    if isinstance(obj, (datetime, date)):
+        return obj.isoformat()
+    raise TypeError("Type %s not serializable" % type(obj))
