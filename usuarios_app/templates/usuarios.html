@@ -40,5 +40,8 @@
 {% endblock tabla %}
 
 {% block js-files%}
+    <script>
+        var usuarios = JSON.parse('{{ users|escapejs }}')
+    </script>
     <script type="text/javascript" src="{% static 'usuarios_app/userTable.js' %}"></script>
 {% endblock js-files%}

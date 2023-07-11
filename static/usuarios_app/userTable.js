@@ -3,11 +3,9 @@ var actionIcons = function (cell, formatterParams) {
     return actionHTML;
 };
 
-var tableData = []
-
 var table = new Tabulator("#userTable", {
     layout: "fitDataStretch",
-    data: tableData,
+    data: usuarios,
     pagination: true,
     paginationSize: 5,
     paginationSizeSelector: [10, 20, 30, 40, 50, true],
@@ -20,10 +18,10 @@ var table = new Tabulator("#userTable", {
             }
         },
         { title: "ID", field: "id", sorter: "number" },
-        { title: "Nombre", field: "name" },
-        { title: "Apellidos", field: "lastname" },
-        { title: "Empresa", field: "empresa" },
-        { title: "Fecha de registro", field: "date"},
+        { title: "Nombre", field: "first_name" },
+        { title: "Apellidos", field: "last_name" },
+        { title: "Empresa", field: "company" },
+        { title: "Fecha de registro", field: "date_joined"},
         { title: "Acciones", formatter: actionIcons, width: 107, hozAlign: "center", headerHozAlign: "center", headerSort: false },
     ],
 });
