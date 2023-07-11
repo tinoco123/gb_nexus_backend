@@ -66,65 +66,71 @@
                 </div>
                 <div class="modal-body">
                     <form class="row g-3" method="POST">
-                        <div class="col-12">
-                            <label for="inputNombre" class="form-label"
-                                >Nombre</label
-                            >
-                            <input
-                                type="text"
-                                class="form-control"
-                                id="inputNombre"
-                                required
-                            />
+                        {% csrf_token %}
+                        
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
+                                    {{ message }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+
+                        <div class="col-6">
+                            {{ create_user_form.first_name.errors }}
+                            <label for="{{ create_user_form.first_name.id_for_label }}" class="form-label">
+                                {{ create_user_form.first_name.label }}
+                            </label>
+                            {{ create_user_form.first_name }}
+                        </div>
+                        <div class="col-6">
+                            {{ create_user_form.last_name.errors }}
+                            <label for="{{ create_user_form.last_name.id_for_label }}" 
+                            class="form-label">
+                                {{ create_user_form.last_name.label }}
+                            </label>
+                            {{ create_user_form.last_name }}
+                        </div>
+                        <div class="col-6">
+                            {{ create_user_form.email.errors }}
+                            <label for="{{ create_user_form.email.id_for_label }}" class="form-label">
+                                {{ create_user_form.email.label }}
+                            </label>
+                            {{ create_user_form.email }}
+                        </div>
+                        <div class="col-6">
+                            {{ create_user_form.password.errors }}
+                            <label for="{{ create_user_form.password.id_for_label }}" 
+                            class="form-label">
+                                {{ create_user_form.password.label }}
+                            </label>
+                            {{ create_user_form.password }}
                         </div>
                         <div class="col-12">
-                            <label for="inputEmail" class="form-label"
-                                >Email</label
-                            >
-                            <input
-                                type="email"
-                                class="form-control"
-                                id="inputEmail"
-                                required
-                            />
+                            {{ create_user_form.address.errors }}
+                            <label for="{{ create_user_form.address.id_for_label }}" 
+                            class="form-label">
+                                {{ create_user_form.address.label }}
+                            </label>
+                            {{ create_user_form.address }}
                         </div>
-                        <div class="col-12">
-                            <label for="inputAddress" class="form-label"
-                                >Dirección</label
-                            >
-                            <textarea
-                                id="inputAddress"
-                                name="address"
-                                rows="4"
-                                cols="50"
-                                class="form-control"
-                                required
-                            ></textarea>
+                        <div class="col-6">
+                            {{ create_user_form.company.errors }}
+                            <label for="{{ create_user_form.company.id_for_label }}" class="form-label">
+                                {{ create_user_form.company.label }}
+                            </label>
+                            {{ create_user_form.company }}
                         </div>
-                        <div class="col-md-6">
-                            <label for="inputEmpresa" class="form-label"
-                                >Empresa</label
-                            >
-                            <input
-                                type="text"
-                                class="form-control"
-                                id="inputEmpresa"
-                                required
-                            />
+                        <div class="col-6">
+                            {{ create_user_form.date_birth.errors }}
+                            <label for="{{ create_user_form.date_birth.id_for_label }}" 
+                            class="form-label">
+                                {{ create_user_form.date_birth.label }}
+                            </label>
+                            {{ create_user_form.date_birth }}
                         </div>
-                        <div class="col-md-6">
-                            <label
-                                for="inputFechaNacimiento"
-                                class="form-label"
-                                >Fecha de Nacimiento</label
-                            >
-                            <input
-                                type="date"
-                                class="form-control"
-                                id="inputFechaNacimiento"
-                                required
-                            />
-                        </div>
+
                         <div class="col-12 d-flex flex-column">
                             <button type="submit" class="btn btn-primary">
                                 Agregar Usuario
