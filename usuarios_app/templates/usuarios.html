@@ -65,7 +65,7 @@
                     ></button>
                 </div>
                 <div class="modal-body">
-                    <form class="row g-3" method="POST">
+                    <form class="row g-3" method="POST" action="{% url 'create_user' %}">
                         {% csrf_token %}
                         
                         {% if messages %}
