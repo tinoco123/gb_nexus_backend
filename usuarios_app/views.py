@@ -31,10 +31,13 @@ def create_user(request):
             if create_user_form.is_valid():
                 email = create_user_form.cleaned_data["email"]
                 password = create_user_form.cleaned_data["password"]
-                name = create_user_form.cleaned_data["first_name"]
+                first_name = create_user_form.cleaned_data["first_name"]
+                last_name = create_user_form.cleaned_data["last_name"]
+                address = create_user_form.cleaned_data["address"]
+                company = create_user_form.cleaned_data["company"]
                 date_birth = create_user_form.cleaned_data["date_birth"]
-                Usuario.objects.create_user(
-                    email=email, password=password,first_name=name, date_birth=date_birth)
+                Usuario.objects.create_user(email=email, password=password, first_name=first_name,
+                                            last_name=last_name, address=address, company=company, date_birth=date_birth)
                 return redirect("users")
 
 
