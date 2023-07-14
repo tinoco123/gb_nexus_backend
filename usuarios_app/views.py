@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseForbidden
+from django.http import HttpResponseForbidden, JsonResponse
 from .forms import CreateUserForm
 from tipos_usuarios.models import Usuario
 from datetime import date, datetime
@@ -39,6 +39,11 @@ def create_user(request):
                 Usuario.objects.create_user(email=email, password=password, first_name=first_name,
                                             last_name=last_name, address=address, company=company, date_birth=date_birth)
                 return redirect("users")
+            else:
+                errors = create_user_form.errors.as_json(escape_html=True)
+                return JsonResponse({'success': False, 'errors': errors}, status=400)
+        else:
+            return redirect("users")
 
 
 def date_serializer(obj):
