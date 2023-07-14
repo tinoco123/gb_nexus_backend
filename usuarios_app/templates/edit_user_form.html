@@ -1,9 +1,9 @@
 {% load static %}
 <div
     class="modal fade"
-    id="agregarUsuario"
+    id="editarUsuario"
     tabindex="-1"
-    aria-labelledby="modal agregar usuario"
+    aria-labelledby="modal editar usuario"
     aria-hidden="true"
 >
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
@@ -11,10 +11,10 @@
             <div class="modal-header">
                 <h1 class="modal-title fs-5">
                     <img
-                        src="{% static 'usuarios_app/img/usuarios-agregar.svg' %}"
-                        alt="imagen agregar usuario"
+                        src="{% static 'usuarios_app/js/usuarios-editar.svg' %}"
+                        alt="imagen editar usuario"
                     />
-                    <span class="ms-2">Agregar Usuario</span>
+                    <span class="ms-2">Editar Usuario</span>
                 </h1>
                 <button
                     type="button"
@@ -27,8 +27,8 @@
                 <form
                     class="row g-3"
                     method="POST"
-                    action="{% url 'create_user' %}"
-                    id="agregarUsuarioForm"
+                    action="{% url 'edit_user' %}"
+                    id="editarUsuarioForm"
                 >
                     {% csrf_token %} 
                     {% if messages %} 
@@ -50,78 +50,78 @@
 
                     <div class="col-6">
                         <label
-                            for="{{ create_user_form.first_name.id_for_label }}"
+                            for="{{ edit_user_form.first_name.id_for_label }}"
                             class="form-label"
                         >
-                            {{ create_user_form.first_name.label }}
+                            {{ edit_user_form.first_name.label }}
                         </label>
-                        {{ create_user_form.first_name }}
+                        {{ edit_user_form.first_name }}
                         <span id="error_first_name" class="text-danger"></span>
                     </div>
                     <div class="col-6">
                         <label
-                            for="{{ create_user_form.last_name.id_for_label }}"
+                            for="{{ edit_user_form.last_name.id_for_label }}"
                             class="form-label"
                         >
-                            {{ create_user_form.last_name.label }}
+                            {{ edit_user_form.last_name.label }}
                         </label>
-                        {{ create_user_form.last_name }}
+                        {{ edit_user_form.last_name }}
                         <span id="error_last_name" class="text-danger"></span>
                     </div>
                     <div class="col-6">
                         <label
-                            for="{{ create_user_form.email.id_for_label }}"
+                            for="{{ edit_user_form.email.id_for_label }}"
                             class="form-label"
                         >
-                            {{ create_user_form.email.label }}
+                            {{ edit_user_form.email.label }}
                         </label>
-                        {{ create_user_form.email }}
+                        {{ edit_user_form.email }}
                         <span id="error_email" class="text-danger"></span>
                     </div>
                     <div class="col-6">
                         <label
-                            for="{{ create_user_form.password.id_for_label }}"
+                            for="{{ edit_user_form.password.id_for_label }}"
                             class="form-label"
                         >
-                            {{ create_user_form.password.label }}
+                            {{ edit_user_form.password.label }}
                         </label>
-                        {{ create_user_form.password }}
+                        {{ edit_user_form.password }}
                         <span id="error_password" class="text-danger"></span>
                     </div>
                     <div class="col-12">
                         <label
-                            for="{{ create_user_form.address.id_for_label }}"
+                            for="{{ edit_user_form.address.id_for_label }}"
                             class="form-label"
                         >
-                            {{ create_user_form.address.label }}
+                            {{ edit_user_form.address.label }}
                         </label>
-                        {{ create_user_form.address }}
+                        {{ edit_user_form.address }}
                         <span id="error_address" class="text-danger"></span>
                     </div>
                     <div class="col-6">
                         <label
-                            for="{{ create_user_form.company.id_for_label }}"
+                            for="{{ edit_user_form.company.id_for_label }}"
                             class="form-label"
                         >
-                            {{ create_user_form.company.label }}
+                            {{ edit_user_form.company.label }}
                         </label>
-                        {{ create_user_form.company }}
+                        {{ edit_user_form.company }}
                         <span id="error_company" class="text-danger"></span>
                     </div>
                     <div class="col-6">
                         <label
-                            for="{{ create_user_form.date_birth.id_for_label }}"
+                            for="{{ edit_user_form.date_birth.id_for_label }}"
                             class="form-label"
                         >
-                            {{ create_user_form.date_birth.label }}
+                            {{ edit_user_form.date_birth.label }}
                         </label>
-                        {{ create_user_form.date_birth }}
+                        {{ edit_user_form.date_birth }}
                         <span id="error_date_birth" class="text-danger"></span>
                     </div>
 
                     <div class="col-12 d-flex flex-column">
                         <button type="submit" class="btn btn-primary">
-                            Agregar Usuario
+                            Editar Usuario
                         </button>
                     </div>
                 </form>

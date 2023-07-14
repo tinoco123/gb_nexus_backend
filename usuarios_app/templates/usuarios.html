@@ -6,7 +6,7 @@
 {% endblock title%}
 
 {% block css %}
-    <link rel="stylesheet" href="{% static 'usuarios_app/usuarios_app.css' %}" />
+    <link rel="stylesheet" href="{% static 'usuarios_app/css/usuarios_app.css' %}" />
 {% endblock css %}
 
 {% block header %}
@@ -42,6 +42,8 @@
 {% block modales %}
     <!-- Modal agregar usuario -->
     {% include 'create_user_form.html' %}
+    <!-- Modal editar usuario -->
+    {% include 'edit_user_form.html' %}
 
 {% endblock modales %}
 
@@ -49,6 +51,6 @@
     <script>
         var usuarios = JSON.parse('{{ users|escapejs }}')
     </script>
-    <script type="text/javascript" src="{% static 'usuarios_app/userTable.js' %}"></script>
-    <script type="text/javascript" src="{% static 'usuarios_app/createUser.js' %}" ></script>
+    <script type="text/javascript" src="{% static 'usuarios_app/js/userTable.js' %}"></script>
+    <script type="text/javascript" src="{% static 'usuarios_app/js/createUser.js' %}" ></script>
 {% endblock js-files%}
