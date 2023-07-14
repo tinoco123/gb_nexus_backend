@@ -21,7 +21,7 @@ document.getElementById('agregarUsuarioForm').addEventListener('submit', functio
   event.preventDefault();
   var formData = new FormData(event.target);
 
-  fetch('/create_user/', {
+  fetch('/users/create/', {
     method: 'POST',
     body: formData
   })
@@ -32,7 +32,7 @@ document.getElementById('agregarUsuarioForm').addEventListener('submit', functio
             setErrorsInForm(formErrors)
           });
       } else {
-        window.location.href = "/usuarios/"
+        window.location.href = "/users/"
       }
     })
     .catch(function (error) {
