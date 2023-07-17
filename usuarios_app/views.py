@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden, JsonResponse
 from .forms import UserForm
@@ -44,6 +44,26 @@ def create_user(request):
                 return JsonResponse({'success': False, 'errors': errors}, status=400)
         else:
             return redirect("users")
+
+
+@login_required
+def get_user(request, user_id):
+    if not request.user.user_type == "ADMINISTRADOR":
+        return HttpResponseForbidden()
+
+    if request.method == "GET":
+        user = get_object_or_404(Usuario, id=user_id)
+        user_json = {
+            "first_name": user.first_name,
+            "last_name": user.last_name,
+            "email": user.email,
+            "address": user.address,
+            "company": user.company,
+            "date_birth": user.date_birth
+        }
+        return JsonResponse(user_json, status=200)
+    else:
+        return redirect("users")
 
 
 def date_serializer(obj):
