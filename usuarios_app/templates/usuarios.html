@@ -19,6 +19,7 @@
     >
         <div class="d-flex flex-column flex-sm-row align-items-center">
             <button
+                id="btn-agregar-usuario"
                 type="button"
                 class="btn btn-danger p-2 mt-2 acciones-top"
                 data-bs-toggle="modal"
@@ -41,13 +42,19 @@
 
 {% block modales %}
     <!-- Modal agregar usuario -->
-    {% include 'create_user_form.html' %}
+    {% include 'user_form.html' %}
 {% endblock modales %}
 
 {% block js-files%}
     <script>
         var usuarios = JSON.parse('{{ users|escapejs }}')
     </script>
+    <script>
+        var imgAgregarUsuario = "{% static 'usuarios_app/img/usuarios-agregar.svg' %}"
+        var imgEditarUsuario = "{% static 'usuarios_app/img/usuarios-editar.svg' %}"
+    </script>
     <script type="text/javascript" src="{% static 'usuarios_app/js/userTable.js' %}"></script>
     <script type="text/javascript" src="{% static 'usuarios_app/js/createUser.js' %}" ></script>
+    <script type="text/javascript" src="{% static 'usuarios_app/js/editUser.js' %}" ></script>
+    <script type="text/javascript" src="{% static 'usuarios_app/js/toggleFormMode.js' %}"></script>
 {% endblock js-files%}

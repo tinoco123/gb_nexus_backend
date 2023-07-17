@@ -11,10 +11,10 @@
             <div class="modal-header">
                 <h1 class="modal-title fs-5">
                     <img
-                        src="{% static 'usuarios_app/img/usuarios-agregar.svg' %}"
-                        alt="imagen agregar usuario"
+                        id="modal-img-title"
+                        src=""
                     />
-                    <span class="ms-2">Agregar Usuario</span>
+                    <span class="ms-2" id="modal-title"></span>
                 </h1>
                 <button
                     type="button"
@@ -27,26 +27,9 @@
                 <form
                     class="row g-3"
                     method="POST"
-                    action="{% url 'create_user' %}"
-                    id="agregarUsuarioForm"
+                    id="user-form"
                 >
                     {% csrf_token %} 
-                    {% if messages %} 
-                        {% for message in messages %}
-                            <div
-                                class="alert {{ message.tags }} alert-dismissible fade show"
-                                role="alert"
-                            >
-                                {{ message }}
-                                <button
-                                    type="button"
-                                    class="btn-close"
-                                    data-bs-dismiss="alert"
-                                    aria-label="Close"
-                                ></button>
-                            </div>
-                        {% endfor %} 
-                    {% endif %}
 
                     <div class="col-6">
                         <label
@@ -120,8 +103,7 @@
                     </div>
 
                     <div class="col-12 d-flex flex-column">
-                        <button type="submit" class="btn btn-primary">
-                            Agregar Usuario
+                        <button type="submit" class="btn btn-primary" id="btn-submit-form">
                         </button>
                     </div>
                 </form>

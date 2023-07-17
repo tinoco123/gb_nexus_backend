@@ -15,8 +15,7 @@ function setErrorsInForm(formErrors) {
   }
 }
 
-
-document.getElementById('agregarUsuarioForm').addEventListener('submit', function (event) {
+document.getElementById('user-form').addEventListener('submit', function (event) {
 
   event.preventDefault();
   var formData = new FormData(event.target);
