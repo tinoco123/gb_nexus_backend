@@ -16,11 +16,19 @@ function setErrorsInForm(formErrors) {
 }
 
 document.getElementById('user-form').addEventListener('submit', function (event) {
-
   event.preventDefault();
   var formData = new FormData(event.target);
 
-  fetch('/users/create/', {
+  if (modalMode == "agregar") {
+    agregarUsuario(formData)
+  } else if (modalMode == "editar") {
+    ("todavia no implementamos esto")
+  }
+
+});
+
+function agregarUsuario(formData) {
+  fetch(urlAgregarUsuario, {
     method: 'POST',
     body: formData
   })
@@ -31,11 +39,10 @@ document.getElementById('user-form').addEventListener('submit', function (event)
             setErrorsInForm(formErrors)
           });
       } else {
-        window.location.href = "/users/"
+        window.location.href = urlUsers
       }
     })
     .catch(function (error) {
       console.error('Error:', error);
     });
-});
-
+}

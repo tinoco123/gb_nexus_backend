@@ -19,14 +19,16 @@ for (var i = 0; i < btnsEditar.length; i++) {
 
 function toggleMode(mode){
     if (mode == "agregar"){
+        modalMode = "agregar"
+
         modalImgTitle.setAttribute("src", imgAgregarUsuario)
         modalTitle.innerHTML = "Agregar un usuario"
-        userForm.setAttribute("action", "/create_user")
         btnSubmitUserForm.innerHTML = "Agregar un usuario"
     } else if (mode == "editar"){
+        modalMode = "editar"
+        
         modalImgTitle.setAttribute("src", imgEditarUsuario)
         modalTitle.innerHTML = "Editar un usuario"
-        userForm.setAttribute("action", "/edit")
         btnSubmitUserForm.innerHTML = "Editar un usuario"
     }
 }

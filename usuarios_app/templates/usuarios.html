@@ -48,10 +48,11 @@
 {% block js-files%}
     <script>
         var usuarios = JSON.parse('{{ users|escapejs }}')
-    </script>
-    <script>
         var imgAgregarUsuario = "{% static 'usuarios_app/img/usuarios-agregar.svg' %}"
         var imgEditarUsuario = "{% static 'usuarios_app/img/usuarios-editar.svg' %}"
+        var urlAgregarUsuario = "{% url 'create_user' %}"
+        var urlUsers = "{% url 'users' %}"
+        var modalMode = ""
     </script>
     <script type="text/javascript" src="{% static 'usuarios_app/js/userTable.js' %}"></script>
     <script type="text/javascript" src="{% static 'usuarios_app/js/createUser.js' %}" ></script>
