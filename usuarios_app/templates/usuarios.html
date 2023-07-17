@@ -22,7 +22,7 @@
                 type="button"
                 class="btn btn-danger p-2 mt-2 acciones-top"
                 data-bs-toggle="modal"
-                data-bs-target="#agregarUsuario"
+                data-bs-target="#userModal"
             >
                 <i class="bi bi-plus-square fs-6 me-1"></i>
                 Usuario
@@ -42,9 +42,6 @@
 {% block modales %}
     <!-- Modal agregar usuario -->
     {% include 'create_user_form.html' %}
-    <!-- Modal editar usuario -->
-    {% include 'edit_user_form.html' %}
-
 {% endblock modales %}
 
 {% block js-files%}

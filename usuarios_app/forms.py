@@ -2,7 +2,7 @@ from django import forms
 from tipos_usuarios.models import Usuario
 from django.utils.translation import gettext_lazy as _
 
-class CreateUserForm(forms.ModelForm):
+class UserForm(forms.ModelForm):
     class Meta:
         model = Usuario
         fields = ["email", "password", "first_name", "last_name",
