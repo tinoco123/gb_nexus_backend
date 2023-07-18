@@ -18,10 +18,9 @@ table.on("dataProcessed", function () {
     setEventListnerToEditButtons()
 });
 
-table.on("pageLoaded", function (pageno) {
+table.on("pageLoaded", function () {
     setEventListnerToEditButtons()
 });
-
 
 function setEventListnerToEditButtons() {
     for (var i = 0; i < btnsEditar.length; i++) {
@@ -30,7 +29,6 @@ function setEventListnerToEditButtons() {
         })
     }
 }
-
 
 function toggleMode(mode) {
     if (mode == "agregar") {
@@ -48,10 +46,30 @@ function toggleMode(mode) {
     }
 }
 
-
 // Borrar datos del formulario al cerrar el modal
 const userModal = document.getElementById('userModal')
 userModal.addEventListener('hide.bs.modal', event => {
     userForm = document.getElementById("user-form")
     userForm.reset()
 })
+
+userModal.addEventListener('shown.bs.modal', event => {
+    get_user(idActualizado)
+})
+
+function get_user(user_id){
+    fetch("/users/get/" + user_id, {
+        method: 'GET',
+      })
+        .then(function (response) {
+          if (response.ok) {
+            response.json()
+              .then(function (data) {
+                console.log(data);
+              });
+          }
+        })
+        .catch(function (error) {
+          console.error('Error:', error);
+        });
+}
