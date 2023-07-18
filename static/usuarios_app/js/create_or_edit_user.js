@@ -1,3 +1,16 @@
+document.getElementById('user-form').addEventListener('submit', function (event) {
+  event.preventDefault();
+  var formData = new FormData(event.target);
+
+  if (modalMode == "agregar") {
+    agregarUsuario(formData)
+  } else if (modalMode == "editar") {
+    console.log("Sin implementar");
+  }
+
+});
+
+
 function setErrorsInForm(formErrors) {
   if (formErrors.success === false) {
     json_errors = JSON.parse(formErrors.errors)
@@ -15,17 +28,6 @@ function setErrorsInForm(formErrors) {
   }
 }
 
-document.getElementById('user-form').addEventListener('submit', function (event) {
-  event.preventDefault();
-  var formData = new FormData(event.target);
-
-  if (modalMode == "agregar") {
-    agregarUsuario(formData)
-  } else if (modalMode == "editar") {
-    ("todavia no implementamos esto")
-  }
-
-});
 
 function agregarUsuario(formData) {
   fetch(urlAgregarUsuario, {

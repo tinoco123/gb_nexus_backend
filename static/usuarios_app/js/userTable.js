@@ -1,10 +1,10 @@
 var actionIcons = function (cell, formatterParams) {
-    var actionHTML = "<button class='btn p-2 btn-editar-usuario' data-bs-toggle='modal' data-bs-target='#userModal'><i class='bi bi-pen fs-5'></i></button> <button class='btn p-2' data-bs-toggle='modal' data-bs-target='#eliminarUsuario'><i class='bi bi-trash fs-5'></i></button>"
+    var actionHTML = "<button class='btn p-2 editar-usuario' data-bs-toggle='modal' data-bs-target='#userModal'><i class='bi bi-pen fs-5'></i></button> <button class='btn p-2' data-bs-toggle='modal' data-bs-target='#eliminarUsuario'><i class='bi bi-trash fs-5'></i></button>"
     return actionHTML;
 };
 
 var table = new Tabulator("#userTable", {
-    layout: "fitData",
+    layout: "fitDataFill",
     data: usuarios,
     pagination: true,
     paginationSize: 7,
@@ -22,6 +22,6 @@ var table = new Tabulator("#userTable", {
         { title: "Apellidos", field: "last_name" },
         { title: "Empresa", field: "company" },
         { title: "Fecha de registro", field: "date_joined"},
-        { title: "Acciones", formatter: actionIcons, hozAlign: "center", headerHozAlign: "center", headerSort: false },
+        { title: "Acciones", formatter: actionIcons, hozAlign: "center", headerHozAlign: "center", headerSort: false, width:102 },
     ],
 });
