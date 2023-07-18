@@ -1,67 +1,57 @@
 // Se intercambia el modo del userModal para agregar o editar un archivo cambiando atributos y valores
-var btnsEditar = document.getElementsByClassName("editar-usuario")
 var modalImgTitle = document.getElementById("modal-img-title")
 var modalTitle = document.getElementById("modal-title")
 var userForm = document.getElementById("user-form")
 var btnSubmitUserForm = document.getElementById("btn-submit-form")
 var idActualizado = 0
 
+// Habilitar por defecto el modo editar en el formulario
+modalMode = "editar"
+toggleMode(modalMode)
+
 table.on("rowClick", function (e, row) {
     idActualizado = row.getData().id
 });
 
 document.getElementById("btn-agregar-usuario").addEventListener("click", function () {
-    toggleMode("agregar")
+    modalMode = "agregar"
+    toggleMode(modalMode)
 })
-
-table.on("dataProcessed", function () {
-    setEventListnerToEditButtons()
-});
-
-table.on("pageLoaded", function () {
-    setEventListnerToEditButtons()
-});
-
-function setEventListnerToEditButtons() {
-    for (var i = 0; i < btnsEditar.length; i++) {
-        btnsEditar[i].addEventListener('click', function () {
-            toggleMode("editar")
-        })
-    }
-}
 
 function toggleMode(mode) {
     if (mode == "agregar") {
-        modalMode = "agregar"
-
         modalImgTitle.setAttribute("src", imgAgregarUsuario)
         modalTitle.innerHTML = "Agregar un usuario"
         btnSubmitUserForm.innerHTML = "Agregar un usuario"
     } else if (mode == "editar") {
-        modalMode = "editar"
-
         modalImgTitle.setAttribute("src", imgEditarUsuario)
         modalTitle.innerHTML = "Editar un usuario"
         btnSubmitUserForm.innerHTML = "Editar un usuario"
     }
 }
 
-// Borrar datos del formulario al cerrar el modal
+// Al cerrar el modal
 const userModal = document.getElementById('userModal')
 userModal.addEventListener('hide.bs.modal', event => {
-    userForm = document.getElementById("user-form")
+    if (modalMode == "agregar"){
+        modalMode = "editar"
+        toggleMode(modalMode)
+    }
     userForm.reset()
 })
 
+// Al abrir el modal
 userModal.addEventListener('shown.bs.modal', event => {
-    
-    get_user(idActualizado)
-        .then(function (userData) {
-            fillForm(userData)
-        })
-        .catch(function (error) {
-            console.error('Error al obtener el usuario:', error);
-        });
+    if (modalMode == "editar") {
+        get_user(idActualizado)
+            .then(function (userData) {
+                fillForm(userData)
+            })
+            .catch(function (error) {
+                console.error('Error al obtener el usuario:', error);
+            });
+    }
+
 })
 
 function get_user(user_id) {
@@ -77,7 +67,7 @@ function get_user(user_id) {
         })
         .catch(function (error) {
             console.error('Error:', error);
-            throw error; // Puedes propagar el error o manejarlo de otra forma si lo deseas
+            throw error;
         });
 }
 
