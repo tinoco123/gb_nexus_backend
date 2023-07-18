@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseForbidden, JsonResponse
+from django.http import HttpResponseForbidden, JsonResponse, HttpResponseNotAllowed
 from .forms import UserForm
 from tipos_usuarios.models import Usuario
 from datetime import date, datetime
@@ -19,6 +19,8 @@ def users(request):
             usuarios_json = json.dumps(users, default=date_serializer)
             return render(request, 'usuarios.html', {"users": usuarios_json,
                                                      "user_form": user_form})
+        else:
+            return HttpResponseNotAllowed("Método No Permitido")
 
 
 @login_required
@@ -43,8 +45,7 @@ def create_user(request):
                 errors = user_form.errors.as_json(escape_html=True)
                 return JsonResponse({'success': False, 'errors': errors}, status=400)
         else:
-            return redirect("users")
-
+            return HttpResponseNotAllowed()
 
 @login_required
 def get_user(request, user_id):
@@ -63,7 +64,7 @@ def get_user(request, user_id):
         }
         return JsonResponse(user_json, status=200)
     else:
-        return redirect("users")
+        return HttpResponseNotAllowed()
 
 
 def date_serializer(obj):
