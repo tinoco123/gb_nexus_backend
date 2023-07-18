@@ -54,22 +54,38 @@ userModal.addEventListener('hide.bs.modal', event => {
 })
 
 userModal.addEventListener('shown.bs.modal', event => {
+    
     get_user(idActualizado)
-})
-
-function get_user(user_id){
-    fetch("/users/get/" + user_id, {
-        method: 'GET',
-      })
-        .then(function (response) {
-          if (response.ok) {
-            response.json()
-              .then(function (data) {
-                console.log(data);
-              });
-          }
+        .then(function (userData) {
+            fillForm(userData)
         })
         .catch(function (error) {
-          console.error('Error:', error);
+            console.error('Error al obtener el usuario:', error);
         });
+})
+
+function get_user(user_id) {
+    return fetch("/users/get/" + user_id, {
+        method: 'GET',
+    })
+        .then(function (response) {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error('La respuesta no fue exitosa');
+            }
+        })
+        .catch(function (error) {
+            console.error('Error:', error);
+            throw error; // Puedes propagar el error o manejarlo de otra forma si lo deseas
+        });
+}
+
+function fillForm(data) {
+    userForm.id_first_name.value = data.first_name
+    userForm.id_last_name.value = data.last_name
+    userForm.id_email.value = data.email
+    userForm.id_address.value = data.address
+    userForm.id_company.value = data.company
+    userForm.id_date_birth.value = data.date_birth
 }
