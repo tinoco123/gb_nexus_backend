@@ -38,14 +38,14 @@ def create_user(request):
                 address = user_form.cleaned_data["address"]
                 company = user_form.cleaned_data["company"]
                 date_birth = user_form.cleaned_data["date_birth"]
-                Usuario.objects.create_user(email=email, password=password, first_name=first_name,
+                Usuario.objects.create(email=email, password=password, first_name=first_name,
                                             last_name=last_name, address=address, company=company, date_birth=date_birth)
                 return redirect("users")
             else:
                 errors = user_form.errors.as_json(escape_html=True)
                 return JsonResponse({'success': False, 'errors': errors}, status=400)
         else:
-            return HttpResponseNotAllowed()
+            return HttpResponseNotAllowed(permitted_methods=("POST"))
 
 @login_required
 def get_user(request, user_id):
