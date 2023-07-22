@@ -10,6 +10,31 @@ document.getElementById('user-form').addEventListener('submit', function (event)
 
 });
 
+function agregarUsuario(formData) {
+  fetch(urlAgregarUsuario, {
+    method: 'POST',
+    body: formData
+  })
+    .then(function (response) {
+      if (!response.ok) {
+        if (response.status >= 500) {
+          mostrarNotificacion(response.status)
+        }
+        else {
+          response.json()
+            .then(function (formErrors) {
+              setErrorsInForm(formErrors)
+            });
+        }
+      } else {
+        window.location.href = urlUsers;
+        mostrarNotificacion(response.status);
+      }
+    })
+    .catch(function (error) {
+      console.error('Error:', error);
+    });
+}
 
 function setErrorsInForm(formErrors) {
   if (formErrors.success === false) {
@@ -26,25 +51,4 @@ function setErrorsInForm(formErrors) {
       }
     }
   }
-}
-
-
-function agregarUsuario(formData) {
-  fetch(urlAgregarUsuario, {
-    method: 'POST',
-    body: formData
-  })
-    .then(function (response) {
-      if (!response.ok) {
-        response.json()
-          .then(function (formErrors) {
-            setErrorsInForm(formErrors)
-          });
-      } else {
-        window.location.href = urlUsers
-      }
-    })
-    .catch(function (error) {
-      console.error('Error:', error);
-    });
 }
