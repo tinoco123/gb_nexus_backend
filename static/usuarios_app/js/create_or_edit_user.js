@@ -19,8 +19,9 @@ function agregarUsuario(formData) {
       if (!response.ok) {
         if (response.status >= 500) {
           mostrarNotificacion(response.status)
-        }
-        else {
+        } else if (response.status >= 400) {
+          mostrarNotificacion(response.status)
+        } else {
           response.json()
             .then(function (formErrors) {
               setErrorsInForm(formErrors)

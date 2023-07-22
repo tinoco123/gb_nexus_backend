@@ -17,7 +17,9 @@ const appendAlert = (message, type) => {
 
 function mostrarNotificacion(statusCode) {
 
-  if (statusCode == 500) {
+  if (statusCode >= 500) {
     appendAlert("Error en el servidor, el usuario no se pudo agregar", "danger")
-  }  
+  } else if (statusCode >= 400) {
+    appendAlert("Error al procesar tu solicitud, el usuario no se pudo agregar", "danger")
+  }
 }
