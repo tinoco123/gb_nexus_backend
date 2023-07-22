@@ -1,11 +1,13 @@
 from django.db import models
 from django.contrib.auth.models import BaseUserManager
+from django.db.models.query import QuerySet
 from .utils import UserTypes
 from django.core.exceptions import ObjectDoesNotExist
+from abc import ABC, abstractmethod
 
 
 class UserBaseAccountManager(BaseUserManager):
-    def create_user(self, email, password=None, **extra_fields):
+    def create(self, email, password=None, **extra_fields):
         if not email or len(email) <= 0:
             raise ValueError("El campo email es requerido")
         if not password or len(password) <= 0:
@@ -20,45 +22,10 @@ class UserBaseAccountManager(BaseUserManager):
         return self.create_user(email, password, **extra_fields)
 
 
-class AdministradorManager(models.Manager):
-    def create_administrador(self, email, password=None, **extra_fields):
-        if not email or len(email) <= 0:
-            raise ValueError("El campo email es requerido")
-        if not password or len(password) <= 0:
-            raise ValueError("El campo contraseña es requerido")
+class CustomUserManager(models.Manager, ABC):
 
-        email = BaseUserManager.normalize_email(email)
-        administrador = self.model(email=email, **extra_fields)
-        administrador.set_password(password)
-        administrador.save(using=self._db)
-        return administrador
-    
-    def edit_administrador(self, administrador_id, email=None, password=None, **extra_fields):
-        administrador = self.get_queryset().get(pk=administrador_id)
-        if administrador is not None:
-            if email:
-                email = BaseUserManager.normalize_email(email)
-                administrador.email = email
-
-            if password:
-                administrador.set_password(password)
-
-            for key, value in extra_fields.items():
-                setattr(administrador, key, value)
-
-            administrador.save(using=self._db)
-            return administrador
-        else:
-            raise ObjectDoesNotExist()
-
-    def get_queryset(self, *args, **kwargs):
-        queryset = super().get_queryset(*args, **kwargs)
-        queryset = queryset.filter(user_type=UserTypes.ADMINISTRADOR)
-        return queryset
-
-
-class UsuarioManager(models.Manager):
-    def create_user(self, email, password=None, **extra_fields):
+    @abstractmethod
+    def create(self, email, password=None, **extra_fields):
         if not email or len(email) <= 0:
             raise ValueError("El campo email es requerido")
         if not password or len(password) <= 0:
@@ -70,8 +37,9 @@ class UsuarioManager(models.Manager):
         user.save(using=self._db)
         return user
 
-    def edit_user(self, user_id, email=None, password=None, **extra_fields):
-        user = self.get_queryset().get(pk=user_id)
+    @abstractmethod
+    def edit(self, email, id, password=None, **extra_fields):
+        user = self.get_queryset().get(pk=id)
         if user is not None:
             if email:
                 email = BaseUserManager.normalize_email(email)
@@ -88,44 +56,44 @@ class UsuarioManager(models.Manager):
         else:
             raise ObjectDoesNotExist()
 
-    def get_queryset(self, *args, **kwargs):
+    @abstractmethod
+    def get_queryset(self, user_type, *args, **kwargs):
         queryset = super().get_queryset(*args, **kwargs)
-        queryset = queryset.filter(user_type=UserTypes.USUARIO)
+        queryset = queryset.filter(user_type=user_type)
         return queryset
 
 
-class ClienteManager(models.Manager):
-    def create_client(self, email, password=None, **extra_fields):
-        if not email or len(email) <= 0:
-            raise ValueError("El campo email es requerido")
-        if not password or len(password) <= 0:
-            raise ValueError("El campo contraseña es requerido")
+class AdministradorManager(CustomUserManager):
 
-        email = BaseUserManager.normalize_email(email)
-        client = self.model(email=email, **extra_fields)
-        client.set_password(password)
-        client.save(using=self._db)
-        return client
+    def create(self, email, password=None, **extra_fields):
+        super().create(email, password, **extra_fields)
 
-    def edit_client(self, client_id, email=None, password=None, **extra_fields):
-        client = self.get_queryset().get(pk=client_id)
-        if client is not None:
-            if email:
-                email = BaseUserManager.normalize_email(email)
-                client.email = email
-
-            if password:
-                client.set_password(password)
-
-            for key, value in extra_fields.items():
-                setattr(client, key, value)
-
-            client.save(using=self._db)
-            return client
-        else:
-            raise ObjectDoesNotExist()
+    def edit(self, email, id, password=None, **extra_fields):
+        super().edit(email, id, password, **extra_fields)
 
     def get_queryset(self, *args, **kwargs):
-        queryset = super().get_queryset(*args, **kwargs)
-        queryset = queryset.filter(user_type=UserTypes.CLIENTE)
-        return queryset
+        return super().get_queryset(user_type=UserTypes.ADMINISTRADOR, *args, **kwargs)
+
+
+class UsuarioManager(CustomUserManager):
+
+    def create(self, email, password=None, **extra_fields):
+        super().create(email, password, **extra_fields)
+
+    def edit(self, email, id, password=None, **extra_fields):
+        super().edit(email, id, password, **extra_fields)
+
+    def get_queryset(self, *args, **kwargs):
+        return super().get_queryset(user_type=UserTypes.USUARIO, *args, **kwargs)
+
+
+class ClienteManager(CustomUserManager):
+
+    def create(self, email, password=None, **extra_fields):
+        super().create(email, password, **extra_fields)
+
+    def edit(self, email, id, password=None, **extra_fields):
+        super().edit(email, id, password, **extra_fields)
+
+    def get_queryset(self, *args, **kwargs):
+        return super().get_queryset(user_type=UserTypes.CLIENTE, *args, **kwargs)
