@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import BaseUserManager
-from django.db.models.query import QuerySet
 from .utils import UserTypes
 from django.core.exceptions import ObjectDoesNotExist
 from abc import ABC, abstractmethod
