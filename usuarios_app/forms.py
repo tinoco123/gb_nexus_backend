@@ -2,6 +2,7 @@ from django import forms
 from tipos_usuarios.models import Usuario
 from django.utils.translation import gettext_lazy as _
 
+
 class UserForm(forms.ModelForm):
     class Meta:
         model = Usuario
@@ -24,3 +25,9 @@ class UserForm(forms.ModelForm):
             "company": _("Compañia"),
             "date_birth": _("Fecha de nacimiento"),
         }
+
+
+class EditUserForm(UserForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['password'].required = False
