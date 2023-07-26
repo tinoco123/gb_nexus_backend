@@ -20,6 +20,7 @@ document.getElementById("btn-agregar-usuario").addEventListener("click", functio
 
 function toggleMode(mode) {
     if (mode == "agregar") {
+        document.getElementById("id_password").setAttribute("required", "")
         modalImgTitle.setAttribute("src", imgAgregarUsuario)
         modalTitle.innerHTML = "Agregar un usuario"
         btnSubmitUserForm.innerHTML = "Agregar un usuario"
@@ -27,6 +28,7 @@ function toggleMode(mode) {
         modalImgTitle.setAttribute("src", imgEditarUsuario)
         modalTitle.innerHTML = "Editar un usuario"
         btnSubmitUserForm.innerHTML = "Editar un usuario"
+        document.getElementById("id_password").removeAttribute("required")
     }
 }
 
