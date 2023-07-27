@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %} 
     Global Nexus DC: Resultados de búsqueda
@@ -15,3 +16,9 @@
         <div id="searchResultsTable" class="mt-0 ms-lg-3"></div>
     </div>            
 {% endblock tabla %}
+
+{% block js-files%}
+    <script type="text/javascript" 
+            src="{% static 'resultados_busqueda_app/js/searchResultsTable.js' %}">
+    </script>
+{% endblock js-files %}

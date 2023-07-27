@@ -7,7 +7,7 @@ var table = new Tabulator("#userTable", {
     layout: "fitDataFill",
     data: usuarios,
     pagination: true,
-    paginationSize: 7,
+    paginationSize: 10,
     paginationSizeSelector: [10, 20, 30, 40, 50, true],
     paginationCounter: "rows",
     placeholder:"Sin datos que mostrar",
