@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'tipos_usuarios',
     'authentication',
-    'usuarios_app'
+    'usuarios_app',
+    'resultados_busqueda_app'
 ]
 
 MIDDLEWARE = [
