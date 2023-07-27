@@ -8,7 +8,7 @@
         <title>{% block title %} {% endblock title%}</title>
         <link
             rel="shortcut icon"
-            href="{% static 'img/favicon.ico' %}"
+            href="{% static 'base/img/favicon.ico' %}"
             type="image/x-icon"
         />
         <link
@@ -25,7 +25,7 @@
             rel="stylesheet"
             href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
         />
-        <link rel="stylesheet" href="{% static 'base.css' %}" />
+        <link rel="stylesheet" href="{% static 'base/base.css' %}" />
         {% block css %}
         {% endblock css %}
     </head>
@@ -36,11 +36,11 @@
                 <picture>
                     <source
                         media="(min-width: 992px)"
-                        srcset="{% static 'img/logo-gb-sidebar.png' %}"
+                        srcset="{% static 'base/img/logo-gb-sidebar.png' %}"
                         class="img-fluid logo-lg"
                     />
                     <img
-                        src="{% static 'img/favicon.ico' %}"
+                        src="{% static 'base/img/favicon.ico' %}"
                         alt="icono global nexus"
                         class="img-fluid rounded-4 logo-sm"
                     />
@@ -49,58 +49,58 @@
             </div>
 
             <ul class="sidebar-nav list-unstyled mt-4 mt-md-3" id="sidebar-nav">
-                <li class="mx-2 mx-lg-3 active">
+                <li class="mx-2 mx-lg-3 menu-item">
                     <a
                         href="{%url 'users'%}"
                         class="text-decoration-none text-white px-2"
                     >
                         <i class="bi bi-people-fill fs-3"></i>
-                        <span class="ms-2 menu-item">Usuarios</span>
+                        <span class="ms-2 menu-item-span">Usuarios</span>
                     </a>
                 </li>
-                <li class="m-2 m-lg-3">
+                <li class="m-2 m-lg-3 menu-item">
                     <a
                         href="/clientes.html"
                         class="text-decoration-none text-white px-2"
                     >
                         <i class="bi bi-people text-white fs-3"></i>
-                        <span class="ms-2 menu-item">Clientes</span>
+                        <span class="ms-2 menu-item-span">Clientes</span>
                     </a>
                 </li>
-                <li class="m-2 m-lg-3">
+                <li class="m-2 m-lg-3 menu-item">
                     <a
                         href="/monitoreo-urls.html"
                         class="text-decoration-none text-white px-2"
                     >
                         <i class="bi bi-link-45deg text-white fs-3"></i>
-                        <span class="ms-2 menu-item">Monitoreo de URL'S</span>
+                        <span class="ms-2 menu-item-span">Monitoreo de URL'S</span>
                     </a>
                 </li>
-                <li class="m-2 m-lg-3">
+                <li class="m-2 m-lg-3 menu-item">
                     <a
                         href="/keywords.html"
                         class="text-decoration-none text-white px-2"
                     >
                         <i class="bi bi-key text-white fs-3"></i>
-                        <span class="ms-2 menu-item">Keywords</span>
+                        <span class="ms-2 menu-item-span">Keywords</span>
                     </a>
                 </li>
-                <li class="m-2 m-lg-3">
+                <li class="m-2 m-lg-3 menu-item">
                     <a
                         href="/busquedas-recientes.html"
                         class="text-decoration-none text-white px-2"
                     >
                         <i class="bi bi-search text-white fs-3"></i>
-                        <span class="ms-2 menu-item">Búsquedas recientes</span>
+                        <span class="ms-2 menu-item-span">Búsquedas recientes</span>
                     </a>
                 </li>
-                <li class="m-2 m-lg-3">
+                <li class="m-2 m-lg-3 menu-item">
                     <a
                         href="{% url 'search_results' %}"
                         class="text-decoration-none text-white px-2"
                     >
                         <i class="bi bi-card-list text-white fs-3"></i>
-                        <span class="ms-2 menu-item"
+                        <span class="ms-2 menu-item-span"
                             >Resultados de búsqueda</span
                         >
                     </a>
@@ -149,6 +149,7 @@
         {% block modales %}
         {% endblock modales %}
 
+        <script type="text/javascript" src="{% static 'base/base.js'%}"></script>
         <script
             type="text/javascript"
             src="https://unpkg.com/tabulator-tables@5.5.0/dist/js/tabulator.min.js"

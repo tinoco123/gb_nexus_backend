@@ -50,7 +50,7 @@ html {
     width: 75px;
 }
 
-.menu-item {
+.menu-item-span {
     display: none;
 }
 
@@ -86,7 +86,7 @@ html {
         width: calc(100% - 260px)
     }
 
-    .menu-item {
+    .menu-item-span {
         display: inline;
     }
 
