@@ -28,7 +28,6 @@ function editarUsuario(formData, user_id) {
         }
       } else {
         window.location.href = urlUsers;
-        mostrarNotificacion(response.status);
       }
     })
     .catch(function (error) {
