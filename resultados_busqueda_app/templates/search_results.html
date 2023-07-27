@@ -1,1 +1,17 @@
 {% extends 'base.html' %}
+
+{% block title %} 
+    Global Nexus DC: Resultados de búsqueda
+{% endblock title%}
+
+{% block header %}
+    <i class="bi bi-card-list me-3"></i>Resultados de búsqueda                    
+{% endblock header %}
+
+{% block tabla %}
+    <div
+    class="mx-3 mx-lg-5 mt-3 d-flex flex-column flex-lg-row justify-content-center align-items-center"
+    >
+        <div id="searchResultsTable" class="mt-0 ms-lg-3"></div>
+    </div>            
+{% endblock tabla %}
