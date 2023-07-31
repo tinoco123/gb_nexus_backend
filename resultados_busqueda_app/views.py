@@ -25,8 +25,12 @@ def get_page_of_search_results(request):
     if request.method != "GET":
         return HttpResponseNotAllowed(permitted_methods=("GET"))
     else:
-        page_number = int(request.GET.get("page"))
-        page_size = int(request.GET.get("size"))
+        try:
+            page_number = int(request.GET.get("page"))
+            page_size = int(request.GET.get("size"))
+        except ValueError:
+            return HttpResponseBadRequest()
+ 
         if page_number >= 1 and page_size <= 50:
             try:
                 paginator = Pagination(page_size, str(os.getenv("MONGODB_DATABASE")), str(
