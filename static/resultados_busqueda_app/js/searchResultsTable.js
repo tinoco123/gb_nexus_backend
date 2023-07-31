@@ -11,7 +11,7 @@ var table = new Tabulator("#searchResultsTable", {
     ajaxURL:"/search-results/data/",
     paginationSize: 10,
     paginationSizeSelector: [5, 10, 20, 30, 40, 50],
-    paginationCounter:"pages",
+    paginationCounter:"rows",
     height: 680,
     columns: [
         {
@@ -19,8 +19,9 @@ var table = new Tabulator("#searchResultsTable", {
                 cell.getRow().toggleSelect();
             }
         },
+        { title:"id", field:"_id", visible: false},
         { title: "Página", field: "title" },
-        { title: "Fecha de publicación", field: "date", sorter: "date" },
+        { title: "Fecha", field: "date", sorter: "date" },
         { title: "Estado", field: "state" },
         { title: "URL", field: "urlPage" },
         { title: "Zona", field: "federalEstatal" },
