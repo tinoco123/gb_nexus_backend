@@ -5,6 +5,8 @@ from django.contrib.auth.decorators import login_required
 from mongo_connection.paginator import Pagination
 from dotenv import load_dotenv
 from pymongo.errors import OperationFailure, ServerSelectionTimeoutError, ConnectionFailure
+from .utils import MongoJSONEncoder
+
 load_dotenv()
 
 
@@ -42,7 +44,7 @@ def get_page_of_search_results(request):
                     "last_page": last_page,
                     "data": search_results
                 }
-                return JsonResponse(data_dict)
+                return JsonResponse(data_dict, encoder=MongoJSONEncoder)
             except ServerSelectionTimeoutError as e:
                 return HttpResponseServerError()
             except ConnectionFailure as e:

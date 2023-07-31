@@ -10,7 +10,7 @@ class Pagination:
 
     def get_page(self, page_number):
         skip_value = (page_number - 1) * self.page_size
-        documents = self.connection.collection.find({}, {"_id": 0}).sort(
+        documents = self.connection.collection.find().sort(
             "_id", ASCENDING).skip(skip_value).limit(self.page_size)
         documents = (document for document in documents)
         return documents
