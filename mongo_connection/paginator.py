@@ -17,7 +17,7 @@ class Pagination:
 
     def calc_last_page(self):
         estimated_data = self.connection.collection.estimated_document_count()
-        if estimated_data % 2 == 0:
+        if estimated_data % self.page_size == 0:
             last_page = estimated_data // self.page_size
         else:
             last_page = (estimated_data // self.page_size) + 1
