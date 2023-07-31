@@ -5,23 +5,25 @@ var printIcon = function () { //plain text value
 
 var table = new Tabulator("#searchResultsTable", {
     layout: "fitDataFill",
-    data: [], //set initial table data
     placeholder:"Sin datos que mostrar",
-    pagination:true, //enable pagination
-    paginationMode:"remote", //enable remote pagination
-    ajaxURL:"",
-    height: 550,
+    pagination:true,
+    paginationMode:"remote",
+    ajaxURL:"/search-results/data/",
+    paginationSize: 10,
+    paginationSizeSelector: [5, 10, 20, 30, 40, 50],
+    paginationCounter:"pages",
+    height: 680,
     columns: [
         {
             formatter: "rowSelection", titleFormatter: "rowSelection", hozAlign: "center", headerHozAlign: "center", resizable: false, headerSort: false, cellClick: function (e, cell) {
                 cell.getRow().toggleSelect();
             }
         },
-        { title: "Página", field: "pagina" },
+        { title: "Página", field: "title" },
         { title: "Fecha de publicación", field: "date", sorter: "date" },
-        { title: "Estado", field: "estado" },
-        { title: "URL", field: "url" },
-        { title: "Zona", field: "zona" },
+        { title: "Estado", field: "state" },
+        { title: "URL", field: "urlPage" },
+        { title: "Zona", field: "federalEstatal" },
         { title: "Acciones", formatter: printIcon, width: 107, hozAlign: "center", headerHozAlign: "center", headerSort: false },
     ],
 });
