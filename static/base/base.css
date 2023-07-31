@@ -65,6 +65,19 @@ html {
     width: calc(100% - 75px)
 }
 
+.badge-status-ok{
+    background-color: #ECFDF3;
+    color: #027A48;
+}
+
+.badge-status-bad{
+    background-color: #FEF3F2;
+    color: #B42318;
+}
+
+#width-sinopsis{
+    width: 120px;
+}
 
 @media (min-width: 992px) {
 

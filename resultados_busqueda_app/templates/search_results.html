@@ -17,6 +17,113 @@
     </div>            
 {% endblock tabla %}
 
+{% block modales %}
+    <!-- Modal visualizar resultado de busqueda-->
+    <div
+        class="modal fade"
+        id="modalVerResultadosBusqueda"
+        tabindex="-1"
+        aria-labelledby="modal ver resultados de busqueda"
+        aria-hidden="true"
+    >
+        <div
+            class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl"
+        >
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">
+                    </h1>
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                    ></button>
+                </div>
+                <div class="modal-body">
+                    <div class="border rounded p-1">
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <th scope="row" class="titulo-ver-mas">
+                                        <i class="bi bi-file-break me-3"></i
+                                        >Página
+                                    </th>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" class="titulo-ver-mas">
+                                        <i class="bi bi-link-45deg me-3"></i
+                                        >URL
+                                    </th>
+                                    <td>
+                                        <a href=""></a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" class="titulo-ver-mas">
+                                        <i
+                                            class="bi bi-exclamation-circle me-3"
+                                        ></i
+                                        >Status
+                                    </th>
+                                    <td>
+                                        <div
+                                            class="badge-status-ok px-2 pt-1 rounded text-center"
+                                        >
+                                            <i
+                                                class="bi bi-check-lg me-1"
+                                            ></i>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" class="titulo-ver-mas">
+                                        <i class="bi bi-bag me-3"></i>Asunto
+                                    </th>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" id="width-sinopsis">
+                                        <i class="bi bi-book me-3"></i
+                                        >Sinopsis
+                                    </th>
+                                    <td>
+                                        <p></p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" class="titulo-ver-mas">
+                                        <i class="bi bi-calendar me-3"></i
+                                        >Fecha
+                                    </th>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" class="titulo-ver-mas">
+                                        <i
+                                            class="bi bi-person-square me-3"
+                                        ></i
+                                        >Autores
+                                    </th>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" class="titulo-ver-mas">
+                                        <i class="bi bi-rulers me-3"></i
+                                        >Leyes
+                                    </th>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock modales %}
+
 {% block js-files%}
     <script type="text/javascript" 
             src="{% static 'resultados_busqueda_app/js/searchResultsTable.js' %}">
