@@ -27,7 +27,7 @@ def get_page_of_search_results(request):
     else:
         page_number = int(request.GET.get("page"))
         page_size = int(request.GET.get("size"))
-        if page_number >= 0 and page_size <= 50:
+        if page_number >= 1 and page_size <= 50:
             try:
                 paginator = Pagination(page_size, str(os.getenv("MONGODB_DATABASE")), str(
                     os.getenv("MONGODB_COLLECTION")))
