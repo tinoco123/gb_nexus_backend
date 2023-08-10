@@ -23,3 +23,20 @@ function mostrarNotificacion(statusCode) {
     appendAlert("Error al procesar tu solicitud, el usuario no se pudo agregar", "danger")
   }
 }
+
+function setErrorsInForm(formErrors) {
+  if (formErrors.success === false) {
+    json_errors = JSON.parse(formErrors.errors)
+    for (var error in json_errors) {
+      if (json_errors.hasOwnProperty(error)) {
+        errorName = error
+        var listaErrores = json_errors[error];
+        listaErrores.forEach(function (error) {
+          id = "error_" + errorName
+          errorSpan = document.getElementById(id)
+          errorSpan.innerHTML = error.message
+        });
+      }
+    }
+  }
+}
