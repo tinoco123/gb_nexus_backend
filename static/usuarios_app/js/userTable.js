@@ -20,6 +20,7 @@ var table = new Tabulator("#userTable", {
         { title: "ID", field: "id", sorter: "number" },
         { title: "Nombre", field: "first_name" },
         { title: "Apellidos", field: "last_name" },
+        { title: "Mail", field: "email"},
         { title: "Empresa", field: "company" },
         { title: "Fecha de registro", field: "date_joined"},
         { title: "Acciones", formatter: actionIcons, hozAlign: "center", headerHozAlign: "center", headerSort: false, width:102 },

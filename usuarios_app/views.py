@@ -16,7 +16,7 @@ def users(request):
     else:
         user_form = UserForm()
         users = list(Usuario.objects.values(
-            "id", "first_name", "last_name", "company", "date_joined"))
+            "id", "first_name", "last_name", "email", "company", "date_joined"))
         usuarios_json = json.dumps(users, default=date_serializer)
         return render(request, 'usuarios.html', {"users": usuarios_json, "user_form": user_form})
 
