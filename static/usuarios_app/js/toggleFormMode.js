@@ -4,13 +4,14 @@ var modalTitle = document.getElementById("modal-title")
 var userForm = document.getElementById("user-form")
 var btnSubmitUserForm = document.getElementById("btn-submit-form")
 var idActualizado = 0
-
+var rowIndex = 0
 // Habilitar por defecto el modo editar en el formulario
 modalMode = "editar"
 toggleMode(modalMode)
 
 table.on("rowClick", function (e, row) {
     idActualizado = row.getData().id
+    rowIndex = row.getIndex()
 });
 
 document.getElementById("btn-agregar-usuario").addEventListener("click", function () {
