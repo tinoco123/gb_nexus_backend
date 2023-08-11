@@ -90,6 +90,19 @@ def get_user(request, user_id):
         return JsonResponse(user_json, status=200)
 
 
+@login_required
+def delete_user(request, user_id):
+    if not request.user.user_type == "ADMINISTRADOR":
+        return HttpResponseForbidden("Losiento, no tienes la autorización para eliminar a este usuario")
+    if request.method != "DELETE":
+        return HttpResponseNotAllowed(permitted_methods=("DELETE"))
+    else:
+        user = get_object_or_404(Usuario, id=user_id)
+        if user is not None:
+            user.delete()
+            return JsonResponse({"response": "El usuario fue eliminado correctamente"}, status=200)
+
+
 def date_serializer(obj):
     if isinstance(obj, (datetime, date)):
         return obj.isoformat()
