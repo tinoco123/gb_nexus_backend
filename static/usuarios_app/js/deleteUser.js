@@ -5,5 +5,7 @@ const eliminarUsuario = document.getElementById('eliminarUsuarioModal')
 eliminarUsuario.addEventListener('shown.bs.modal', event => {
     var row = table.getRow(rowIndex)
     var nombreUsuario = row.getData().first_name
+    var mailUsuario = row.getData().email
     spanNombreUsuario.innerHTML = nombreUsuario
+    spanMailUsuario.innerHTML = mailUsuario
 })
