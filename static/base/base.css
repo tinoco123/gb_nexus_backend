@@ -79,6 +79,14 @@ html {
     width: 120px;
 }
 
+.acciones-top {
+    width: 138px;
+}
+
+#userTable {
+    height: 680px;
+}
+
 @media (min-width: 992px) {
 
     /* Estilos que se aplicarán cuando el ancho de la pantalla sea mayor a 991px */
