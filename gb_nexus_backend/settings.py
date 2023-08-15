@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'tipos_usuarios',
     'authentication',
     'usuarios_app',
+    'clientes_app',
     'resultados_busqueda_app'
 ]
 
