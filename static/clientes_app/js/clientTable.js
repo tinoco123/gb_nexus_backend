@@ -5,7 +5,7 @@ var actionIcons = function (cell, formatterParams) {
 
 var table = new Tabulator("#clientTable", {
     layout: "fitDataFill",
-    ajaxURL:"/clients/data",
+    ajaxURL:"/clients/data/all-clients",
     placeholder:"Sin datos que mostrar",
     columns: [
         {
