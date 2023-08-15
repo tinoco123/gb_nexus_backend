@@ -5,7 +5,13 @@ var actionIcons = function (cell, formatterParams) {
 
 var table = new Tabulator("#clientTable", {
     layout: "fitDataFill",
-    ajaxURL:"/clients/data/all-clients",
+    pagination: true,
+    paginationMode:"remote",
+    ajaxURL:"/clients/data/",
+    paginationSize: 10,
+    paginationSizeSelector: [10, 20, 30, 40, 50],
+    paginationCounter:"rows",
+    height: 680,
     placeholder:"Sin datos que mostrar",
     columns: [
         {
