@@ -3,7 +3,7 @@ from django.core.paginator import Paginator, EmptyPage
 from django.http import HttpResponseForbidden, HttpResponseNotAllowed, JsonResponse, HttpResponseBadRequest
 from django.contrib.auth.decorators import login_required
 from tipos_usuarios.models import Cliente
-
+from .forms import ClientForm
 
 @login_required
 def clients(request):
@@ -12,7 +12,8 @@ def clients(request):
     if request.method != "GET":
         return HttpResponseNotAllowed(permitted_methods=("GET"))
     else:
-        return render(request, "clients.html")
+        client_form = ClientForm()
+        return render(request, "clients.html", {"client_form": client_form})
 
 
 @login_required

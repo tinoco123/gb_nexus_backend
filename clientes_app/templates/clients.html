@@ -36,6 +36,10 @@
     </div>            
 {% endblock tabla %}
 
+{% block modales %}
+    {% include 'client_form.html' %}
+{% endblock modales %}
+
 {% block js-files%}
     <script type="text/javascript" src="{% static 'clientes_app/js/clientTable.js' %}"></script>
 {% endblock js-files%}
