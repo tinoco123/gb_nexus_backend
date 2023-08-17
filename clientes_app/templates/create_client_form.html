@@ -1,9 +1,9 @@
 {% load static %}
 <div
     class="modal fade"
-    id="clientModal"
+    id="create-client-modal"
     tabindex="-1"
-    aria-labelledby="modal para agregar o editar un cliente"
+    aria-labelledby="modal para agregar un cliente"
     aria-hidden="true"
 >
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
@@ -12,9 +12,9 @@
                 <h1 class="modal-title fs-5">
                     <img
                         id="modal-img-title"
-                        src=""
+                        src="{% static 'clientes_app/img/cliente-agregar.svg' %}"
                     />
-                    <span class="ms-2" id="modal-title"></span>
+                    <span class="ms-2">Agregar un cliente</span>
                 </h1>
                 <button
                     type="button"
@@ -27,83 +27,84 @@
                 <form
                     class="row g-3"
                     method="POST"
-                    id="client-form"
+                    id="create_client-form"
                 >
                     {% csrf_token %} 
 
                     <div class="col-6">
                         <label
-                            for="{{ client_form.first_name.id_for_label }}"
+                            for="{{ create_client_form.first_name.id_for_label }}"
                             class="form-label"
                         >
-                            {{ client_form.first_name.label }}
+                            {{ create_client_form.first_name.label }}
                         </label>
-                        {{ client_form.first_name }}
+                        {{ create_client_form.first_name }}
                         <span id="error_first_name" class="text-danger"></span>
                     </div>
                     <div class="col-6">
                         <label
-                            for="{{ client_form.last_name.id_for_label }}"
+                            for="{{ create_client_form.last_name.id_for_label }}"
                             class="form-label"
                         >
-                            {{ client_form.last_name.label }}
+                            {{ create_client_form.last_name.label }}
                         </label>
-                        {{ client_form.last_name }}
+                        {{ create_client_form.last_name }}
                         <span id="error_last_name" class="text-danger"></span>
                     </div>
                     <div class="col-6">
                         <label
-                            for="{{ client_form.email.id_for_label }}"
+                            for="{{ create_client_form.email.id_for_label }}"
                             class="form-label"
                         >
-                            {{ client_form.email.label }}
+                            {{ create_client_form.email.label }}
                         </label>
-                        {{ client_form.email }}
+                        {{ create_client_form.email }}
                         <span id="error_email" class="text-danger"></span>
                     </div>
                     <div class="col-6">
                         <label
-                            for="{{ client_form.password.id_for_label }}"
+                            for="{{ create_client_form.password.id_for_label }}"
                             class="form-label"
                         >
-                            {{ client_form.password.label }}
+                            {{ create_client_form.password.label }}
                         </label>
-                        {{ client_form.password }}
+                        {{ create_client_form.password }}
                         <span id="error_password" class="text-danger"></span>
                     </div>
                     <div class="col-12">
                         <label
-                            for="{{ client_form.address.id_for_label }}"
+                            for="{{ create_client_form.address.id_for_label }}"
                             class="form-label"
                         >
-                            {{ client_form.address.label }}
+                            {{ create_client_form.address.label }}
                         </label>
-                        {{ client_form.address }}
+                        {{ create_client_form.address }}
                         <span id="error_address" class="text-danger"></span>
                     </div>
                     <div class="col-6">
                         <label
-                            for="{{ client_form.company.id_for_label }}"
+                            for="{{ create_client_form.company.id_for_label }}"
                             class="form-label"
                         >
-                            {{ client_form.company.label }}
+                            {{ create_client_form.company.label }}
                         </label>
-                        {{ client_form.company }}
+                        {{ create_client_form.company }}
                         <span id="error_company" class="text-danger"></span>
                     </div>
                     <div class="col-6">
                         <label
-                            for="{{ client_form.date_birth.id_for_label }}"
+                            for="{{ create_client_form.date_birth.id_for_label }}"
                             class="form-label"
                         >
-                            {{ client_form.date_birth.label }}
+                            {{ create_client_form.date_birth.label }}
                         </label>
-                        {{ client_form.date_birth }}
+                        {{ create_client_form.date_birth }}
                         <span id="error_date_birth" class="text-danger"></span>
                     </div>
 
                     <div class="col-12 d-flex flex-column">
-                        <button type="submit" class="btn btn-primary" id="btn-submit-form">
+                        <button type="submit" class="btn btn-primary" id="create-client-submit-btn">
+                            Agregar un cliente
                         </button>
                     </div>
                 </form>

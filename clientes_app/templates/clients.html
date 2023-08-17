@@ -19,7 +19,7 @@
                 type="button"
                 class="btn btn-danger p-2 mt-2 acciones-top"
                 data-bs-toggle="modal"
-                data-bs-target="#clientModal"
+                data-bs-target="#create-client-modal"
             >
                 <i class="bi bi-plus-square fs-6 me-1"></i>
                 Cliente
@@ -37,7 +37,8 @@
 {% endblock tabla %}
 
 {% block modales %}
-    {% include 'client_form.html' %}
+    {% include 'create_client_form.html' %}
+    {% include 'edit_client_form.html' %}
 {% endblock modales %}
 
 {% block js-files%}
