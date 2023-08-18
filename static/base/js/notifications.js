@@ -24,7 +24,7 @@ function showNotifications(statusCode, message) {
   }
 }
 
-function setErrorsInForm(formErrors) {
+function setErrorsInForm(formErrors, prefixErrorId="error_") {
   if (formErrors.success === false) {
     json_errors = JSON.parse(formErrors.errors)
     for (var error in json_errors) {
@@ -32,7 +32,7 @@ function setErrorsInForm(formErrors) {
         errorName = error
         var listaErrores = json_errors[error];
         listaErrores.forEach(function (error) {
-          id = "error_" + errorName
+          id = prefixErrorId + errorName
           errorSpan = document.getElementById(id)
           errorSpan.innerHTML = error.message
         });
