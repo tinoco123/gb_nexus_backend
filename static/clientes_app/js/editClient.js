@@ -1,6 +1,6 @@
 const editClientModal = document.getElementById('edit-client-modal')
 editClientModal.addEventListener('show.bs.modal', event => {
-    setTimeout(getClientById(idActualizado), 1)
+    setTimeout(() => getClientById(idActualizado), 1)
 })
 
 function getClientById(user_id) {

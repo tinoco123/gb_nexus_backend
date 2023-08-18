@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.core.paginator import Paginator, EmptyPage
 from django.http import HttpResponseForbidden, HttpResponseNotAllowed, JsonResponse, HttpResponseBadRequest
 from django.contrib.auth.decorators import login_required
@@ -92,3 +92,22 @@ def create_client(request):
         else:
             errors = client_form.errors.as_json(escape_html=True)
             return JsonResponse({'success': False, 'errors': errors}, status=400)
+
+
+@login_required
+def get_client(request, user_id):
+    if not request.user.user_type == "ADMINISTRADOR":
+        return HttpResponseForbidden()
+    if request.method != "GET":
+        return HttpResponseNotAllowed(permitted_methods=("GET"))
+    else:
+        user = get_object_or_404(Cliente, id=user_id)
+        user_json = {
+            "first_name": user.first_name,
+            "last_name": user.last_name,
+            "email": user.email,
+            "address": user.address,
+            "company": user.company,
+            "date_birth": user.date_birth
+        }
+        return JsonResponse(user_json, status=200)
