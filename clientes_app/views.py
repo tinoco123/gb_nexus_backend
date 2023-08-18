@@ -137,3 +137,16 @@ def edit_client(request, client_id):
         else:
             errors = edit_client_form.errors.as_json(escape_html=True)
             return JsonResponse({'success': False, 'errors': errors}, status=400)
+        
+
+@login_required
+def delete_client(request, client_id):
+    if not request.user.user_type == "ADMINISTRADOR":
+        return HttpResponseForbidden("Losiento, no tienes la autorización para eliminar a este cliente")
+    if request.method != "DELETE":
+        return HttpResponseNotAllowed(permitted_methods=("DELETE"))
+    else:
+        user = get_object_or_404(Cliente, id=client_id)
+        if user is not None:
+            user.delete()
+            return JsonResponse({"response": "El usuario fue eliminado correctamente"}, status=200)

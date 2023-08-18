@@ -13,7 +13,7 @@ deleteClientModal.addEventListener('show.bs.modal', () => {
 })
 
 deleteClientBtn.addEventListener("click", () => {
-    fetch("/users/delete/" + idActualizado, {
+    fetch("/clients/delete/" + idActualizado, {
         method: 'DELETE',
         headers: {
             'X-CSRFToken': getCSRFToken()
