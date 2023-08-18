@@ -1,0 +1,52 @@
+{% load static %}
+<div
+    class="modal fade"
+    id="delete-client-modal"
+    tabindex="-1"
+    aria-labelledby="Eliminar cliente"
+    aria-hidden="true"
+>
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5">
+                    <img
+                        src="{% static 'clientes-eliminar.svg' %}"
+                        alt="icono eliminar cliente"
+                    />
+                    <span class="ms-2">Eliminar un cliente</span>
+                </h1>
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                ></button>
+            </div>
+            <div class="modal-body">
+                <p class="fs-5">
+                    ¿Estás seguro que quieres eliminar el siguiente cliente?
+                    Esta acción no se podrá deshacer
+                </p>
+                <p>
+                    <strong>Nombre: </strong>
+                    <span id="nombre-eliminar"></span>
+                </p>
+                <p>
+                    <strong>Mail: </strong>
+                    <span id="mail-eliminar"></span>
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                >
+                    Cancelar
+                </button>
+                <button type="button" class="btn btn-danger" id="eliminar-cliente-btn">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>
