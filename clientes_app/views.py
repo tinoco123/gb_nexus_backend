@@ -95,13 +95,13 @@ def create_client(request):
 
 
 @login_required
-def get_client(request, user_id):
+def get_client(request, client_id):
     if not request.user.user_type == "ADMINISTRADOR":
         return HttpResponseForbidden()
     if request.method != "GET":
         return HttpResponseNotAllowed(permitted_methods=("GET"))
     else:
-        user = get_object_or_404(Cliente, id=user_id)
+        user = get_object_or_404(Cliente, id=client_id)
         user_json = {
             "first_name": user.first_name,
             "last_name": user.last_name,
@@ -111,3 +111,29 @@ def get_client(request, user_id):
             "date_birth": user.date_birth
         }
         return JsonResponse(user_json, status=200)
+
+
+@login_required
+def edit_client(request, client_id):
+    if not request.user.user_type == "ADMINISTRADOR":
+        return HttpResponseForbidden()
+    if request.method != "POST":
+        return HttpResponseNotAllowed(permitted_methods=("POST"))
+    else:
+        user = get_object_or_404(Cliente, id=client_id)
+
+        edit_client_form = EditClientForm(request.POST, instance=user)
+        if edit_client_form.is_valid():
+            email = edit_client_form.cleaned_data["email"]
+            password = edit_client_form.cleaned_data["password"]
+            first_name = edit_client_form.cleaned_data["first_name"]
+            last_name = edit_client_form.cleaned_data["last_name"]
+            address = edit_client_form.cleaned_data["address"]
+            company = edit_client_form.cleaned_data["company"]
+            date_birth = edit_client_form.cleaned_data["date_birth"]
+            Cliente.objects.edit(id=client_id, email=email, password=password, first_name=first_name,
+                                 last_name=last_name, address=address, company=company, date_birth=date_birth)
+            return JsonResponse({"success": True, "status_text": "Cliente editado correctamente"}, status=200)
+        else:
+            errors = edit_client_form.errors.as_json(escape_html=True)
+            return JsonResponse({'success': False, 'errors': errors}, status=400)
