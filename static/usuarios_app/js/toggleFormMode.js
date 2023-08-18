@@ -36,7 +36,7 @@ function toggleMode(mode) {
 // Al cerrar el modal
 const userModal = document.getElementById('userModal')
 userModal.addEventListener('hide.bs.modal', event => {
-    if (modalMode == "agregar"){
+    if (modalMode == "agregar") {
         modalMode = "editar"
         toggleMode(modalMode)
     }
@@ -48,7 +48,7 @@ userModal.addEventListener('shown.bs.modal', event => {
     if (modalMode == "editar") {
         get_user(idActualizado)
             .then(function (userData) {
-                fillForm(userData)
+                fillFormWithData(userData, userForm)
             })
             .catch(function (error) {
                 console.error('Error al obtener el usuario:', error);
@@ -72,13 +72,4 @@ function get_user(user_id) {
             console.error('Error:', error);
             throw error;
         });
-}
-
-function fillForm(data) {
-    userForm.id_first_name.value = data.first_name
-    userForm.id_last_name.value = data.last_name
-    userForm.id_email.value = data.email
-    userForm.id_address.value = data.address
-    userForm.id_company.value = data.company
-    userForm.id_date_birth.value = data.date_birth
 }
