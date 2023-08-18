@@ -6,13 +6,13 @@ var actionIcons = function (cell, formatterParams) {
 var table = new Tabulator("#clientTable", {
     layout: "fitDataFill",
     pagination: true,
-    paginationMode:"remote",
-    ajaxURL:"/clients/data/",
+    paginationMode: "remote",
+    ajaxURL: "/clients/data/",
     paginationSize: 10,
     paginationSizeSelector: [10, 20, 30, 40, 50],
-    paginationCounter:"rows",
+    paginationCounter: "rows",
     height: 680,
-    placeholder:"Sin datos que mostrar",
+    placeholder: "Sin datos que mostrar",
     columns: [
         {
             formatter: "rowSelection", titleFormatter: "rowSelection", hozAlign: "center", headerHozAlign: "center", resizable: false, headerSort: false, cellClick: function (e, cell) {
@@ -22,9 +22,17 @@ var table = new Tabulator("#clientTable", {
         { title: "ID", field: "id", sorter: "number" },
         { title: "Nombre", field: "first_name" },
         { title: "Apellidos", field: "last_name" },
-        { title: "Mail", field: "email"},
+        { title: "Mail", field: "email" },
         { title: "Empresa", field: "company" },
-        { title: "Fecha de registro", field: "date_joined"},
-        { title: "Acciones", formatter: actionIcons, hozAlign: "center", headerHozAlign: "center", headerSort: false, width:102 },
+        { title: "Fecha de registro", field: "date_joined" },
+        { title: "Acciones", formatter: actionIcons, hozAlign: "center", headerHozAlign: "center", headerSort: false, width: 102 },
     ],
+});
+
+var idActualizado = 0
+var rowIndex = 0
+
+table.on("rowClick", function (e, row) {
+    idActualizado = row.getData().id
+    rowIndex = row.getIndex()
 });
