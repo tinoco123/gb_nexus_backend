@@ -19,12 +19,23 @@ btnEliminarUsuario.addEventListener("click", function () {
             'X-CSRFToken': getCSRFToken()
         }
     })
-        .then(function (response) {
+        .then(response => {
             if (response.ok) {
-                window.location.href = urlUsers;
+                window.location.href = "/clients";
+            }
+            else if (response.status >= 400 || response.status < 500) {
+                response.json()
+                    .then(errors => {
+                        showNotifications(response.status, "Error de usuario: Hubo un error al procesar tu solicitud")
+                    })
+                    .catch((error) => {
+                        showNotifications(500, "Error del servidor: El servidor falló al procesar tu solicitud")
+                        console.error(error)
+                    })
             }
         })
-        .catch(function (error) {
-            console.error('Error:', error);
-        });
+        .catch((error) => {
+            showNotifications(500, "Error del servidor: El servidor falló al procesar tu solicitud")
+            console.error(error)
+        })
 })
