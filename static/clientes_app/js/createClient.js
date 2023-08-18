@@ -6,18 +6,24 @@ createClientForm.addEventListener("submit", (event) => {
         method: "POST",
         body: formData
     })
-    .then((response) => {
-        if (response.ok){
-            window.location.href = "/clients";
-        }
-        else if (response.status >= 400 || response.status < 500 ){
-            response.json()
-            .then((errors) => {
-                console.log("error: " + errors);
-            })
-        }
-    })
-    .catch((error) => {
-        console.log("Error en el servidor: " + error);
-    })
+        .then((response) => {
+            if (response.ok) {
+                window.location.href = "/clients";
+            }
+            else if (response.status >= 400 || response.status < 500) {
+                response.json()
+                    .then((form_errors) => {
+                        setErrorsInForm(form_errors)
+                        showNotifications(response.status, "Error de usuario: Existen errores en tu formulario")
+                    })
+                    .catch((error) => {
+                        showNotifications(500, "Error del servidor: El servidor falló al procesar tu solicitud")
+                        console.error(error)
+                    })
+            }
+        })
+        .catch((error) => {
+            showNotifications(500, "Error del servidor: El servidor falló al procesar tu solicitud")
+            console.error(error)
+        })
 })
