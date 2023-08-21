@@ -33,29 +33,29 @@ def get_page_of_search_results(request):
         try:
             page_number = int(request.GET.get("page"))
             page_size = int(request.GET.get("size"))
+            paginator = Pagination(page_size, str(os.getenv("MONGODB_DATABASE")), str(
+                    os.getenv("MONGODB_COLLECTION")))
+            last_page = paginator.last_page
+            if page_number < 1 or page_number > last_page:
+                return HttpResponseBadRequest("La página solicitada es menor a 1 o mayor a la última pagina disponible")
+            if page_size not in (10, 20, 30, 40, 50):
+                return HttpResponseBadRequest("El tamaño de los resultados de búsqueda debe tener alguno de los siguientes valores: 10, 20, 30, 40, 50")
+
+            documents = paginator.get_page(page_number)
+            search_results = [doc for doc in documents]
+            data_dict = {
+                "last_page": last_page,
+                "data": search_results
+            }
+            return JsonResponse(data_dict, encoder=MongoJSONEncoder)
         except ValueError:
             return HttpResponseBadRequest()
-
-        if page_number >= 1 and page_size <= 50:
-            try:
-                paginator = Pagination(page_size, str(os.getenv("MONGODB_DATABASE")), str(
-                    os.getenv("MONGODB_COLLECTION")))
-                last_page = paginator.last_page
-                documents = paginator.get_page(page_number)
-                search_results = [doc for doc in documents]
-                data_dict = {
-                    "last_page": last_page,
-                    "data": search_results
-                }
-                return JsonResponse(data_dict, encoder=MongoJSONEncoder)
-            except ServerSelectionTimeoutError as e:
-                return HttpResponseServerError()
-            except ConnectionFailure as e:
-                return HttpResponseServerError()
-            except OperationFailure as e:
-                return HttpResponseServerError()
-        else:
-            return HttpResponseBadRequest()
+        except ServerSelectionTimeoutError as e:
+            return HttpResponseServerError()
+        except ConnectionFailure as e:
+            return HttpResponseServerError()
+        except OperationFailure as e:
+            return HttpResponseServerError()
 
 
 @login_required
