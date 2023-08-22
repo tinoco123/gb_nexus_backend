@@ -31,11 +31,30 @@ def get_page_of_search_results(request):
         return HttpResponseNotAllowed(permitted_methods=("GET"))
     else:
         try:
+            mongo_client = MongoConnection(str(os.getenv("MONGODB_DATABASE")), str(
+                os.getenv("MONGODB_COLLECTION")))
             page_number = int(request.GET.get("page"))
             page_size = int(request.GET.get("size"))
-            paginator = Pagination(page_size, str(os.getenv("MONGODB_DATABASE")), str(
-                    os.getenv("MONGODB_COLLECTION")))
-            last_page = paginator.last_page
+            keywords = request.GET.getlist("keywords")
+            states = request.GET.getlist("states")
+            query = {}
+            if len(keywords) >= 1 or len(states) >= 1:
+                query = {
+                    "$and": [
+                        {
+                            "$or": [
+                                {"sinopsys": {"$regex": "|".join(
+                                    keywords), "$options": "i"}},
+                                {"urlAttach.sinopsys": {
+                                    "$regex": "|".join(keywords), "$options": "i"}}
+                            ]
+                        },
+                        {"state": {"$regex": "|".join(
+                            states), "$options": "i"}}
+                    ]
+                }
+            paginator = Pagination(page_size, query, mongo_client)
+            last_page = paginator.calc_last_page()
             if page_number < 1 or page_number > last_page:
                 return HttpResponseBadRequest("La página solicitada es menor a 1 o mayor a la última pagina disponible")
             if page_size not in (10, 20, 30, 40, 50):
@@ -48,6 +67,8 @@ def get_page_of_search_results(request):
                 "data": search_results
             }
             return JsonResponse(data_dict, encoder=MongoJSONEncoder)
+        except TypeError:
+            return HttpResponseBadRequest("Debes proporcionar los parametros necesarios")
         except ValueError:
             return HttpResponseBadRequest()
         except ServerSelectionTimeoutError as e:
