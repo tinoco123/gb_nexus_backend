@@ -1,0 +1,21 @@
+.keyword-list {
+    position: relative;
+    top: 0;
+    left: 0;
+    height: 680px;
+    width: 180px;
+    overflow-y: auto;
+}
+
+.keyword-li {
+    width: auto;
+    max-width: 175px;
+}
+
+@media (max-width: 991px) {
+    .keyword-list {
+        height: 135px;
+        width: 100%;
+        overflow-x: auto;
+    }
+}
