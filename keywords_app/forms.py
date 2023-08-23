@@ -8,12 +8,12 @@ class KeywordForm(forms.ModelForm):
         model = Keyword
         exclude = ['date_created', 'user']
 
-    widgets = {
-        "first_keyword": forms.TextInput(attrs={"class": "form-control"}),
-        "second_keyword": forms.TextInput(attrs={"class": "form-control"})
-    }
+        widgets = {
+            "first_keyword": forms.TextInput(attrs={"class": "form-control"}),
+            "second_keyword": forms.TextInput(attrs={"class": "form-control"})
+        }
 
-    labels = {
-        "first_keyword": _("Keyword 1"),
-        "second_keyword": _("Keyword 2"),
-    }
+        labels = {
+            "first_keyword": _("Keyword 1"),
+            "second_keyword": _("Keyword 2"),
+        }

@@ -7,6 +7,8 @@ from django.db import models
 
 class States(models.Model):
     state = models.CharField(max_length=30 ,unique=True)
+    def __str__(self):
+        return self.state
 
 
 class Keyword(models.Model):
@@ -15,3 +17,6 @@ class Keyword(models.Model):
     states_to_search = models.ManyToManyField(States)
     date_created = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(UserBaseAccount, on_delete=models.CASCADE, null=False)
+
+    def __str__(self):
+        return self.first_keyword
