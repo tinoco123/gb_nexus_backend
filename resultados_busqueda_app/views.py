@@ -1,6 +1,6 @@
 import os
 from django.http import HttpResponseForbidden, HttpResponseNotAllowed, JsonResponse, HttpResponseBadRequest, HttpResponseServerError
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.contrib.auth.decorators import login_required
 from mongo_connection.paginator import Pagination
 from dotenv import load_dotenv
@@ -9,6 +9,9 @@ from bson.errors import InvalidId
 from .utils import MongoJSONEncoder
 from mongo_connection.connection import MongoConnection
 from mongo_connection.search_result_repository import SearchResultRepository
+from keywords_app.models import Keyword
+from tipos_usuarios.models import UserBaseAccount
+
 
 load_dotenv()
 
@@ -20,6 +23,9 @@ def search_results(request):
     if request.method != "GET":
         return HttpResponseNotAllowed(permitted_methods=("GET"))
     else:
+        user = get_object_or_404(UserBaseAccount, pk=request.user.id)
+        keyword_list = Keyword.objects.filter(user=user)
+        print(keyword_list)
         return render(request, "search_results.html")
 
 

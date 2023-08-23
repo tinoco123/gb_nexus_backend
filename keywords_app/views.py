@@ -44,8 +44,8 @@ def paginate_keywords(request):
         try:
             page_number = int(request.GET.get("page"))
             page_size = int(request.GET.get("size"))
-            
-            keywords_queryset = Keyword.objects.all().values("id", "first_keyword", "second_keyword", "date_created").order_by("id")
+            user = get_object_or_404(UserBaseAccount, pk=request.user.id)
+            keywords_queryset = Keyword.objects.filter(user=user).values("id", "first_keyword", "second_keyword", "date_created").order_by("id")
             if page_size > 50 or page_size < 10:
                 return HttpResponseBadRequest("El número de elementos a retornar es inválido. Debe ser mayor a mayor o igual que 10 y menor e igual que 50")
 
