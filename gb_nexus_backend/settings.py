@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'authentication',
     'usuarios_app',
     'clientes_app',
-    'resultados_busqueda_app'
+    'resultados_busqueda_app',
+    'keywords'
 ]
 
 MIDDLEWARE = [
