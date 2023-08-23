@@ -10,10 +10,12 @@ class KeywordForm(forms.ModelForm):
 
         widgets = {
             "first_keyword": forms.TextInput(attrs={"class": "form-control"}),
-            "second_keyword": forms.TextInput(attrs={"class": "form-control"})
+            "second_keyword": forms.TextInput(attrs={"class": "form-control"}),
+            "states_to_search": forms.SelectMultiple(attrs={"class": "form-select form-select-sm"})
         }
 
         labels = {
             "first_keyword": _("Keyword 1"),
             "second_keyword": _("Keyword 2"),
+            "states_to_search": _("Buscar en:"),
         }
