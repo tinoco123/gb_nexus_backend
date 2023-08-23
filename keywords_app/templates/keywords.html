@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} 
+    Keywords: Global Nexus DC
+{% endblock title%}
+
+{% block header %}
+    <i class="bi bi-key me-3"></i>Keywords
+{% endblock header %}
+
+{% block opciones-arriba %}
+    <div
+    class="d-flex flex-column flex-sm-row justify-content-end align-items-center mt-3 mx-3 mx-lg-5"
+    >
+        <div class="d-flex flex-column flex-sm-row align-items-center">
+            <button
+                id="btn-agregar-keyword"
+                type="button"
+                class="btn btn-danger p-2 mt-2 acciones-top"
+                data-bs-toggle="modal"
+                data-bs-target="#create-keyword"
+            >
+                <i class="bi bi-plus-square fs-6 me-1"></i>
+                Keyword
+            </button>
+        </div>
+    </div>            
+{% endblock opciones-arriba %}
+
+{% block tabla %}
+    <div
+    class="mx-3 mx-lg-5 mt-3 d-flex flex-column flex-lg-row justify-content-center align-items-center"
+    >
+        <div id="keywordsTable" class="mt-0 ms-lg-3"></div>
+    </div>            
+{% endblock tabla %}
+
+{% block modales %}
+    
+{% endblock modales %}
+
+{% block js-files%}
+    <script type="text/javascript" src="{% static 'base/js/notifications.js' %}"></script>
+    <script type="text/javascript" src="{% static 'base/js/getCSRFToken.js' %}"></script>
+    <script type="text/javascript" src="{% static 'base/js/fillForm.js' %}"></script>
+{% endblock js-files%}

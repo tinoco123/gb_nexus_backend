@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'usuarios_app',
     'clientes_app',
     'resultados_busqueda_app',
-    'keywords'
+    'keywords_app'
 ]
 
 MIDDLEWARE = [
