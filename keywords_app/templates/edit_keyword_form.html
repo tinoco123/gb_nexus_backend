@@ -1,0 +1,73 @@
+{% load static %}
+<div
+    class="modal fade"
+    id="edit-keyword-modal"
+    tabindex="-1"
+    aria-labelledby="modal para editar una keyword"
+    aria-hidden="true"
+>
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5">
+                    <img
+                        id="modal-img-title"
+                        src="{% static 'keywords_app/img/keyword-editar.svg' %}"
+                    />
+                    <span class="ms-2">Editar una keyword</span>
+                </h1>
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                ></button>
+            </div>
+            <div class="modal-body">
+                <form
+                    class="row g-3"
+                    method="POST"
+                    id="edit-keyword-form"
+                >
+                    {% csrf_token %} 
+
+                    <div class="col-6">
+                        <label
+                            for="{{ edit_keyword_form.first_keyword.id_for_label }}"
+                            class="form-label"
+                        >
+                            {{ edit_keyword_form.first_keyword.label }}
+                        </label>
+                        {{ edit_keyword_form.first_keyword }}
+                        <span id="error_edit_first_keyword" class="text-danger"></span>
+                    </div>
+                    <div class="col-6">
+                        <label
+                            for="{{ edit_keyword_form.second_keyword.id_for_label }}"
+                            class="form-label"
+                        >
+                            {{ edit_keyword_form.second_keyword.label }}
+                        </label>
+                        {{ edit_keyword_form.second_keyword }}
+                        <span id="error_edit_second_keyword" class="text-danger"></span>
+                    </div>
+                    <div class="col-12">
+                        <label
+                            for="{{ edit_keyword_form.states_to_search.id_for_label }}"
+                            class="form-label"
+                        >
+                            {{ edit_keyword_form.states_to_search.label }}
+                        </label>
+                        {{ edit_keyword_form.states_to_search }}
+                        <span id="error_edit_states_to_search" class="text-danger"></span>
+                    </div>
+                    <div class="col-12 d-flex flex-column">
+                        <button type="submit" class="btn btn-primary" id="edit-keyword-submit-btn">
+                            Editar un keyword
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
