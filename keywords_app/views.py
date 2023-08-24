@@ -44,7 +44,12 @@ def paginate_keywords(request):
             page_number = int(request.GET.get("page"))
             page_size = int(request.GET.get("size"))
             user = get_object_or_404(UserBaseAccount, pk=request.user.id)
-            keywords_queryset = Keyword.objects.filter(user=user).values("id", "first_keyword", "second_keyword", "date_created").order_by("id")
+            if request.user.user_type == "ADMINISTRADOR":
+                keywords_queryset = Keyword.objects.all().values(
+                    "id", "first_keyword", "second_keyword", "date_created").order_by("id")
+            else:
+                keywords_queryset = Keyword.objects.filter(user=user).values(
+                    "id", "first_keyword", "second_keyword", "date_created").order_by("id")
             if page_size > 50 or page_size < 10:
                 return HttpResponseBadRequest("El número de elementos a retornar es inválido. Debe ser mayor a mayor o igual que 10 y menor e igual que 50")
 
@@ -70,3 +75,15 @@ def paginate_keywords(request):
                 return HttpResponseBadRequest("La página solicitada no contiene resultados")
         except TypeError:
             return HttpResponseBadRequest("Los parámetros page y size no deben ser omitidos")
+
+
+@login_required
+def get_keyword(request, keyword_id):
+    if request.method != "GET":
+        return HttpResponseNotAllowed(permitted_methods=("GET"))
+    else:
+        keyword = get_object_or_404(Keyword, id=keyword_id)
+        if keyword.user.id == request.user.id or request.user.user_type == "ADMINISTRADOR":
+            return JsonResponse(keyword.to_json(), safe=False)
+        else:
+            return JsonResponse({'success': False, 'errors': "No puedes obtener una keyword de otro usuario"}, status=403)
