@@ -27,6 +27,6 @@ class Keyword(models.Model):
         keyword_json = {
             "first_keyword": self.first_keyword,
             "second_keyword": self.second_keyword,
-            "states_to_search": list(self.states_to_search.all().values("state"))
+            "states_to_search": list(self.states_to_search.all().values_list("state", flat=True))
         }
         return keyword_json
