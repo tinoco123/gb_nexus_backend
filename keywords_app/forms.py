@@ -19,3 +19,13 @@ class KeywordForm(forms.ModelForm):
             "second_keyword": _("Keyword 2"),
             "states_to_search": _("Buscar en:"),
         }
+
+
+class EditKeywordForm(KeywordForm):
+
+    class Meta(KeywordForm.Meta):
+        widgets = {
+            "first_keyword": forms.TextInput(attrs={"class": "form-control", "id": "id_edit_second_keyword"}),
+            "second_keyword": forms.TextInput(attrs={"class": "form-control", "id": "id_edit_second_keyword"}),
+            "states_to_search": forms.SelectMultiple(attrs={"class": "form-select", "id": "id_edit_states_to_search"})
+        }

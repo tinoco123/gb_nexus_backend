@@ -2,7 +2,7 @@ from django.http import HttpResponseBadRequest, HttpResponseForbidden, HttpRespo
 from django.shortcuts import get_object_or_404, render
 from django.core.paginator import Paginator, EmptyPage
 from keywords_app.models import Keyword
-from .forms import KeywordForm
+from .forms import KeywordForm, EditKeywordForm
 from tipos_usuarios.models import UserBaseAccount
 from django.contrib.auth.decorators import login_required
 
@@ -13,7 +13,8 @@ def keywords(request):
         return HttpResponseNotAllowed(permitted_methods=("GET"))
     else:
         keyword_form = KeywordForm()
-        return render(request, 'keywords.html', {"create_keyword_form": keyword_form})
+        edit_keyword_form = EditKeywordForm()
+        return render(request, 'keywords.html', {"create_keyword_form": keyword_form, "edit_keyword_form": edit_keyword_form})
 
 
 @login_required
