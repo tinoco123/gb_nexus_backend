@@ -88,3 +88,21 @@ def get_keyword(request, keyword_id):
             return JsonResponse(keyword.to_json(), safe=False)
         else:
             return JsonResponse({'success': False, 'errors': "No puedes obtener una keyword de otro usuario"}, status=403)
+
+
+@login_required
+def edit_keyword(request, keyword_id):
+    if request.method != "POST":
+        return HttpResponseNotAllowed(permitted_methods=("POST"))
+    else:
+        keyword = get_object_or_404(Keyword, id=keyword_id)
+        if keyword.user.id != request.user.id and request.user.user_type != "ADMINISTRADOR":
+            return JsonResponse({'success': False, 'errors': "No puedes editar una keyword de otro usuario"}, status=403)
+        edit_keyword_form = EditKeywordForm(request.POST, instance=keyword)
+        if edit_keyword_form.is_valid():
+            keyword = edit_keyword_form.save()
+            keyword.states_to_search.set(edit_keyword_form.cleaned_data["states_to_search"])
+            return JsonResponse({"success": True, "status_text": "Cliente editado correctamente"}, status=200)
+        else:
+            errors = edit_keyword_form.errors.as_json(escape_html=True)
+            return JsonResponse({'success': False, 'errors': errors}, status=400)
