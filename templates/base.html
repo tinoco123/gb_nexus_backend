@@ -49,33 +49,39 @@
             </div>
 
             <ul class="sidebar-nav list-unstyled mt-4 mt-md-3" id="sidebar-nav">
-                <li class="mx-2 mx-lg-3 menu-item">
-                    <a
-                        href="{% url 'users' %}"
-                        class="text-decoration-none text-white px-2"
-                    >
-                        <i class="bi bi-people-fill fs-3"></i>
-                        <span class="ms-2 menu-item-span">Usuarios</span>
-                    </a>
-                </li>
-                <li class="m-2 m-lg-3 menu-item">
-                    <a
-                        href="{% url 'clients' %}"
-                        class="text-decoration-none text-white px-2"
-                    >
-                        <i class="bi bi-people text-white fs-3"></i>
-                        <span class="ms-2 menu-item-span">Clientes</span>
-                    </a>
-                </li>
-                <li class="m-2 m-lg-3 menu-item">
-                    <a
-                        href="/monitoreo-urls.html"
-                        class="text-decoration-none text-white px-2"
-                    >
-                        <i class="bi bi-link-45deg text-white fs-3"></i>
-                        <span class="ms-2 menu-item-span">Monitoreo de URL'S</span>
-                    </a>
-                </li>
+                {% if user.user_type == "ADMINISTRADOR" %}
+                    <li class="mx-2 mx-lg-3 menu-item">
+                        <a
+                            href="{% url 'users' %}"
+                            class="text-decoration-none text-white px-2"
+                        >
+                            <i class="bi bi-people-fill fs-3"></i>
+                            <span class="ms-2 menu-item-span">Usuarios</span>
+                        </a>
+                    </li>
+                {% endif %}
+                {% if user.user_type == "ADMINISTRADOR" or user.user_type == "USUARIO"%}
+                    <li class="m-2 m-lg-3 menu-item">
+                        <a
+                            href="{% url 'clients' %}"
+                            class="text-decoration-none text-white px-2"
+                        >
+                            <i class="bi bi-people text-white fs-3"></i>
+                            <span class="ms-2 menu-item-span">Clientes</span>
+                        </a>
+                    </li>
+                {% endif %}
+                {% if user.user_type == "ADMINISTRADOR" %}
+                    <li class="m-2 m-lg-3 menu-item">
+                        <a
+                            href="/monitoreo-urls.html"
+                            class="text-decoration-none text-white px-2"
+                        >
+                            <i class="bi bi-link-45deg text-white fs-3"></i>
+                            <span class="ms-2 menu-item-span">Monitoreo de URL'S</span>
+                        </a>
+                    </li>
+                {% endif %}
                 <li class="m-2 m-lg-3 menu-item">
                     <a
                         href="{% url 'keywords' %}"
