@@ -9,14 +9,15 @@ from django.contrib.auth.decorators import login_required
 
 @login_required
 def keywords(request):
-    keyword_form = KeywordForm()
-    return render(request, 'keywords.html', {"create_keyword_form": keyword_form})
+    if request.method != "GET":
+        return HttpResponseNotAllowed(permitted_methods=("GET"))
+    else:
+        keyword_form = KeywordForm()
+        return render(request, 'keywords.html', {"create_keyword_form": keyword_form})
 
 
 @login_required
 def create_keyword(request):
-    if not request.user.is_authenticated:
-        return HttpResponseForbidden("No tienes autorización para acceder a este recurso")
     if request.method != "POST":
         return HttpResponseNotAllowed(permitted_methods=("POST"))
     else:
@@ -36,8 +37,6 @@ def create_keyword(request):
 
 @login_required
 def paginate_keywords(request):
-    if not request.user.is_authenticated:
-        return HttpResponseForbidden("No tienes autorización para acceder a este recurso")
     if request.method != "GET":
         return HttpResponseNotAllowed(permitted_methods=("GET"))
     else:
