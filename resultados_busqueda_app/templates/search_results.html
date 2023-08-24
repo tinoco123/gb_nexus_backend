@@ -22,7 +22,7 @@
         >   
             {% if not keyword_list %}
                 <li
-                    class="d-flex align-items-center bg-warning-subtle p-2 m-1 keyword-li border rounded-2"
+                    class="d-flex align-items-center bg-warning-subtle p-2 m-1 keyword-li border border-warning rounded-2"
                 >
                     <p class="d-flex m-0">
                         <span>Sin keywords</span>
@@ -30,7 +30,7 @@
                 </li>
             {% else %}
                 <li
-                    class="d-flex align-items-center bg-primary-subtle p-2 m-1 keyword-li border rounded-2"
+                    class="d-flex align-items-center bg-primary-subtle p-2 m-1 keyword-li border border-primary rounded-2"
                 >
                     <p class="d-flex m-0">
                         <span>Keywords:</span>
@@ -38,9 +38,9 @@
                 </li>
             {% endif %}
             {% for keyword in keyword_list %}
-                <a class="text-decoration-none" id="{{keyword.id}}">
+                <a href="" class="text-black" id="{{keyword.id}}">
                     <li
-                        class="d-flex align-items-center bg-light p-2 m-1 keyword-li border rounded-2"
+                        class="d-flex align-items-center bg-light p-2 m-1 keyword-li border border-dark-subtle rounded-2"
                     >
                         <p class="d-flex m-0">
                             <span>
