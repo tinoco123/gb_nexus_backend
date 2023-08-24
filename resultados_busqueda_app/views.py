@@ -25,7 +25,7 @@ def search_results(request):
     else:
         user = get_object_or_404(UserBaseAccount, pk=request.user.id)
         keyword_list = Keyword.objects.filter(user=user)
-        return render(request, "search_results.html")
+        return render(request, "search_results.html", {"keyword_list": keyword_list})
 
 
 @login_required
