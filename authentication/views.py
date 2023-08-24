@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 
 def sign_in(request):
     if request.user.is_authenticated:
-        return redirect('home')
+        return redirect('keywords')
     else:
         if request.method == "GET":
             login_form = LoginForm()
@@ -23,16 +23,12 @@ def sign_in(request):
 
                 if user is not None:
                     login(request, user)
-                    return redirect('home')
+                    return redirect('keywords')
                 else:
                     messages.error(request, "Email o contraseña inválidos.")
                     return render(request, "login.html", {"form": login_form})
             else:
                 return render(request, "login.html", {"form": login_form})
-
-
-def home(request):
-    return render(request, "home.html")
 
 
 @login_required
