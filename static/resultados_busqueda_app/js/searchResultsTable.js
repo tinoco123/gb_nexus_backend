@@ -5,13 +5,13 @@ var printIcon = function () { //plain text value
 
 var table = new Tabulator("#searchResultsTable", {
     layout: "fitDataFill",
-    placeholder:"Sin datos que mostrar",
-    pagination:true,
-    paginationMode:"remote",
-    ajaxURL:"/search-results/data/",
+    placeholder: "Sin datos que mostrar",
+    pagination: true,
+    paginationMode: "remote",
+    ajaxURL: "/search-results/data/",
     paginationSize: 10,
     paginationSizeSelector: [5, 10, 20, 30, 40, 50],
-    paginationCounter:"rows",
+    paginationCounter: "rows",
     height: 680,
     columns: [
         {
@@ -19,12 +19,18 @@ var table = new Tabulator("#searchResultsTable", {
                 cell.getRow().toggleSelect();
             }
         },
-        { title:"id", field:"_id", visible: false},
+        { title: "id", field: "_id", visible: false },
         { title: "Página", field: "title" },
         { title: "Fecha", field: "date", sorter: "date" },
         { title: "Estado", field: "state" },
         { title: "URL", field: "urlPage" },
         { title: "Zona", field: "federalEstatal" },
-        { title: "Acciones", formatter: printIcon, width: 107, hozAlign: "center", headerHozAlign: "center", headerSort: false, frozen:true },
+        { title: "Acciones", formatter: printIcon, width: 107, hozAlign: "center", headerHozAlign: "center", headerSort: false, frozen: true },
     ],
 });
+
+var rowSelected = null
+
+table.on("rowClick", function (e, row) {
+    rowSelected = row
+})
