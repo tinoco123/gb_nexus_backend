@@ -1,0 +1,52 @@
+{% load static %}
+<div
+    class="modal fade"
+    id="delete-keyword-modal"
+    tabindex="-1"
+    aria-labelledby="Eliminar keyword"
+    aria-hidden="true"
+>
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5">
+                    <img
+                        src="{% static 'keywords_app/img/keyword-eliminar.svg' %}"
+                        alt="icono eliminar keyword"
+                    />
+                    <span class="ms-2">Eliminar keyword</span>
+                </h1>
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                ></button>
+            </div>
+            <div class="modal-body">
+                <p class="fs-5">
+                    ¿Estás seguro que quieres eliminar la siguiente keyword?
+                    Esta acción no se podrá deshacer
+                </p>
+                <p>
+                    <strong>Id: </strong>
+                    <span id="id-eliminar"></span>
+                </p>
+                <p>
+                    <strong>Keyword: </strong>
+                    <span id="keyword-eliminar"></span>
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                >
+                    Cancelar
+                </button>
+                <button type="button" class="btn btn-danger" id="delete-keyword-btn">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>
