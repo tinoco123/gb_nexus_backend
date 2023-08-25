@@ -25,7 +25,7 @@ var table = new Tabulator("#clientTable", {
         { title: "Mail", field: "email" },
         { title: "Empresa", field: "company" },
         { title: "Fecha de registro", field: "date_joined" },
-        { title: "Acciones", formatter: actionIcons, hozAlign: "center", headerHozAlign: "center", headerSort: false, width: 102 },
+        { title: "Acciones", formatter: actionIcons, hozAlign: "center", headerHozAlign: "center", headerSort: false, width: 102, frozen:true },
     ],
 });
 

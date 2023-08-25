@@ -23,7 +23,7 @@ var table = new Tabulator("#keywordsTable", {
         { title: "Keyword 1", field: "first_keyword" },
         { title: "Keyword 2", field: "second_keyword" },
         { title: "Fecha de creación", field: "date_created" },
-        { title: "Acciones", formatter: actionIcons, hozAlign: "center", headerHozAlign: "center", headerSort: false, width: 102 },
+        { title: "Acciones", formatter: actionIcons, hozAlign: "center", headerHozAlign: "center", headerSort: false, width: 102, frozen:true },
     ],
 });
 

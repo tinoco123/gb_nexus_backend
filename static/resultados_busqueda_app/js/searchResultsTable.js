@@ -25,6 +25,6 @@ var table = new Tabulator("#searchResultsTable", {
         { title: "Estado", field: "state" },
         { title: "URL", field: "urlPage" },
         { title: "Zona", field: "federalEstatal" },
-        { title: "Acciones", formatter: printIcon, width: 107, hozAlign: "center", headerHozAlign: "center", headerSort: false },
+        { title: "Acciones", formatter: printIcon, width: 107, hozAlign: "center", headerHozAlign: "center", headerSort: false, frozen:true },
     ],
 });
