@@ -7,5 +7,5 @@ class SearchResultRepository:
 
     def get_by_id(self, id):
         id = ObjectId(id)
-        search_result = self.collection.find_one({"_id": id})
+        search_result = self.collection.find_one({"_id": id}, {"sinopsys": 1, "urlAttach": 1})
         return search_result
