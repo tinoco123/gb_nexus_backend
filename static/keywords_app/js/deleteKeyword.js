@@ -10,3 +10,32 @@ deleteKeywordModal.addEventListener("show.bs.modal", () => {
         keyword.innerHTML = row.getData().first_keyword + " | " + row.getData().second_keyword
     }, 1)
 })
+
+deleteKeywordBtn.addEventListener("click", () => {
+    fetch("/keywords/delete" + idActualizado), {
+        method: "DELETE",
+        headers: {
+            'X-CSRFToken': getCSRFToken()
+        }
+    }
+        .then(response => {
+            if (response.ok) {
+                window.location.href = "/keywords";
+            }
+            else if (response.status >= 400 || response.status < 500) {
+                response.json()
+                    .then(errors => {
+                        showNotifications(response.status, "Error de usuario: Hubo un error al procesar tu solicitud")
+                        console.error(errors);
+                    })
+                    .catch((error) => {
+                        showNotifications(500, "Error del servidor: El servidor falló al procesar tu solicitud")
+                        console.error(error)
+                    })
+            }
+        })
+        .catch((error) => {
+            showNotifications(500, "Error del servidor: El servidor falló al procesar tu solicitud")
+            console.error(error)
+        })
+})
