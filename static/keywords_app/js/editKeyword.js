@@ -59,3 +59,7 @@ function editKeyword(formData, keyword_id) {
             console.error(error)
         })
 }
+
+editKeywordModal.addEventListener("hidden.bs.modal", () => {
+    document.getElementById("edit-keyword-form").reset()
+})
