@@ -15,14 +15,14 @@
 
 {% block tabla %}
     <div
-    class="mx-3 mx-lg-5 mt-3 d-flex flex-column flex-lg-row justify-content-center align-items-center"
+        class="mx-3 mx-lg-5 mt-3 d-flex flex-column justify-content-center align-items-center"
     >
         <ul
-        class="list-unstyled border mx-3 mx-lg-0 p-2 rounded keyword-list d-flex flex-lg-column align-items-center"
+        class="list-unstyled border ms-lg-3 rounded keyword-list d-flex align-items-center"
         >   
             {% if not keyword_list %}
                 <li
-                    class="d-flex align-items-center bg-warning-subtle p-2 m-1 keyword-li border border-warning rounded-2"
+                    class="d-flex align-items-center bg-warning-subtle p-2 mx-2 keyword-li border border-warning rounded-2"
                 >
                     <p class="d-flex m-0">
                         <span>Sin keywords</span>
@@ -30,7 +30,7 @@
                 </li>
             {% else %}
                 <li
-                    class="d-flex align-items-center bg-primary-subtle p-2 m-1 keyword-li border border-primary rounded-2"
+                    class="d-flex align-items-center bg-primary-subtle p-2 mx-2 keyword-li border border-primary rounded-2"
                 >
                     <p class="d-flex m-0">
                         <span>Keywords:</span>
