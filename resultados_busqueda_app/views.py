@@ -24,7 +24,10 @@ def search_results(request):
         return HttpResponseNotAllowed(permitted_methods=("GET"))
     else:
         user = get_object_or_404(UserBaseAccount, pk=request.user.id)
-        keyword_list = Keyword.objects.filter(user=user)
+        if request.user.user_type == "ADMINISTRADOR":
+            keyword_list = Keyword.objects.all()
+        else: 
+            keyword_list = Keyword.objects.filter(user=user)
         return render(request, "search_results.html", {"keyword_list": keyword_list})
 
 
