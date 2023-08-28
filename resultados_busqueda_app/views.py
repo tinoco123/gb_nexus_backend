@@ -26,7 +26,7 @@ def search_results(request):
         user = get_object_or_404(UserBaseAccount, pk=request.user.id)
         if request.user.user_type == "ADMINISTRADOR":
             keyword_list = Keyword.objects.all()
-        else: 
+        else:
             keyword_list = Keyword.objects.filter(user=user)
         return render(request, "search_results.html", {"keyword_list": keyword_list})
 
@@ -39,30 +39,25 @@ def get_page_of_search_results(request):
         return HttpResponseNotAllowed(permitted_methods=("GET"))
     else:
         try:
+            if request.GET.get("keyword") == "undefined":
+                return JsonResponse({
+                    "last_page": 0,
+                    "data": []
+                })
+
             mongo_client = MongoConnection(str(os.getenv("MONGODB_DATABASE")), str(
                 os.getenv("MONGODB_COLLECTION")))
+            keyword_id = int(request.GET.get("keyword"))
             page_number = int(request.GET.get("page"))
             page_size = int(request.GET.get("size"))
-            keywords = request.GET.getlist("keywords")
-            states = request.GET.getlist("states")
-            query = {}
-            if len(keywords) >= 1 or len(states) >= 1:
-                query = {
-                    "$and": [
-                        {
-                            "$or": [
-                                {"sinopsys": {"$regex": "|".join(
-                                    keywords), "$options": "i"}},
-                                {"urlAttach.sinopsys": {
-                                    "$regex": "|".join(keywords), "$options": "i"}}
-                            ]
-                        },
-                        {"state": {"$regex": "|".join(
-                            states), "$options": "i"}}
-                    ]
-                }
+
+            keyword = Keyword.objects.get(pk=keyword_id)
+            if keyword is None:
+                return JsonResponse({"error": "La keyword solicitada no se encuentra registrada en el sistema"}, status=404)
+            query = keyword.query()
             paginator = Pagination(page_size, query, mongo_client)
             last_page = paginator.calc_last_page()
+            print(last_page)
             if page_number < 1 or page_number > last_page:
                 return HttpResponseBadRequest("La página solicitada es menor a 1 o mayor a la última pagina disponible")
             if page_size not in (10, 20, 30, 40, 50):
@@ -75,15 +70,20 @@ def get_page_of_search_results(request):
                 "data": search_results
             }
             return JsonResponse(data_dict, encoder=MongoJSONEncoder)
-        except TypeError:
+        except TypeError as e:
+            print(e)
             return HttpResponseBadRequest("Debes proporcionar los parametros necesarios")
-        except ValueError:
+        except ValueError as e:
+            print(e)
             return HttpResponseBadRequest()
         except ServerSelectionTimeoutError as e:
+            print(e)
             return HttpResponseServerError()
         except ConnectionFailure as e:
+            print(e)
             return HttpResponseServerError()
         except OperationFailure as e:
+            print(e)
             return HttpResponseServerError()
 
 
