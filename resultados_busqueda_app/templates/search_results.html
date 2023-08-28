@@ -38,7 +38,7 @@
                 </li>
             {% endif %}
             {% for keyword in keyword_list %}
-                <a href="" class="text-black" id="{{keyword.id}}">
+                <a href="" class="text-black keyword-link" id="{{keyword.id}}">
                     <li
                         class="d-flex align-items-center bg-light p-2 m-1 keyword-li border border-dark-subtle rounded-2"
                     >
@@ -149,9 +149,13 @@
 
 {% block js-files%}
     <script type="text/javascript" 
+        src="{% static 'resultados_busqueda_app/js/keywordList.js' %}">
+    </script>
+    <script type="text/javascript" 
             src="{% static 'resultados_busqueda_app/js/searchResultsTable.js' %}">
     </script>
     <script type="text/javascript" 
     src="{% static 'resultados_busqueda_app/js/getResult.js' %}">
     </script>
+    
 {% endblock js-files %}
