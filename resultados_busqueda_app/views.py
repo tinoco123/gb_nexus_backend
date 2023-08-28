@@ -12,7 +12,6 @@ from mongo_connection.search_result_repository import SearchResultRepository
 from keywords_app.models import Keyword
 from tipos_usuarios.models import UserBaseAccount
 
-
 load_dotenv()
 
 
@@ -39,7 +38,7 @@ def get_page_of_search_results(request):
         return HttpResponseNotAllowed(permitted_methods=("GET"))
     else:
         try:
-            if request.GET.get("keyword") == "undefined":
+            if request.GET.get("keyword") == "undefined" or request.GET.get("keyword") == 0:
                 return JsonResponse({
                     "last_page": 0,
                     "data": []
@@ -51,17 +50,20 @@ def get_page_of_search_results(request):
             page_number = int(request.GET.get("page"))
             page_size = int(request.GET.get("size"))
 
-            keyword = Keyword.objects.get(pk=keyword_id)
-            if keyword is None:
-                return JsonResponse({"error": "La keyword solicitada no se encuentra registrada en el sistema"}, status=404)
+            keyword = get_object_or_404(Keyword, pk=keyword_id)
             query = keyword.query()
             paginator = Pagination(page_size, query, mongo_client)
             last_page = paginator.calc_last_page()
-            print(last_page)
-            if page_number < 1 or page_number > last_page:
-                return HttpResponseBadRequest("La página solicitada es menor a 1 o mayor a la última pagina disponible")
+
+            if page_number < 0:
+                return JsonResponse({"error": "La página solicitada es inválida(Menor a 0)"}, status=400)
+            if page_number > last_page:
+                if last_page == 0:
+                    return JsonResponse({"last_page": 0, "data": [], "error": "Sin resultados de búsqueda  para esta keyword"})
+
+                return JsonResponse({"error": "La página solicitada es mayor a la última disponible"}, status=400)
             if page_size not in (10, 20, 30, 40, 50):
-                return HttpResponseBadRequest("El tamaño de los resultados de búsqueda debe tener alguno de los siguientes valores: 10, 20, 30, 40, 50")
+                return JsonResponse({"error": "El tamaño de los resultados de búsqueda debe tener alguno de los siguientes valores: 10, 20, 30, 40, 50"}, status=400)
 
             documents = paginator.get_page(page_number)
             search_results = [doc for doc in documents]
@@ -72,7 +74,7 @@ def get_page_of_search_results(request):
             return JsonResponse(data_dict, encoder=MongoJSONEncoder)
         except TypeError as e:
             print(e)
-            return HttpResponseBadRequest("Debes proporcionar los parametros necesarios")
+            return JsonResponse({"error": "Debes proporcionar los parametros necesarios"}, 400)
         except ValueError as e:
             print(e)
             return HttpResponseBadRequest()
