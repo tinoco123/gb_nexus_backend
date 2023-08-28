@@ -8,6 +8,9 @@ if (keywordLinks.length > 0) {
             event.preventDefault()
             setKeyword(link.getAttribute("id"))
             table.setData("/search-results/data/", { keyword: getKeyword() })
+                .then(() => {
+                    showNotifications(200, "Resultados de keyword: " + link.textContent)
+                })
             event.stopPropagation()
         })
     })

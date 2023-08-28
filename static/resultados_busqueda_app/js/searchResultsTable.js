@@ -37,3 +37,10 @@ var rowSelected = null
 table.on("rowClick", function (e, row) {
     rowSelected = row
 })
+
+table.on("dataLoadError", function (error) {
+    error.json()
+        .then(response => {
+            showNotifications(error.status, response.error)
+        })
+});
