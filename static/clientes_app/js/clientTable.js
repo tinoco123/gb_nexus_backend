@@ -25,7 +25,9 @@ var table = new Tabulator("#clientTable", {
         { title: "Mail", field: "email" },
         { title: "Empresa", field: "company" },
         { title: "Fecha de registro", field: "date_joined" },
-        { title: "Acciones", formatter: actionIcons, hozAlign: "center", headerHozAlign: "center", headerSort: false, width: 102, frozen:true },
+        {
+            title: "Acciones", visible: true ? userType == "ADMINISTRADOR" : false , formatter: actionIcons, hozAlign: "center", headerHozAlign: "center", headerSort: false, width: 102, frozen: true
+        },
     ],
 });
 
@@ -36,3 +38,4 @@ table.on("rowClick", function (e, row) {
     idActualizado = row.getData().id
     rowIndex = row.getIndex()
 });
+console.log(userType);
