@@ -21,6 +21,8 @@ function showNotifications(statusCode, message) {
     appendAlert(message, "danger")
   } else if (statusCode >= 400) {
     appendAlert(message, "warning")
+  } else if (statusCode >= 200) {
+    appendAlert(message, "info")
   }
 }
 
