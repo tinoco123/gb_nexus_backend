@@ -30,3 +30,31 @@ class Keyword(models.Model):
             "states_to_search": list(self.states_to_search.all().values_list("state", flat=True))
         }
         return keyword_json
+
+    def query(self):
+        query_keywords = {}
+        if self.second_keyword:
+            query_keywords = {"$regex": "|".join(
+                (self.first_keyword, self.second_keyword)), "$options": "i"}
+        else:
+            query_keywords = {"$regex": self.first_keyword, "$options": "i"}
+
+        states = tuple(self.states_to_search.all().values_list("state", flat=True))
+        query_states = {}
+        if len(states) == 1:
+            query_states = {"$regex": "".join(states), "$options": "i"}
+        else:
+            query_states = {"$regex": "|".join(states), "$options": "i"}
+
+        query = {
+            "$and": [
+                {
+                    "$or": [
+                        {"sinopsys": query_keywords},
+                        {"urlAttach.sinopsys": query_keywords}
+                    ]
+                },
+                {"state": query_states}
+            ]
+        }
+        return query
