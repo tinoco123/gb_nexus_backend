@@ -11,7 +11,7 @@ class KeywordForm(forms.ModelForm):
         widgets = {
             "first_keyword": forms.TextInput(attrs={"class": "form-control"}),
             "second_keyword": forms.TextInput(attrs={"class": "form-control"}),
-            "states_to_search": forms.SelectMultiple(attrs={"class": "form-select"})
+            "states_to_search": forms.CheckboxSelectMultiple(attrs={"class": "form-check-input"})
         }
 
         labels = {

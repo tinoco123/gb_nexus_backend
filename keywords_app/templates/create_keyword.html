@@ -6,7 +6,7 @@
     aria-labelledby="modal para agregar una keyword"
     aria-hidden="true"
 >
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5">
@@ -58,7 +58,14 @@
                         >
                             {{ create_keyword_form.states_to_search.label }}
                         </label>
-                        {{ create_keyword_form.states_to_search }}
+                        {% for state in create_keyword_form.states_to_search %}
+                            <div class="form-check">
+                                <label for="{{ state.id_for_label }}" class="form-check-label">
+                                    {{ state.choice_label }} 
+                                    {{ state.tag }}
+                                </label>
+                            </div>
+                        {% endfor %}
                         <span id="error_states_to_search" class="text-danger"></span>
                     </div>
                     <div class="col-12 d-flex flex-column">
