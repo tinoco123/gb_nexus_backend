@@ -4,19 +4,16 @@ function fillFormWithData(data, form) {
         if (field.getAttribute("name") === "password") {
             continue
         }
-        if (field.tagName === 'INPUT' || field.tagName === "TEXTAREA" || field.tagName === "date") {
+        if (field.getAttribute("type") === 'text' || field.tagName === "TEXTAREA" || field.tagName === "date") {
             if (field.id) {
                 fieldName = field.getAttribute("name")
                 field.value = data[fieldName]
             }
         }
-        if (field.getAttribute("name") === "states_to_search") {
-            var options = field.options
-            for (var j = 0; j < options.length; j++) {
-                if (data["states_to_search"].includes(options[j].text)) {
-                    options[j].selected = true
-                }
-            }
+        if (field.getAttribute("name") == "congreso_search") {
+            data["congreso_search"].forEach(idState => {
+                if (idState == field.value) field.checked = true;
+            })
         }
     }
 }
