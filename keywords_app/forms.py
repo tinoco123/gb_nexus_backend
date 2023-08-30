@@ -11,13 +11,13 @@ class KeywordForm(forms.ModelForm):
         widgets = {
             "first_keyword": forms.TextInput(attrs={"class": "form-control"}),
             "second_keyword": forms.TextInput(attrs={"class": "form-control"}),
-            "states_to_search": forms.CheckboxSelectMultiple(attrs={"class": "form-check-input"})
+            "congreso_search": forms.CheckboxSelectMultiple(attrs={"class": "form-check-input"})
         }
 
         labels = {
             "first_keyword": _("Keyword 1"),
             "second_keyword": _("Keyword 2"),
-            "states_to_search": _("Buscar en:"),
+            "congreso_search": _("Congreso:"),
         }
 
 
@@ -27,5 +27,5 @@ class EditKeywordForm(KeywordForm):
         widgets = {
             "first_keyword": forms.TextInput(attrs={"class": "form-control", "id": "id_edit_first_keyword"}),
             "second_keyword": forms.TextInput(attrs={"class": "form-control", "id": "id_edit_second_keyword"}),
-            "states_to_search": forms.SelectMultiple(attrs={"class": "form-select", "id": "id_edit_states_to_search"})
+            "congreso_search": forms.CheckboxSelectMultiple(attrs={"class": "form-check-input", "id": "id_edit_congreso_search"})
         }

@@ -53,13 +53,20 @@
                     </div>
                     <div class="col-12">
                         <label
-                            for="{{ edit_keyword_form.states_to_search.id_for_label }}"
+                            for="{{ edit_keyword_form.congreso_search.id_for_label }}"
                             class="form-label"
                         >
-                            {{ edit_keyword_form.states_to_search.label }}
+                            {{ edit_keyword_form.congreso_search.label }}
                         </label>
-                        {{ edit_keyword_form.states_to_search }}
-                        <span id="error_edit_states_to_search" class="text-danger"></span>
+                        {% for state in edit_keyword_form.congreso_search %}
+                            <div class="form-check">
+                                <label for="{{ state.id_for_label }}" class="form-check-label">
+                                    {{ state.choice_label }} 
+                                    {{ state.tag }}
+                                </label>
+                            </div>
+                        {% endfor %}
+                        <span id="error_edit_congreso_search" class="text-danger"></span>
                     </div>
                     <div class="col-12 d-flex flex-column">
                         <button type="submit" class="btn btn-primary" id="edit-keyword-submit-btn">

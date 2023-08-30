@@ -28,9 +28,9 @@ def create_keyword(request):
             keyword.user = get_object_or_404(
                 UserBaseAccount, pk=request.user.id)
             keyword.save()
-            keyword.states_to_search.set(
-                keyword_form.cleaned_data["states_to_search"])
-            return JsonResponse({"success": True, "status_text": "Cliente añadido correctamente"}, status=200)
+            keyword.congreso_search.set(
+                keyword_form.cleaned_data["congreso_search"])
+            return JsonResponse({"success": True, "status_text": "Keyword añadido correctamente"}, status=200)
         else:
             errors = keyword_form.errors.as_json(escape_html=True)
             return JsonResponse({'success': False, 'errors': errors}, status=400)
@@ -101,7 +101,7 @@ def edit_keyword(request, keyword_id):
         edit_keyword_form = EditKeywordForm(request.POST, instance=keyword)
         if edit_keyword_form.is_valid():
             keyword = edit_keyword_form.save()
-            keyword.states_to_search.set(edit_keyword_form.cleaned_data["states_to_search"])
+            keyword.congreso_search.set(edit_keyword_form.cleaned_data["congreso_search"])
             return JsonResponse({"success": True, "status_text": "Keyword editado correctamente"}, status=200)
         else:
             errors = edit_keyword_form.errors.as_json(escape_html=True)
