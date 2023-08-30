@@ -15,7 +15,7 @@ class States(models.Model):
 class Keyword(models.Model):
     first_keyword = models.CharField(max_length=50, null=False, blank=False)
     second_keyword = models.CharField(max_length=50, null=True, blank=True)
-    states_to_search = models.ManyToManyField(States)
+    congreso_search  = models.ManyToManyField(States)
     date_created = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(
         UserBaseAccount, on_delete=models.CASCADE, null=False)
@@ -27,7 +27,7 @@ class Keyword(models.Model):
         keyword_json = {
             "first_keyword": self.first_keyword,
             "second_keyword": self.second_keyword,
-            "states_to_search": list(self.states_to_search.all().values_list("state", flat=True))
+            "congreso_search": list(self.congreso_search.all().values_list("id", flat=True))
         }
         return keyword_json
 
@@ -39,12 +39,12 @@ class Keyword(models.Model):
         else:
             query_keywords = {"$regex": self.first_keyword, "$options": "i"}
 
-        states = tuple(self.states_to_search.all().values_list("state", flat=True))
+        congreso_states = tuple(self.congreso_search.all().values_list("state", flat=True))
         query_states = {}
-        if len(states) == 1:
-            query_states = {"$regex": "".join(states), "$options": "i"}
+        if len(congreso_states) == 1:
+            query_states = {"$regex": "".join(congreso_states), "$options": "i"}
         else:
-            query_states = {"$regex": "|".join(states), "$options": "i"}
+            query_states = {"$regex": "|".join(congreso_states), "$options": "i"}
 
         query = {
             "$and": [
