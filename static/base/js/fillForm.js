@@ -10,8 +10,8 @@ function fillFormWithData(data, form) {
                 field.value = data[fieldName]
             }
         }
-        if (field.getAttribute("name") == "congreso_search") {
-            data["congreso_search"].forEach(idState => {
+        if (field.getAttribute("name") == "congreso_search" || field.getAttribute("name") == "estatal_search") {
+            data[field.getAttribute("name")].forEach(idState => {
                 if (idState == field.value) field.checked = true;
             })
         }
