@@ -16,6 +16,7 @@ class Keyword(models.Model):
     first_keyword = models.CharField(max_length=50, null=False, blank=False)
     second_keyword = models.CharField(max_length=50, null=True, blank=True)
     congreso_search  = models.ManyToManyField(States)
+    estatal_search  = models.ManyToManyField(States, related_name="estatal_search")
     date_created = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(
         UserBaseAccount, on_delete=models.CASCADE, null=False)
@@ -27,7 +28,8 @@ class Keyword(models.Model):
         keyword_json = {
             "first_keyword": self.first_keyword,
             "second_keyword": self.second_keyword,
-            "congreso_search": list(self.congreso_search.all().values_list("id", flat=True))
+            "congreso_search": list(self.congreso_search.all().values_list("id", flat=True)),
+            "estatal_search": list(self.estatal_search.all().values_list("id", flat=True))
         }
         return keyword_json
 
