@@ -68,6 +68,23 @@
                         {% endfor %}
                         <span id="error_congreso_search" class="text-danger"></span>
                     </div>
+                    <div class="col-12">
+                        <label
+                            for="{{ create_keyword_form.estatal_search.id_for_label }}"
+                            class="form-label"
+                        >
+                            {{ create_keyword_form.estatal_search.label }}
+                        </label>
+                        {% for state in create_keyword_form.estatal_search %}
+                            <div class="form-check">
+                                <label for="{{ state.id_for_label }}" class="form-check-label">
+                                    {{ state.choice_label }} 
+                                    {{ state.tag }}
+                                </label>
+                            </div>
+                        {% endfor %}
+                        <span id="error_estatal_search" class="text-danger"></span>
+                    </div>
                     <div class="col-12 d-flex flex-column">
                         <button type="submit" class="btn btn-primary" id="create-keyword-submit-btn">
                             Agregar un keyword

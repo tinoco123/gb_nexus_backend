@@ -11,13 +11,15 @@ class KeywordForm(forms.ModelForm):
         widgets = {
             "first_keyword": forms.TextInput(attrs={"class": "form-control"}),
             "second_keyword": forms.TextInput(attrs={"class": "form-control"}),
-            "congreso_search": forms.CheckboxSelectMultiple(attrs={"class": "form-check-input"})
+            "congreso_search": forms.CheckboxSelectMultiple(attrs={"class": "form-check-input"}),
+            "estatal_search": forms.CheckboxSelectMultiple(attrs={"class": "form-check-input"})
         }
 
         labels = {
             "first_keyword": _("Keyword 1"),
             "second_keyword": _("Keyword 2"),
             "congreso_search": _("Congreso:"),
+            "estatal_search": _("Estatal:"),
         }
 
 
@@ -27,5 +29,6 @@ class EditKeywordForm(KeywordForm):
         widgets = {
             "first_keyword": forms.TextInput(attrs={"class": "form-control", "id": "id_edit_first_keyword"}),
             "second_keyword": forms.TextInput(attrs={"class": "form-control", "id": "id_edit_second_keyword"}),
-            "congreso_search": forms.CheckboxSelectMultiple(attrs={"class": "form-check-input", "id": "id_edit_congreso_search"})
+            "congreso_search": forms.CheckboxSelectMultiple(attrs={"class": "form-check-input", "id": "id_edit_congreso_search"}),
+            "estatal_search": forms.CheckboxSelectMultiple(attrs={"class": "form-check-input", "id": "id_edit_estatal_search"}),
         }
