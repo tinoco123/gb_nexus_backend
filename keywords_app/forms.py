@@ -12,7 +12,8 @@ class KeywordForm(forms.ModelForm):
             "first_keyword": forms.TextInput(attrs={"class": "form-control"}),
             "second_keyword": forms.TextInput(attrs={"class": "form-control"}),
             "congreso_search": forms.CheckboxSelectMultiple(attrs={"class": "form-check-input create-congreso-checkboxes"}),
-            "estatal_search": forms.CheckboxSelectMultiple(attrs={"class": "form-check-input create-estatal-checkboxes"})
+            "estatal_search": forms.CheckboxSelectMultiple(attrs={"class": "form-check-input create-estatal-checkboxes"}),
+            "federal_search": forms.CheckboxSelectMultiple(attrs={"class": "form-check-input create-federal-checkboxes"})
         }
 
         labels = {
@@ -20,6 +21,7 @@ class KeywordForm(forms.ModelForm):
             "second_keyword": _("Keyword 2"),
             "congreso_search": _("Congreso:"),
             "estatal_search": _("Estatal:"),
+            "federal_search": _("Federal:"),
         }
 
 
@@ -31,4 +33,5 @@ class EditKeywordForm(KeywordForm):
             "second_keyword": forms.TextInput(attrs={"class": "form-control", "id": "id_edit_second_keyword"}),
             "congreso_search": forms.CheckboxSelectMultiple(attrs={"class": "form-check-input edit-congreso-checkboxes", "id": "id_edit_congreso_search"}),
             "estatal_search": forms.CheckboxSelectMultiple(attrs={"class": "edit-estatal-checkboxes form-check-input", "id": "id_edit_estatal_search"}),
+            "federal_search": forms.CheckboxSelectMultiple(attrs={"class": "edit-federal-checkboxes form-check-input", "id": "id_edit_federal_search"}),
         }
