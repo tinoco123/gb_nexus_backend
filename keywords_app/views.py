@@ -32,6 +32,8 @@ def create_keyword(request):
                 keyword_form.cleaned_data["congreso_search"])
             keyword.estatal_search.set(
                 keyword_form.cleaned_data["estatal_search"])
+            keyword.federal_search.set(
+                keyword_form.cleaned_data["federal_search"])
             return JsonResponse({"success": True, "status_text": "Keyword añadido correctamente"}, status=200)
         else:
             errors = keyword_form.errors.as_json(escape_html=True)
@@ -105,6 +107,7 @@ def edit_keyword(request, keyword_id):
             keyword = edit_keyword_form.save()
             keyword.congreso_search.set(edit_keyword_form.cleaned_data["congreso_search"])
             keyword.estatal_search.set(edit_keyword_form.cleaned_data["estatal_search"])
+            keyword.federal_search.set(edit_keyword_form.cleaned_data["federal_search"])
             return JsonResponse({"success": True, "status_text": "Keyword editado correctamente"}, status=200)
         else:
             errors = edit_keyword_form.errors.as_json(escape_html=True)
