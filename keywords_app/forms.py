@@ -7,13 +7,13 @@ options = [(True, "Obligatorio"), (False, "No obligatorio")]
 
 class KeywordForm(forms.ModelForm):
     search_term_1 = forms.CharField(label="Keyword 1", widget=forms.TextInput(
-        attrs={"class": "form-control"}), required=True, min_length=2, max_length=30)
+        attrs={"class": "form-control", "placeholder": "Campo obligatorio"}), required=True, min_length=2, max_length=30)
     filter_1 = forms.ChoiceField(label="Filtro 1", choices=options, widget=forms.Select(
         attrs={"class": "form-select"}))
 
     search_term_2 = forms.CharField(
         label="Keyword 2", widget=forms.TextInput(
-            attrs={"class": "form-control", "hidden": ""}), required=False, min_length=2, max_length=30)
+            attrs={"class": "form-control"}), required=False, min_length=2, max_length=30)
     filter_2 = forms.ChoiceField(label="Filtro 2", choices=options, widget=forms.Select(
         attrs={"class": "form-select"}))
 
