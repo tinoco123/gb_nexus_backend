@@ -33,7 +33,8 @@ class Keyword(models.Model):
         keyword_json = {
             "congreso_search": list(self.congreso_search.all().values_list("id", flat=True)),
             "estatal_search": list(self.estatal_search.all().values_list("id", flat=True)),
-            "federal_search": list(self.federal_search.all().values_list("id", flat=True))
+            "federal_search": list(self.federal_search.all().values_list("id", flat=True)),
+            "search_terms": list(self.searchterms_set.all().values())
         }
         return keyword_json
 
