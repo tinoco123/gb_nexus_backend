@@ -45,3 +45,11 @@ class SearchTerms(models.Model):
     name = models.CharField(max_length=30)
     is_required = models.BooleanField()
     keyword = models.ForeignKey(Keyword, on_delete=models.CASCADE)
+
+    def to_json(self):
+        search_term_json = {
+            "name": self.name,
+            "is_required": self.is_required,
+            "keyword_id": self.keyword.id
+        }
+        return search_term_json
