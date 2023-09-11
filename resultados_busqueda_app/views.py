@@ -38,7 +38,7 @@ def get_page_of_search_results(request):
         return HttpResponseNotAllowed(permitted_methods=("GET"))
     else:
         try:
-            if request.GET.get("keyword") == "undefined" or request.GET.get("keyword") == 0:
+            if request.GET.get("keyword") == "undefined" or int(request.GET.get("keyword")) == 0:
                 return JsonResponse({
                     "last_page": 0,
                     "data": []
