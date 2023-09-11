@@ -63,8 +63,7 @@ def paginate_keywords(request):
             user = get_object_or_404(UserBaseAccount, pk=request.user.id)
             if request.user.user_type == "ADMINISTRADOR":
                 keywords_queryset = Keyword.objects.all().values(
-                    "id", "searchterms", "date_created").order_by("id")
-                print(keywords_queryset)
+                    "id", "date_created").order_by("id")
             else:
                 keywords_queryset = Keyword.objects.filter(user=user).values(
                     "id", "date_created").order_by("id")
@@ -124,11 +123,33 @@ def edit_keyword(request, keyword_id):
                 edit_keyword_form.cleaned_data["estatal_search"])
             keyword.federal_search.set(
                 edit_keyword_form.cleaned_data["federal_search"])
+            
+            set_search_terms(edit_keyword_form, keyword)
+            
             return JsonResponse({"success": True, "status_text": "Keyword editado correctamente"}, status=200)
         else:
             errors = edit_keyword_form.errors.as_json(escape_html=True)
             return JsonResponse({'success': False, 'errors': errors}, status=400)
 
+
+def set_search_terms(edit_keyword_form: EditKeywordForm, keyword: Keyword):
+    for i in range(1,6):
+                search_term_id = edit_keyword_form.cleaned_data[f"search_term_{i}_id"]
+                search_term_content = edit_keyword_form.cleaned_data[f"search_term_{i}"]
+                is_required = edit_keyword_form.cleaned_data[f"filter_{i}"]
+                if search_term_id:
+                    search_term_to_manipulate = get_object_or_404(SearchTerms, pk=search_term_id)
+
+                if not search_term_id and not search_term_content:
+                    continue
+                elif search_term_id and search_term_content:
+                    search_term_to_manipulate.name = search_term_content
+                    search_term_to_manipulate.is_required = is_required
+                    search_term_to_manipulate.save()
+                elif search_term_id and not search_term_content:
+                    search_term_to_manipulate.delete()
+                elif not search_term_id and search_term_content:
+                    SearchTerms.objects.create(name=search_term_content, is_required=is_required, keyword=keyword)
 
 @login_required
 def delete_keyword(request, keyword_id):
