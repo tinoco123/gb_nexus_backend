@@ -60,6 +60,11 @@ function editKeyword(formData, keyword_id) {
         })
 }
 
-editKeywordModal.addEventListener("hidden.bs.modal", () => {
+editKeywordModal.addEventListener("hide.bs.modal", () => {
     document.getElementById("edit-keyword-form").reset()
+    var hiddenIdsOfSearchTerms = document.getElementsByClassName("search_terms_ids")
+    for (let i = 0; i < hiddenIdsOfSearchTerms.length; i++) {
+        const hiddenInput = hiddenIdsOfSearchTerms[i];
+        hiddenInput.value = null
+    }
 })

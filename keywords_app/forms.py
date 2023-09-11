@@ -56,31 +56,31 @@ class EditKeywordForm(KeywordForm):
     search_term_1 = forms.CharField(label="Keyword 1", widget=forms.TextInput(
         attrs={"class": "form-control", "placeholder": "Campo obligatorio", "id": "id_edit_search_term_1"}), required=True, min_length=2, max_length=30)
     search_term_1_id = forms.IntegerField(
-        widget=forms.HiddenInput(), required=False)
+        widget=forms.HiddenInput(attrs={"class": "search_terms_ids"}), required=False)
     
     search_term_2 = forms.CharField(
         label="Keyword 2", widget=forms.TextInput(
             attrs={"class": "form-control", "id": "id_edit_search_term_2"}), required=False, min_length=2, max_length=30)
     search_term_2_id = forms.IntegerField(
-        widget=forms.HiddenInput(), required=False)
+        widget=forms.HiddenInput(attrs={"class": "search_terms_ids"}), required=False)
     
     search_term_3 = forms.CharField(
         label="Keyword 3", widget=forms.TextInput(
             attrs={"class": "form-control", "id": "id_edit_search_term_3"}), required=False, min_length=2, max_length=30)
     search_term_3_id = forms.IntegerField(
-        widget=forms.HiddenInput(), required=False)
+        widget=forms.HiddenInput(attrs={"class": "search_terms_ids"}), required=False)
     
     search_term_4 = forms.CharField(
         label="Keyword 4", widget=forms.TextInput(
             attrs={"class": "form-control", "id": "id_edit_search_term_4"}), required=False, min_length=2, max_length=30)
     search_term_4_id = forms.IntegerField(
-        widget=forms.HiddenInput(), required=False)
+        widget=forms.HiddenInput(attrs={"class": "search_terms_ids"}), required=False)
     
     search_term_5 = forms.CharField(
         label="Keyword 5", widget=forms.TextInput(
             attrs={"class": "form-control", "id": "id_edit_search_term_5"}), required=False, min_length=2, max_length=30)
     search_term_5_id = forms.IntegerField(
-        widget=forms.HiddenInput(), required=False)
+        widget=forms.HiddenInput(attrs={"class": "search_terms_ids"}), required=False)
 
     class Meta(KeywordForm.Meta):
         widgets = {

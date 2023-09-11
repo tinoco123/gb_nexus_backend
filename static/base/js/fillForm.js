@@ -4,8 +4,8 @@ function fillFormWithData(data, form) {
         if (search_terms_length >= 1) {
             for (let index = 0; index < search_terms_length; index++) {
                 form.elements[`id_edit_search_term_${index + 1}`].value = data.search_terms[index].name
+                form.elements[`search_term_${index + 1}_id`].value = data.search_terms[index].id
                 form.elements[`filter_${index + 1}`].selectedIndex = data.search_terms[index].is_required ? 0 : 1
-
             }
         }
     }
