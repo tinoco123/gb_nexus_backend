@@ -28,7 +28,6 @@ class Keyword(models.Model):
     user = models.ForeignKey(
         UserBaseAccount, on_delete=models.CASCADE, null=False)
 
-
     def to_json(self):
         keyword_json = {
             "congreso_search": list(self.congreso_search.all().values_list("id", flat=True)),
@@ -39,7 +38,49 @@ class Keyword(models.Model):
         return keyword_json
 
     def query(self):
-        return
+        estatal_states_number = self.estatal_search.count()
+
+        if estatal_states_number >= 1:
+            estatal_states = list(
+                self.estatal_search.all().values_list("state", flat=True))
+            query_estatal = {
+                "$and": [
+                    {"state": {"$regex": "|".join(
+                        estatal_states), "$options": "i"}},
+                    {"federalEstatal": "Estatal"}
+                ]}
+        congreso_states_number = self.congreso_search.count()
+        if congreso_states_number >= 1:
+            congreso_states = list(
+                self.congreso_search.all().values_list("state", flat=True))
+            query_congreso = {
+                "$and": [
+                    {"state": {"$regex": "|".join(
+                        congreso_states), "$options": "i"}},
+                    {"federalEstatal": "Congreso"}
+                ]}
+        federal_number = self.federal_search.count()
+        if federal_number >= 1:
+            federal_list = list(
+                self.federal_search.all().values_list("federal", flat=True))
+            query_federal = {
+                "$and": [
+                    {"federal": {"$regex": "|".join(
+                        federal_list), "$options": "i"}},
+                    {"federalEstatal": "Federal"}
+                ]}
+        
+        where_search = {
+            "$or": [
+                query_estatal,
+                query_congreso,
+                query_federal
+            ]
+        }
+        print(where_search)
+        return where_search
+    
+
 
 
 class SearchTerms(models.Model):
