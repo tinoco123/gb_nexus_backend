@@ -20,10 +20,10 @@ class Federal(models.Model):
 
 
 class Keyword(models.Model):
-    congreso_search = models.ManyToManyField(States)
+    congreso_search = models.ManyToManyField(States, blank=True)
     estatal_search = models.ManyToManyField(
         States, related_name="estatal_search")
-    federal_search = models.ManyToManyField(Federal)
+    federal_search = models.ManyToManyField(Federal, blank=True)
     date_created = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(
         UserBaseAccount, on_delete=models.CASCADE, null=False)
@@ -37,39 +37,64 @@ class Keyword(models.Model):
         }
         return keyword_json
 
-    def query(self):
-        estatal_states_number = self.estatal_search.count()
 
-        if estatal_states_number >= 1:
-            estatal_states = list(
-                self.estatal_search.all().values_list("state", flat=True))
-            query_estatal = {
-                "$and": [
-                    {"state": {"$regex": "|".join(
-                        estatal_states), "$options": "i"}},
-                    {"federalEstatal": "Estatal"}
+    def set_required_search_terms(self):
+        search_terms_required = tuple(
+                self.searchterms_set.filter(is_required=True).values_list("name", flat=True))
+        what_search_required = {
+            "$and": []
+        }
+        for search_term in search_terms_required:
+            subquery = {"$or": [
+                {"sinopsys": {"$regex": search_term, "$options": "i"}},
+                {"urlAttach.sinopsys": {"$regex": search_term, "$options": "i"}},
+            ]}
+            what_search_required["$and"].append(subquery)
+        return what_search_required
+
+    def set_no_required_search_terms(self):
+        if self.searchterms_set.filter(is_required=False).count() >= 1:
+            search_terms_no_required = tuple(
+                        self.searchterms_set.filter(is_required=False).values_list("name", flat=True))
+            what_search_no_required = {
+                "$or": [
+                    {"sinopsys": {"$regex": "|".join(
+                                search_terms_no_required), "$options": "i"}},
+                    {"urlAttach.sinopsys": {"$regex": "|".join(
+                                search_terms_no_required), "$options": "i"}}
                 ]}
-        congreso_states_number = self.congreso_search.count()
-        if congreso_states_number >= 1:
-            congreso_states = list(
-                self.congreso_search.all().values_list("state", flat=True))
-            query_congreso = {
-                "$and": [
-                    {"state": {"$regex": "|".join(
-                        congreso_states), "$options": "i"}},
-                    {"federalEstatal": "Congreso"}
-                ]}
-        federal_number = self.federal_search.count()
-        if federal_number >= 1:
-            federal_list = list(
-                self.federal_search.all().values_list("federal", flat=True))
-            query_federal = {
-                "$and": [
-                    {"federal": {"$regex": "|".join(
-                        federal_list), "$options": "i"}},
-                    {"federalEstatal": "Federal"}
-                ]}
+        else:
+            what_search_no_required = {}
+        return what_search_no_required
+
+    def query(self):
+        full_query = {}
+
+        required_search_terms = self.set_required_search_terms()
         
+        not_required_search_terms = self.set_no_required_search_terms()
+
+        if not_required_search_terms:
+            subquery = {"$or": [
+                required_search_terms,
+                not_required_search_terms
+            ]}   
+        else:
+            subquery = required_search_terms
+
+        
+
+
+        estatal_states_number = self.estatal_search.count()
+        congreso_states_number = self.congreso_search.count()
+        federal_number = self.federal_search.count()
+
+        if not estatal_states_number and not congreso_states_number and not federal_number:
+
+        query_estatal = {}
+        query_congreso = {}
+        query_federal = {}
+
         where_search = {
             "$or": [
                 query_estatal,
@@ -77,9 +102,56 @@ class Keyword(models.Model):
                 query_federal
             ]
         }
-        print(where_search)
-        return where_search
-    
+        
+        if estatal_states_number >= 1:
+            estatal_states = tuple(
+                self.estatal_search.all().values_list("state", flat=True))
+            query_estatal = {
+                "$and": [
+                    {"state": {"$in": estatal_states}},
+                    {"federalEstatal": "Estatal"}
+                ]}
+        else:
+            del where_search["$or"]
+        if congreso_states_number >= 1:
+            congreso_states = tuple(
+                self.congreso_search.all().values_list("state", flat=True))
+            query_congreso = {
+                "$and": [
+                    {"state": {"$in": congreso_states}},
+                    {"federalEstatal": "Congreso"}
+                ]}
+        if federal_number >= 1:
+            federal_list = tuple(
+                self.federal_search.all().values_list("federal", flat=True))
+            query_federal = {
+                "$and": [
+                    {"state": {"$in": federal_list}},
+                    {"federalEstatal": "Federal"}
+                ]}
+
+        what_search_no_required = {}
+        #  Terminos de busqueda
+        
+        if what_search_no_required:
+            full_query = {
+                "$and": [
+                    {"$or": [
+                        what_search_required,
+                        what_search_no_required
+                    ]},
+                    where_search
+                ]
+            }
+        else:
+            full_query = {
+                "$and": [
+                    what_search_required,
+                    where_search
+                ]
+            }
+        print(full_query)
+        return full_query
 
 
 
