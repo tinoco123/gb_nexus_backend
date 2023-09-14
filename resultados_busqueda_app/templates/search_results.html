@@ -141,10 +141,60 @@
                             </tbody>
                         </table>
                     </div>
+                    
                 </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" data-bs-target="#seeMoreInfo" data-bs-toggle="modal">Ver más información</button>
+                </div>
+                
             </div>
         </div>
     </div>
+    
+    <!-- Modal ver mas información -->
+    <div class="modal fade" id="seeMoreInfo" tabindex="-1" aria-labelledby="Modal to see more information about a search result" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Más información</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="border rounded p-1">
+                    <table class="table">
+                        <tbody>
+                            
+                            <tr>
+                                <th scope="row" class="titulo-ver-mas">
+                                    <i class="bi bi-link-45deg me-3"></i
+                                    >URL
+                                </th>
+                                <td>
+                                    <a href="" id="id-url" target="_blank"></a>
+                                </td>
+                            </tr>
+                            
+                            <tr>
+                                <th scope="row" id="width-sinopsis">
+                                    <i class="bi bi-book me-3"></i
+                                    >Sinopsis
+                                </th>
+                                <td>
+                                    <p id="id-sinopsys"></p>
+                                </td>
+                            </tr>
+                            
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-target="#modalVerResultadosBusqueda" data-bs-toggle="modal">Volver</button>
+            </div>
+          </div>
+        </div>
+      </div>
 {% endblock modales %}
 
 {% block js-files%}
