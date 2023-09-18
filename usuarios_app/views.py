@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseForbidden, JsonResponse, HttpResponseNotAllowed
+from django.core.paginator import Paginator, EmptyPage
+from django.http import HttpResponseBadRequest, HttpResponseForbidden, JsonResponse, HttpResponseNotAllowed
 from .forms import UserForm, EditUserForm
 from tipos_usuarios.models import Usuario
 from datetime import date, datetime
-import json
 
 
 @login_required
@@ -15,11 +15,47 @@ def users(request):
         return HttpResponseNotAllowed(permitted_methods=("GET"))
     else:
         user_form = UserForm()
-        users = list(Usuario.objects.values(
-            "id", "first_name", "last_name", "email", "company", "date_joined"))
-        usuarios_json = json.dumps(users, default=date_serializer)
-        return render(request, 'usuarios.html', {"users": usuarios_json, "user_form": user_form})
+        edit_user_form = EditUserForm()
+        return render(request, 'usuarios.html', {"user_form": user_form, "edit_user_form": edit_user_form})
 
+@login_required
+def paginate_users(request):
+    if not request.user.user_type == "ADMINISTRADOR":
+        return HttpResponseForbidden("No tienes autorización para acceder a este recurso")
+    if request.method != "GET":
+        return HttpResponseNotAllowed(permitted_methods=("GET"))
+    else:
+        try:
+            page_number = int(request.GET.get("page"))
+            page_size = int(request.GET.get("size"))
+            
+            users_queryset = Usuario.objects.all().values("id", "first_name", "last_name", "email", "company", "date_joined").order_by("id")
+                
+            if page_size > 50 or page_size < 10:
+                return HttpResponseBadRequest("El número de elementos a retornar es inválido. Debe ser mayor a mayor o igual que 10 y menor e igual que 50")
+
+            paginator = Paginator(users_queryset, page_size)
+
+            if page_number > paginator.num_pages or page_number < 1:
+                return HttpResponseBadRequest("El número de página solicitado es inválido")
+
+            selected_page = paginator.page(page_number)
+            users_response = {
+                "last_page": paginator.num_pages,
+                "data": list(selected_page.object_list)
+            }
+
+            return JsonResponse(users_response)
+
+        except ValueError:
+            return HttpResponseBadRequest("Los parámetros enviados son inválidos")
+        except EmptyPage:
+            if page_number < 1:
+                return HttpResponseBadRequest("El número de la página es menor que 1")
+            else:
+                return HttpResponseBadRequest("La página solicitada no contiene resultados")
+        except TypeError:
+            return HttpResponseBadRequest("Los parámetros page y size no deben ser omitidos")
 
 @login_required
 def create_user(request):

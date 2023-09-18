@@ -31,3 +31,14 @@ class EditUserForm(UserForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['password'].required = False
+    
+    class Meta(UserForm.Meta):
+        widgets = {
+            "email": forms.EmailInput(attrs={"class": "form-control", "id": "id_edit_email"}),
+            "password": forms.PasswordInput(attrs={"class": "form-control", "id": "id_edit_password"}),
+            "first_name": forms.TextInput(attrs={"class": "form-control", "id": "id_edit_first_name"}),
+            "last_name": forms.TextInput(attrs={"class": "form-control", "id": "id_edit_last_name"}),
+            "address": forms.Textarea(attrs={"class": "form-control", "rows": 4, "id": "id_edit_address"}),
+            "company": forms.TextInput(attrs={"class": "form-control", "id": "id_edit_company"}),
+            "date_birth": forms.DateInput(attrs={"class": "form-control", "type": "date", "id": "id_edit_date_birth"})
+        }

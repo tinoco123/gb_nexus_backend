@@ -39,23 +39,16 @@
 {% block modales %}
     <!-- Modal agregar usuario -->
     {% include 'user_form.html' %}
+    {% include 'edit_user_form.html' %}
     {% include 'delete_user_modal.html' %}
 {% endblock modales %}
 
 {% block js-files%}
-    <script>
-        var usuarios = JSON.parse('{{ users|escapejs }}')
-        var imgAgregarUsuario = "{% static 'usuarios_app/img/usuarios-agregar.svg' %}"
-        var imgEditarUsuario = "{% static 'usuarios_app/img/usuarios-editar.svg' %}"
-        var urlAgregarUsuario = "{% url 'create_user' %}"
-        var urlUsers = "{% url 'users' %}"
-        var modalMode = ""
-    </script>
     <script type="text/javascript" src="{% static 'usuarios_app/js/userTable.js' %}"></script>
-    <script type="text/javascript" src="{% static 'usuarios_app/js/toggleFormMode.js' %}"></script>
     <script type="text/javascript" src="{% static 'base/js/fillForm.js' %}"></script>
-    <script type="text/javascript" src="{% static 'usuarios_app/js/create_or_edit_user.js' %}" ></script>
+    <script type="text/javascript" src="{% static 'usuarios_app/js/createUser.js' %}" ></script>
     <script type="text/javascript" src="{% static 'base/js/notifications.js' %}" ></script>
     <script type="text/javascript" src="{% static 'usuarios_app/js/deleteUser.js' %}" ></script>
+    <script type="text/javascript" src="{% static 'usuarios_app/js/editUser.js' %}" ></script>
     <script type="text/javascript" src="{% static 'base/js/getCSRFToken.js' %}" ></script>
 {% endblock js-files%}
