@@ -8,5 +8,4 @@ urlpatterns = [
     path("edit/<int:client_id>", views.edit_client, name="edit_client"),
     path("delete/<int:client_id>", views.delete_client, name="delete_client"),
     path("data/", views.paginate_clients, name="paginate_clients"),
-    path("data/all-clients", views.all_clients, name="all_clients")
 ]
