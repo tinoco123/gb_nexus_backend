@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404, render
 from django.core.paginator import Paginator, EmptyPage
 from django.http import HttpResponseForbidden, HttpResponseNotAllowed, JsonResponse, HttpResponseBadRequest
 from django.contrib.auth.decorators import login_required
-from tipos_usuarios.models import Cliente
+from tipos_usuarios.models import Cliente, UserBaseAccount
 from .forms import ClientForm, EditClientForm
 
 
