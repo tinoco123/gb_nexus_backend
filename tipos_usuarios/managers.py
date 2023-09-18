@@ -11,7 +11,7 @@ class UserBaseAccountManager(BaseUserManager):
             raise ValueError("El campo email es requerido")
         if not password or len(password) <= 0:
             raise ValueError("El campo contraseña es requerido")
-        email = self.normalize_email(email)
+        email = BaseUserManager.normalize_email(email)
         user = self.model(email=email, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)

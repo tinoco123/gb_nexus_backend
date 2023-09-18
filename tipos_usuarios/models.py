@@ -14,6 +14,7 @@ class UserBaseAccount(AbstractBaseUser):
     user_type = models.CharField(max_length=13, choices=UserTypes.choices)
     date_joined = models.DateTimeField(auto_now_add=True)
     date_birth = models.DateField(blank=False, null=False)
+    created_by = models.IntegerField(blank=True, null=True)
 
     USERNAME_FIELD = "email"
     objects = UserBaseAccountManager()
