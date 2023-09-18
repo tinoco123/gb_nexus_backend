@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404, render
 from django.core.paginator import Paginator, EmptyPage
 from django.http import HttpResponseForbidden, HttpResponseNotAllowed, JsonResponse, HttpResponseBadRequest
 from django.contrib.auth.decorators import login_required
-from tipos_usuarios.models import Cliente
+from tipos_usuarios.models import Cliente, UserBaseAccount
 from .forms import ClientForm, EditClientForm
 
 
@@ -19,19 +19,6 @@ def clients(request):
 
 
 @login_required
-def all_clients(request):
-    if request.user.user_type == "CLIENTE":
-        return HttpResponseForbidden("No tienes autorización para acceder a este recurso")
-    if request.method != "GET":
-        return HttpResponseNotAllowed(permitted_methods=("GET"))
-    else:
-        clients_queryset = Cliente.objects.all().values("id", "first_name", "last_name",
-                                                        "email", "company", "date_joined").order_by("id")
-        clients_data = list(clients_queryset)
-        return JsonResponse(clients_data, safe=False)
-
-
-@login_required
 def paginate_clients(request):
     if request.user.user_type == "CLIENTE":
         return HttpResponseForbidden("No tienes autorización para acceder a este recurso")
@@ -41,8 +28,11 @@ def paginate_clients(request):
         try:
             page_number = int(request.GET.get("page"))
             page_size = int(request.GET.get("size"))
-            clients_queryset = Cliente.objects.all().values("id", "first_name", "last_name",
-                                                            "email", "company", "date_joined").order_by("id")
+            if request.user.user_type == "ADMINISTRADOR":
+                clients_queryset = Cliente.objects.all().values("id", "first_name", "last_name", "email", "company", "date_joined").order_by("id")
+            else:
+                clients_queryset = Cliente.objects.filter(created_by=request.user.id).values("id", "first_name", "last_name", "email", "company", "date_joined").order_by("id")
+                
             if page_size > 50 or page_size < 10:
                 return HttpResponseBadRequest("El número de elementos a retornar es inválido. Debe ser mayor a mayor o igual que 10 y menor e igual que 50")
 
@@ -72,7 +62,7 @@ def paginate_clients(request):
 
 @login_required
 def create_client(request):
-    if request.user.user_type != "ADMINISTRADOR":
+    if request.user.user_type == "CLIENTE":
         return HttpResponseForbidden("No tienes autorización para acceder a este recurso")
     if request.method != "POST":
         return HttpResponseNotAllowed(permitted_methods=("POST"))
@@ -87,8 +77,8 @@ def create_client(request):
             company = client_form.cleaned_data["company"]
             date_birth = client_form.cleaned_data["date_birth"]
             Cliente.objects.create(email=email, password=password, first_name=first_name,
-                                   last_name=last_name, address=address, company=company, date_birth=date_birth)
-            return JsonResponse({"success": True, "status_text": "Cliente añadido correctamente"}, status=200)
+                                   last_name=last_name, address=address, company=company, date_birth=date_birth, created_by=request.user.id)
+            return JsonResponse({}, status=200)
         else:
             errors = client_form.errors.as_json(escape_html=True)
             return JsonResponse({'success': False, 'errors': errors}, status=400)
@@ -96,12 +86,16 @@ def create_client(request):
 
 @login_required
 def get_client(request, client_id):
-    if not request.user.user_type == "ADMINISTRADOR":
+    if request.user.user_type == "CLIENTE":
         return HttpResponseForbidden()
     if request.method != "GET":
         return HttpResponseNotAllowed(permitted_methods=("GET"))
     else:
         user = get_object_or_404(Cliente, id=client_id)
+        if request.user.user_type == "USUARIO":
+            if user.created_by != request.user.id:
+                return JsonResponse({"success": False, "error": "No puedes obtener clientes que no has creado"}, status=403)
+
         user_json = {
             "first_name": user.first_name,
             "last_name": user.last_name,
@@ -115,13 +109,15 @@ def get_client(request, client_id):
 
 @login_required
 def edit_client(request, client_id):
-    if not request.user.user_type == "ADMINISTRADOR":
+    if request.user.user_type == "CLIENTE":
         return HttpResponseForbidden()
     if request.method != "POST":
         return HttpResponseNotAllowed(permitted_methods=("POST"))
     else:
         user = get_object_or_404(Cliente, id=client_id)
-
+        if request.user.user_type == "USUARIO":
+            if user.created_by != request.user.id:
+                return JsonResponse({"success": False, "error": "No puedes editar clientes que no has creado"}, status=403)
         edit_client_form = EditClientForm(request.POST, instance=user)
         if edit_client_form.is_valid():
             email = edit_client_form.cleaned_data["email"]
@@ -133,20 +129,23 @@ def edit_client(request, client_id):
             date_birth = edit_client_form.cleaned_data["date_birth"]
             Cliente.objects.edit(id=client_id, email=email, password=password, first_name=first_name,
                                  last_name=last_name, address=address, company=company, date_birth=date_birth)
-            return JsonResponse({"success": True, "status_text": "Cliente editado correctamente"}, status=200)
+            return JsonResponse({}, status=200)
         else:
             errors = edit_client_form.errors.as_json(escape_html=True)
             return JsonResponse({'success': False, 'errors': errors}, status=400)
-        
+
 
 @login_required
 def delete_client(request, client_id):
-    if not request.user.user_type == "ADMINISTRADOR":
+    if request.user.user_type == "CLIENTE":
         return HttpResponseForbidden("Losiento, no tienes la autorización para eliminar a este cliente")
     if request.method != "DELETE":
         return HttpResponseNotAllowed(permitted_methods=("DELETE"))
     else:
         user = get_object_or_404(Cliente, id=client_id)
+        if request.user.user_type == "USUARIO":
+            if user.created_by != request.user.id:
+                return JsonResponse({"success": False, "error": "No puedes eliminar clientes que no has creado"}, status=403)
         if user is not None:
             user.delete()
             return JsonResponse({"response": "El usuario fue eliminado correctamente"}, status=200)
