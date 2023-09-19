@@ -6,14 +6,11 @@ const keyword = document.getElementById("keyword-eliminar")
 deleteKeywordModal.addEventListener("show.bs.modal", () => {
     setTimeout(() => {
         var row = table.getRow(idActualizado)
-        var first_keyword = row.getData().first_keyword
-        var second_keyword = row.getData().second_keyword
+        var title = row.getData().title
         idEliminar.innerHTML = idActualizado
-        if (second_keyword == null) {
-            keyword.innerHTML = first_keyword
-        } else {
-            keyword.innerHTML = first_keyword + " | " + second_keyword
-        }
+        
+        keyword.innerHTML = title
+        
     }, 1)
 })
 
