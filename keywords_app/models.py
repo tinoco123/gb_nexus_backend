@@ -22,6 +22,8 @@ class Federal(models.Model):
 class Keyword(models.Model):
 
     title = models.CharField(blank=False, null=False, max_length=60)
+    start_date = models.DateField(blank=False, null=False)
+    end_date = models.DateField(blank=False, null=False)
     congreso_search = models.ManyToManyField(States, blank=True)
     estatal_search = models.ManyToManyField(
         States, related_name="estatal_search", blank=True)
@@ -33,6 +35,8 @@ class Keyword(models.Model):
     def to_json(self):
         keyword_json = {
             "title": self.title,
+            "start_date": self.start_date,
+            "end_date": self.end_date,
             "congreso_search": list(self.congreso_search.all().values_list("id", flat=True)),
             "estatal_search": list(self.estatal_search.all().values_list("id", flat=True)),
             "federal_search": list(self.federal_search.all().values_list("id", flat=True)),

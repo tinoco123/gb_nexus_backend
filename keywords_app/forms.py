@@ -40,6 +40,8 @@ class KeywordForm(forms.ModelForm):
         exclude = ['date_created', 'user']
 
         widgets = {
+            "start_date": forms.DateInput(attrs={"class": "form-control", "type": "date"}),
+            "end_date": forms.DateInput(attrs={"class": "form-control", "type": "date"}),
             "title": forms.TextInput(attrs={"class": "form-control", "placeholder": "Título de la keyword"}),
             "congreso_search": forms.CheckboxSelectMultiple(attrs={"class": "form-check-input create-congreso-checkboxes"}),
             "estatal_search": forms.CheckboxSelectMultiple(attrs={"class": "form-check-input create-estatal-checkboxes"}),
@@ -47,6 +49,8 @@ class KeywordForm(forms.ModelForm):
         }
 
         labels = {
+            "start_date": _("Fecha inicio"),
+            "end_date": _("Fecha final"),
             "title": _("Título de la keyword"),
             "congreso_search": _("Buscar en congreso:"),
             "estatal_search": _("Buscar en estatal:"),
@@ -86,6 +90,8 @@ class EditKeywordForm(KeywordForm):
 
     class Meta(KeywordForm.Meta):
         widgets = {
+            "start_date": forms.DateInput(attrs={"class": "form-control", "type": "date", "id": "id_edit_start_date"}),
+            "end_date": forms.DateInput(attrs={"class": "form-control", "type": "date", "id": "id_edit_start_date"}),
             "title": forms.TextInput(attrs={"class": "form-control", "placeholder": "Título de la keyword", "id": "id_edit_title"}),
             "congreso_search": forms.CheckboxSelectMultiple(attrs={"class": "form-check-input edit-congreso-checkboxes", "id": "id_edit_congreso_search"}),
             "estatal_search": forms.CheckboxSelectMultiple(attrs={"class": "edit-estatal-checkboxes form-check-input", "id": "id_edit_estatal_search"}),

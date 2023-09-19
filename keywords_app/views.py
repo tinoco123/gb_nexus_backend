@@ -126,7 +126,7 @@ def edit_keyword(request, keyword_id):
                 edit_keyword_form.cleaned_data["estatal_search"])
             keyword.federal_search.set(
                 edit_keyword_form.cleaned_data["federal_search"])
-
+            
             set_search_terms(edit_keyword_form, keyword)
 
             return JsonResponse({"success": True, "status_text": "Keyword editado correctamente"}, status=200)

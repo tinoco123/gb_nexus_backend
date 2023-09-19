@@ -147,6 +147,28 @@
                         <span id="error_edit_search_term_5" class="text-danger"></span>
                     </div>
 
+                    <div class="col-6">
+                        <label
+                            for="{{ edit_keyword_form.start_date.id_for_label }}"
+                            class="form-label"
+                        >
+                            {{ edit_keyword_form.start_date.label }}
+                        </label>
+                        {{ edit_keyword_form.start_date }}
+                        <span id="error_edit_start_date" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-6">
+                        <label
+                            for="{{ edit_keyword_form.end_date.id_for_label }}"
+                            class="form-label"
+                        >
+                            {{ edit_keyword_form.end_date.label }}
+                        </label>
+                        {{ edit_keyword_form.end_date }}
+                        <span id="error_edit_end_date" class="text-danger"></span>
+                    </div>
+
                     <div class="col-12">
                         <div class="accordion" id="accordionEditar">
                             <div class="accordion-item">
