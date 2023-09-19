@@ -22,8 +22,8 @@ class Federal(models.Model):
 class Keyword(models.Model):
 
     title = models.CharField(blank=False, null=False, max_length=60)
-    start_date = models.DateField()
-    end_date = models.DateField()
+    start_date = models.DateField(blank=True, null=True)
+    end_date = models.DateField(blank=True, null=True)
     congreso_search = models.ManyToManyField(States, blank=True)
     estatal_search = models.ManyToManyField(
         States, related_name="estatal_search", blank=True)
