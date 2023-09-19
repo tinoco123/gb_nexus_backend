@@ -31,6 +31,17 @@
                 >
                     {% csrf_token %} 
  
+                    <div class="col-12">
+                        <label
+                            for="{{ edit_keyword_form.title.id_for_label }}"
+                            class="form-label"
+                        >
+                            {{ edit_keyword_form.title.label }}
+                        </label>
+                        {{ edit_keyword_form.title }}
+                        <span id="error_edit_title" class="text-danger"></span>
+                    </div>
+
                     <div class="col-3" >
                         <label
                             for="{{ edit_keyword_form.filter_1.id_for_label }}"

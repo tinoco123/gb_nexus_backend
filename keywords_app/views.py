@@ -65,10 +65,10 @@ def paginate_keywords(request):
             user = get_object_or_404(UserBaseAccount, pk=request.user.id)
             if request.user.user_type == "ADMINISTRADOR":
                 keywords_queryset = Keyword.objects.all().values(
-                    "id", "date_created", "user").order_by("id")
+                    "id", "title", "date_created", "user").order_by("id")
             else:
                 keywords_queryset = Keyword.objects.filter(user=user).values(
-                    "id", "date_created").order_by("id")
+                    "id", "title", "date_created").order_by("id")
 
             if page_size not in (10, 20, 30, 40, 50):
                 return JsonResponse({"error": "El tamaño de los resultados de búsqueda debe tener alguno de los siguientes valores: 10, 20, 30, 40, 50"}, status=400)

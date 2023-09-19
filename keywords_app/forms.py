@@ -40,12 +40,14 @@ class KeywordForm(forms.ModelForm):
         exclude = ['date_created', 'user']
 
         widgets = {
+            "title": forms.TextInput(attrs={"class": "form-control", "placeholder": "Título de la keyword"}),
             "congreso_search": forms.CheckboxSelectMultiple(attrs={"class": "form-check-input create-congreso-checkboxes"}),
             "estatal_search": forms.CheckboxSelectMultiple(attrs={"class": "form-check-input create-estatal-checkboxes"}),
             "federal_search": forms.CheckboxSelectMultiple(attrs={"class": "form-check-input create-federal-checkboxes"})
         }
 
         labels = {
+            "title": _("Título de la keyword"),
             "congreso_search": _("Buscar en congreso:"),
             "estatal_search": _("Buscar en estatal:"),
             "federal_search": _("Buscar en federal:"),
@@ -57,25 +59,25 @@ class EditKeywordForm(KeywordForm):
         attrs={"class": "form-control", "placeholder": "Campo obligatorio", "id": "id_edit_search_term_1"}), required=True, min_length=2, max_length=30)
     search_term_1_id = forms.IntegerField(
         widget=forms.HiddenInput(attrs={"class": "search_terms_ids"}), required=False)
-    
+
     search_term_2 = forms.CharField(
         label="Keyword 2", widget=forms.TextInput(
             attrs={"class": "form-control", "id": "id_edit_search_term_2"}), required=False, min_length=2, max_length=30)
     search_term_2_id = forms.IntegerField(
         widget=forms.HiddenInput(attrs={"class": "search_terms_ids"}), required=False)
-    
+
     search_term_3 = forms.CharField(
         label="Keyword 3", widget=forms.TextInput(
             attrs={"class": "form-control", "id": "id_edit_search_term_3"}), required=False, min_length=2, max_length=30)
     search_term_3_id = forms.IntegerField(
         widget=forms.HiddenInput(attrs={"class": "search_terms_ids"}), required=False)
-    
+
     search_term_4 = forms.CharField(
         label="Keyword 4", widget=forms.TextInput(
             attrs={"class": "form-control", "id": "id_edit_search_term_4"}), required=False, min_length=2, max_length=30)
     search_term_4_id = forms.IntegerField(
         widget=forms.HiddenInput(attrs={"class": "search_terms_ids"}), required=False)
-    
+
     search_term_5 = forms.CharField(
         label="Keyword 5", widget=forms.TextInput(
             attrs={"class": "form-control", "id": "id_edit_search_term_5"}), required=False, min_length=2, max_length=30)
@@ -84,6 +86,7 @@ class EditKeywordForm(KeywordForm):
 
     class Meta(KeywordForm.Meta):
         widgets = {
+            "title": forms.TextInput(attrs={"class": "form-control", "placeholder": "Título de la keyword", "id": "id_edit_title"}),
             "congreso_search": forms.CheckboxSelectMultiple(attrs={"class": "form-check-input edit-congreso-checkboxes", "id": "id_edit_congreso_search"}),
             "estatal_search": forms.CheckboxSelectMultiple(attrs={"class": "edit-estatal-checkboxes form-check-input", "id": "id_edit_estatal_search"}),
             "federal_search": forms.CheckboxSelectMultiple(attrs={"class": "edit-federal-checkboxes form-check-input", "id": "id_edit_federal_search"}),

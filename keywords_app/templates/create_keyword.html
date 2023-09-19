@@ -31,6 +31,17 @@
                 >
                     {% csrf_token %} 
 
+                    <div class="col-12">
+                        <label
+                            for="{{ create_keyword_form.title.id_for_label }}"
+                            class="form-label"
+                        >
+                            {{ create_keyword_form.title.label }}
+                        </label>
+                        {{ create_keyword_form.title }}
+                        <span id="error_title" class="text-danger"></span>
+                    </div>
+
                     <div class="col-3" >
                         <label
                             for="{{ create_keyword_form.filter_1.id_for_label }}"
