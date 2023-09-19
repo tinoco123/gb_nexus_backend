@@ -74,7 +74,7 @@ class Keyword(models.Model):
         return what_search_no_required
 
     def set_statal_states(self):
-        estatal_states = tuple(
+        estatal_states = list(
             self.estatal_search.all().values_list("state", flat=True))
         query_estatal = {
             "$and": [
@@ -84,7 +84,7 @@ class Keyword(models.Model):
         return query_estatal
 
     def set_congreso_states(self):
-        congreso_states = tuple(
+        congreso_states = list(
             self.congreso_search.all().values_list("state", flat=True))
         query_congreso = {
             "$and": [
@@ -94,7 +94,7 @@ class Keyword(models.Model):
         return query_congreso
 
     def set_federal_dependencies(self):
-        federal_list = tuple(
+        federal_list = list(
             self.federal_search.all().values_list("federal", flat=True))
         query_federal = {
             "$and": [
@@ -102,6 +102,13 @@ class Keyword(models.Model):
                 {"federalEstatal": "Federal"}
             ]}
         return query_federal
+
+    def set_date_filter(self):
+        subquery = {"date": {
+            "$gte": self.start_date.strftime("%Y-%m-%d"),
+            "$lte": self.end_date.strftime("%Y-%m-%d")
+        }}
+        return subquery
 
     def query(self):
         full_query = {}
@@ -134,7 +141,12 @@ class Keyword(models.Model):
             add_where_to_search.append(self.set_federal_dependencies())
 
         if len(add_where_to_search) == 0:
-            full_query.update(search_terms_subquery)
+            subquery = {
+                "$and": [
+                    search_terms_subquery
+                ]
+            }
+            full_query.update(subquery)
 
         elif len(add_where_to_search) == 1:
             subquery = {
@@ -154,6 +166,11 @@ class Keyword(models.Model):
             for element in add_where_to_search:
                 full_query["$and"][1]["$or"].append(element)
             full_query.update(subquery)
+        
+        if self.start_date and self.end_date:
+            date_filter = self.set_date_filter()
+            full_query["$and"].append(date_filter)
+        print(full_query)
         return full_query
 
 
