@@ -104,10 +104,30 @@ class Keyword(models.Model):
         return query_federal
 
     def set_date_filter(self):
-        subquery = {"date": {
-            "$gte": self.start_date.strftime("%Y-%m-%d"),
-            "$lte": self.end_date.strftime("%Y-%m-%d")
-        }}
+        if self.start_date and self.end_date:
+            subquery = {
+
+                "date": {
+                    "$gte": self.start_date.strftime("%d-%m-%Y"),
+                    "$lte": self.end_date.strftime("%d-%m-%Y")
+                }
+
+            }
+
+        if self.start_date and not self.end_date:
+            subquery = {
+
+                "date": {
+                    "$gte": self.start_date.strftime("%d-%m-%Y")
+                }
+
+            }
+        if self.end_date and not self.start_date:
+            subquery = {
+                "date": {
+                    "$lte": self.end_date.strftime("%d-%m-%Y")
+                },
+            }
         return subquery
 
     def query(self):
@@ -164,13 +184,12 @@ class Keyword(models.Model):
                 ]
             }
             for element in add_where_to_search:
-                full_query["$and"][1]["$or"].append(element)
+                subquery["$and"][1]["$or"].append(element)
             full_query.update(subquery)
-        
-        if self.start_date and self.end_date:
+
+        if self.start_date or self.end_date:
             date_filter = self.set_date_filter()
             full_query["$and"].append(date_filter)
-        print(full_query)
         return full_query
 
 
