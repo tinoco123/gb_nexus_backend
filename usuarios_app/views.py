@@ -1,11 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.core.paginator import Paginator, EmptyPage
 from django.http import HttpResponseBadRequest, HttpResponseForbidden, JsonResponse, HttpResponseNotAllowed
 from .forms import UserForm, EditUserForm
 from tipos_usuarios.models import Usuario
 from datetime import date, datetime
-from django.contrib.auth.decorators import permission_required
+
 
 @login_required
 @permission_required("tipos_usuarios.view_usuario", raise_exception=True)
@@ -17,6 +17,7 @@ def users(request):
         edit_user_form = EditUserForm()
         return render(request, 'usuarios.html', {"user_form": user_form, "edit_user_form": edit_user_form})
 
+
 @login_required
 @permission_required("tipos_usuarios.view_usuario", raise_exception=True)
 def paginate_users(request):
@@ -26,9 +27,10 @@ def paginate_users(request):
         try:
             page_number = int(request.GET.get("page"))
             page_size = int(request.GET.get("size"))
-            
-            users_queryset = Usuario.objects.all().values("id", "first_name", "last_name", "email", "company", "date_joined").order_by("id")
-                
+
+            users_queryset = Usuario.objects.all().values("id", "first_name", "last_name",
+                                                          "email", "company", "date_joined").order_by("id")
+
             if page_size > 50 or page_size < 10:
                 return HttpResponseBadRequest("El número de elementos a retornar es inválido. Debe ser mayor a mayor o igual que 10 y menor e igual que 50")
 
