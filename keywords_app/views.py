@@ -4,10 +4,11 @@ from django.core.paginator import Paginator, EmptyPage
 from keywords_app.models import Keyword, SearchTerms
 from .forms import KeywordForm, EditKeywordForm
 from tipos_usuarios.models import UserBaseAccount
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 
 
 @login_required
+@permission_required("keywords_app.view_keyword", raise_exception=True)
 def keywords(request):
     if request.method != "GET":
         return HttpResponseNotAllowed(permitted_methods=("GET"))
@@ -18,6 +19,7 @@ def keywords(request):
 
 
 @login_required
+@permission_required("keywords_app.add_keyword", raise_exception=True)
 def create_keyword(request):
     if request.method != "POST":
         return HttpResponseNotAllowed(permitted_methods=("POST"))
@@ -55,6 +57,7 @@ def set_search_terms_to_keyword(keyword_form: KeywordForm, keyword: Keyword):
 
 
 @login_required
+@permission_required("keywords_app.view_keyword", raise_exception=True)
 def paginate_keywords(request):
     if request.method != "GET":
         return HttpResponseNotAllowed(permitted_methods=("GET"))
@@ -102,6 +105,7 @@ def paginate_keywords(request):
 
 
 @login_required
+@permission_required("keywords_app.view_keyword", raise_exception=True)
 def get_keyword(request, keyword_id):
     if request.method != "GET":
         return HttpResponseNotAllowed(permitted_methods=("GET"))
@@ -114,6 +118,7 @@ def get_keyword(request, keyword_id):
 
 
 @login_required
+@permission_required("keywords_app.change_keyword", raise_exception=True)
 def edit_keyword(request, keyword_id):
     if request.method != "POST":
         return HttpResponseNotAllowed(permitted_methods=("POST"))
@@ -162,6 +167,7 @@ def set_search_terms(edit_keyword_form: EditKeywordForm, keyword: Keyword):
 
 
 @login_required
+@permission_required("keywords_app.delete_keyword", raise_exception=True)
 def delete_keyword(request, keyword_id):
     if request.method != "DELETE":
         return HttpResponseNotAllowed(permitted_methods=("DELETE"))
