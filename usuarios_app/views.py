@@ -5,12 +5,11 @@ from django.http import HttpResponseBadRequest, HttpResponseForbidden, JsonRespo
 from .forms import UserForm, EditUserForm
 from tipos_usuarios.models import Usuario
 from datetime import date, datetime
-
+from django.contrib.auth.decorators import permission_required
 
 @login_required
+@permission_required("tipos_usuarios.view_usuario", raise_exception=True)
 def users(request):
-    if not request.user.user_type == "ADMINISTRADOR":
-        return HttpResponseForbidden()
     if request.method != "GET":
         return HttpResponseNotAllowed(permitted_methods=("GET"))
     else:
@@ -19,9 +18,8 @@ def users(request):
         return render(request, 'usuarios.html', {"user_form": user_form, "edit_user_form": edit_user_form})
 
 @login_required
+@permission_required("tipos_usuarios.view_usuario", raise_exception=True)
 def paginate_users(request):
-    if not request.user.user_type == "ADMINISTRADOR":
-        return HttpResponseForbidden("No tienes autorización para acceder a este recurso")
     if request.method != "GET":
         return HttpResponseNotAllowed(permitted_methods=("GET"))
     else:
@@ -57,7 +55,9 @@ def paginate_users(request):
         except TypeError:
             return HttpResponseBadRequest("Los parámetros page y size no deben ser omitidos")
 
+
 @login_required
+@permission_required("tipos_usuarios.add_usuario", raise_exception=True)
 def create_user(request):
     if not request.user.user_type == "ADMINISTRADOR":
         return HttpResponseForbidden()
@@ -82,6 +82,7 @@ def create_user(request):
 
 
 @login_required
+@permission_required("tipos_usuarios.change_usuario", raise_exception=True)
 def edit_user(request, user_id):
     if not request.user.user_type == "ADMINISTRADOR":
         return HttpResponseForbidden()
@@ -108,6 +109,7 @@ def edit_user(request, user_id):
 
 
 @login_required
+@permission_required("tipos_usuarios.view_usuario", raise_exception=True)
 def get_user(request, user_id):
     if not request.user.user_type == "ADMINISTRADOR":
         return HttpResponseForbidden()
@@ -127,6 +129,7 @@ def get_user(request, user_id):
 
 
 @login_required
+@permission_required("tipos_usuarios.delete_usuario", raise_exception=True)
 def delete_user(request, user_id):
     if not request.user.user_type == "ADMINISTRADOR":
         return HttpResponseForbidden("Losiento, no tienes la autorización para eliminar a este usuario")
