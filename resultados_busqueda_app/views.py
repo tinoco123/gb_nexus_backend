@@ -1,5 +1,5 @@
 import os
-from django.http import HttpResponseForbidden, HttpResponseNotAllowed, JsonResponse, HttpResponseBadRequest, HttpResponseServerError
+from django.http import HttpResponseNotAllowed, JsonResponse, HttpResponseBadRequest, HttpResponseServerError
 from django.shortcuts import get_object_or_404, render
 from django.contrib.auth.decorators import login_required
 from mongo_connection.paginator import Pagination
@@ -17,8 +17,6 @@ load_dotenv()
 
 @login_required
 def search_results(request):
-    if not request.user.is_authenticated:
-        return HttpResponseForbidden()
     if request.method != "GET":
         return HttpResponseNotAllowed(permitted_methods=("GET"))
     else:
@@ -32,8 +30,6 @@ def search_results(request):
 
 @login_required
 def get_page_of_search_results(request):
-    if not request.user.is_authenticated:
-        return HttpResponseForbidden()
     if request.method != "GET":
         return HttpResponseNotAllowed(permitted_methods=("GET"))
     else:
@@ -91,8 +87,6 @@ def get_page_of_search_results(request):
 
 @login_required
 def get_search_result_by_id(request, id):
-    if not request.user.is_authenticated:
-        return HttpResponseForbidden()
     if request.method != "GET":
         return HttpResponseNotAllowed(permitted_methods=("GET"))
     else:

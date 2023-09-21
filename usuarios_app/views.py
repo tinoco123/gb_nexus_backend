@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, permission_required
 from django.core.paginator import Paginator, EmptyPage
-from django.http import HttpResponseBadRequest, HttpResponseForbidden, JsonResponse, HttpResponseNotAllowed
+from django.http import HttpResponseBadRequest, JsonResponse, HttpResponseNotAllowed
 from .forms import UserForm, EditUserForm
 from tipos_usuarios.models import Usuario
 from datetime import date, datetime
@@ -61,8 +61,6 @@ def paginate_users(request):
 @login_required
 @permission_required("tipos_usuarios.add_usuario", raise_exception=True)
 def create_user(request):
-    if not request.user.user_type == "ADMINISTRADOR":
-        return HttpResponseForbidden()
     if request.method != "POST":
         return HttpResponseNotAllowed(permitted_methods=("POST"))
     else:
@@ -86,8 +84,6 @@ def create_user(request):
 @login_required
 @permission_required("tipos_usuarios.change_usuario", raise_exception=True)
 def edit_user(request, user_id):
-    if not request.user.user_type == "ADMINISTRADOR":
-        return HttpResponseForbidden()
     if request.method != "POST":
         return HttpResponseNotAllowed(permitted_methods=("POST"))
     else:
@@ -113,8 +109,6 @@ def edit_user(request, user_id):
 @login_required
 @permission_required("tipos_usuarios.view_usuario", raise_exception=True)
 def get_user(request, user_id):
-    if not request.user.user_type == "ADMINISTRADOR":
-        return HttpResponseForbidden()
     if request.method != "GET":
         return HttpResponseNotAllowed(permitted_methods=("GET"))
     else:
@@ -133,8 +127,6 @@ def get_user(request, user_id):
 @login_required
 @permission_required("tipos_usuarios.delete_usuario", raise_exception=True)
 def delete_user(request, user_id):
-    if not request.user.user_type == "ADMINISTRADOR":
-        return HttpResponseForbidden("Losiento, no tienes la autorización para eliminar a este usuario")
     if request.method != "DELETE":
         return HttpResponseNotAllowed(permitted_methods=("DELETE"))
     else:

@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404, render
 from django.core.paginator import Paginator, EmptyPage
-from django.http import HttpResponseForbidden, HttpResponseNotAllowed, JsonResponse, HttpResponseBadRequest
+from django.http import HttpResponseNotAllowed, JsonResponse, HttpResponseBadRequest
 from django.contrib.auth.decorators import login_required, permission_required
 from tipos_usuarios.models import Cliente
 from .forms import ClientForm, EditClientForm
@@ -9,8 +9,6 @@ from .forms import ClientForm, EditClientForm
 @login_required
 @permission_required("tipos_usuarios.view_cliente", raise_exception=True)
 def clients(request):
-    if request.user.user_type == "CLIENTE":
-        return HttpResponseForbidden("No tienes autorización para acceder a este recurso")
     if request.method != "GET":
         return HttpResponseNotAllowed(permitted_methods=("GET"))
     else:
@@ -22,8 +20,6 @@ def clients(request):
 @login_required
 @permission_required("tipos_usuarios.view_cliente", raise_exception=True)
 def paginate_clients(request):
-    if request.user.user_type == "CLIENTE":
-        return HttpResponseForbidden("No tienes autorización para acceder a este recurso")
     if request.method != "GET":
         return HttpResponseNotAllowed(permitted_methods=("GET"))
     else:
@@ -31,10 +27,12 @@ def paginate_clients(request):
             page_number = int(request.GET.get("page"))
             page_size = int(request.GET.get("size"))
             if request.user.user_type == "ADMINISTRADOR":
-                clients_queryset = Cliente.objects.all().values("id", "first_name", "last_name", "email", "company", "date_joined").order_by("id")
+                clients_queryset = Cliente.objects.all().values("id", "first_name", "last_name",
+                                                                "email", "company", "date_joined").order_by("id")
             else:
-                clients_queryset = Cliente.objects.filter(created_by=request.user.id).values("id", "first_name", "last_name", "email", "company", "date_joined").order_by("id")
-                
+                clients_queryset = Cliente.objects.filter(created_by=request.user.id).values(
+                    "id", "first_name", "last_name", "email", "company", "date_joined").order_by("id")
+
             if page_size > 50 or page_size < 10:
                 return HttpResponseBadRequest("El número de elementos a retornar es inválido. Debe ser mayor a mayor o igual que 10 y menor e igual que 50")
 
@@ -65,8 +63,6 @@ def paginate_clients(request):
 @login_required
 @permission_required("tipos_usuarios.add_cliente", raise_exception=True)
 def create_client(request):
-    if request.user.user_type == "CLIENTE":
-        return HttpResponseForbidden("No tienes autorización para acceder a este recurso")
     if request.method != "POST":
         return HttpResponseNotAllowed(permitted_methods=("POST"))
     else:
@@ -90,8 +86,6 @@ def create_client(request):
 @login_required
 @permission_required("tipos_usuarios.view_cliente", raise_exception=True)
 def get_client(request, client_id):
-    if request.user.user_type == "CLIENTE":
-        return HttpResponseForbidden()
     if request.method != "GET":
         return HttpResponseNotAllowed(permitted_methods=("GET"))
     else:
@@ -114,8 +108,6 @@ def get_client(request, client_id):
 @login_required
 @permission_required("tipos_usuarios.change_cliente", raise_exception=True)
 def edit_client(request, client_id):
-    if request.user.user_type == "CLIENTE":
-        return HttpResponseForbidden()
     if request.method != "POST":
         return HttpResponseNotAllowed(permitted_methods=("POST"))
     else:
@@ -143,8 +135,6 @@ def edit_client(request, client_id):
 @login_required
 @permission_required("tipos_usuarios.change_cliente", raise_exception=True)
 def delete_client(request, client_id):
-    if request.user.user_type == "CLIENTE":
-        return HttpResponseForbidden("Losiento, no tienes la autorización para eliminar a este cliente")
     if request.method != "DELETE":
         return HttpResponseNotAllowed(permitted_methods=("DELETE"))
     else:
