@@ -1,12 +1,13 @@
 from django.shortcuts import get_object_or_404, render
 from django.core.paginator import Paginator, EmptyPage
 from django.http import HttpResponseForbidden, HttpResponseNotAllowed, JsonResponse, HttpResponseBadRequest
-from django.contrib.auth.decorators import login_required
-from tipos_usuarios.models import Cliente, UserBaseAccount
+from django.contrib.auth.decorators import login_required, permission_required
+from tipos_usuarios.models import Cliente
 from .forms import ClientForm, EditClientForm
 
 
 @login_required
+@permission_required("tipos_usuarios.view_cliente", raise_exception=True)
 def clients(request):
     if request.user.user_type == "CLIENTE":
         return HttpResponseForbidden("No tienes autorización para acceder a este recurso")
@@ -19,6 +20,7 @@ def clients(request):
 
 
 @login_required
+@permission_required("tipos_usuarios.view_cliente", raise_exception=True)
 def paginate_clients(request):
     if request.user.user_type == "CLIENTE":
         return HttpResponseForbidden("No tienes autorización para acceder a este recurso")
@@ -61,6 +63,7 @@ def paginate_clients(request):
 
 
 @login_required
+@permission_required("tipos_usuarios.add_cliente", raise_exception=True)
 def create_client(request):
     if request.user.user_type == "CLIENTE":
         return HttpResponseForbidden("No tienes autorización para acceder a este recurso")
@@ -85,6 +88,7 @@ def create_client(request):
 
 
 @login_required
+@permission_required("tipos_usuarios.view_cliente", raise_exception=True)
 def get_client(request, client_id):
     if request.user.user_type == "CLIENTE":
         return HttpResponseForbidden()
@@ -108,6 +112,7 @@ def get_client(request, client_id):
 
 
 @login_required
+@permission_required("tipos_usuarios.change_cliente", raise_exception=True)
 def edit_client(request, client_id):
     if request.user.user_type == "CLIENTE":
         return HttpResponseForbidden()
@@ -136,6 +141,7 @@ def edit_client(request, client_id):
 
 
 @login_required
+@permission_required("tipos_usuarios.change_cliente", raise_exception=True)
 def delete_client(request, client_id):
     if request.user.user_type == "CLIENTE":
         return HttpResponseForbidden("Losiento, no tienes la autorización para eliminar a este cliente")
