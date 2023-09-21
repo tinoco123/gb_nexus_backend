@@ -3,6 +3,7 @@ from django.contrib.auth.models import BaseUserManager
 from .utils import UserTypes
 from django.core.exceptions import ObjectDoesNotExist
 from abc import ABC, abstractmethod
+from django.contrib.auth.models import Group
 
 
 class UserBaseAccountManager(BaseUserManager):
@@ -65,7 +66,9 @@ class CustomUserManager(models.Manager, ABC):
 class AdministradorManager(CustomUserManager):
 
     def create(self, email, password=None, **extra_fields):
-        super().create(email, password, **extra_fields)
+        administrador = super().create(email, password, **extra_fields)
+        administradores_group = Group.objects.get(name="Administradores")
+        administrador.groups.add(administradores_group)
 
     def edit(self, email, id, password=None, **extra_fields):
         super().edit(email, id, password, **extra_fields)
@@ -77,7 +80,9 @@ class AdministradorManager(CustomUserManager):
 class UsuarioManager(CustomUserManager):
 
     def create(self, email, password=None, **extra_fields):
-        super().create(email, password, **extra_fields)
+        usuario = super().create(email, password, **extra_fields)
+        usuarios_group = Group.objects.get(name="Usuarios")
+        usuario.groups.add(usuarios_group)
 
     def edit(self, email, id, password=None, **extra_fields):
         super().edit(email, id, password, **extra_fields)
@@ -89,7 +94,9 @@ class UsuarioManager(CustomUserManager):
 class ClienteManager(CustomUserManager):
 
     def create(self, email, password=None, **extra_fields):
-        super().create(email, password, **extra_fields)
+        cliente = super().create(email, password, **extra_fields)
+        clientes_group = Group.objects.get(name="Clientes")
+        cliente.groups.add(clientes_group)
 
     def edit(self, email, id, password=None, **extra_fields):
         super().edit(email, id, password, **extra_fields)
