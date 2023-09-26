@@ -4,7 +4,7 @@ const stateSpan = document.getElementById("id-state")
 const sinopsysSpan = document.getElementById("id-sinopsys")
 const dateSpan = document.getElementById("id-date")
 const zoneSpan = document.getElementById("id-zone")
-
+const moreInformationContainer = document.getElementById("information-container")
 const modalVerResultadosBusqueda = document.getElementById("modalVerResultadosBusqueda")
 
 modalVerResultadosBusqueda.addEventListener('show.bs.modal', event => {
@@ -19,6 +19,10 @@ modalVerResultadosBusqueda.addEventListener('show.bs.modal', event => {
             .then(data => {
                 if (data) {
                     sinopsysSpan.innerHTML = data.sinopsys
+                    moreInformationContainer.innerHTML = ""
+                    moreInformation(data, moreInformationContainer)
+                    
+
                 }
             });
     }, 1)
@@ -37,5 +41,33 @@ async function getSinopsys() {
         return jsonData
     } catch (error) {
         console.error('Error:', error);
+    }
+}
+
+function moreInformation(data, container) {
+    for (let i = 0; i < data.urlAttach.length; i++) {
+        url = data.urlAttach[i].urlAttach
+        sinopsys = data.urlAttach[i].sinopsys
+        container.innerHTML += `
+        <tr>
+            <th scope="row" class="titulo-ver-mas">
+                <i class="bi bi-link-45deg me-3"></i>
+                URL
+            </th>
+            <td>
+                <a href="${url}" target="_blank">${url}</a>
+            </td>
+        </tr>
+            
+        <tr>
+            <th scope="row">
+                <i class="bi bi-book me-3"></i>
+                    Sinopsis
+            </th>
+            <td>
+                <p>${sinopsys}</p>
+            </td>
+            </tr>
+        `
     }
 }
