@@ -1,0 +1,72 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Reporte</title>
+        <style type="text/css">
+            @page {
+                size: a4 portrait;
+                @frame header_frame {           
+                    -pdf-frame-content: header_content;
+                    left: 50pt; width: 512pt; top: 10pt; height: 80pt;
+                }
+                @frame content_frame {          
+                    left: 50pt; width: 512pt; top: 90pt; height: 632pt;
+                }
+                @frame footer_frame {           
+                    -pdf-frame-content: footer_content;
+                    left: 50pt; width: 512pt; top: 765pt; height: 45pt;
+                }
+            }
+            body{
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                font-size: 14px;
+            }
+        </style>
+    </head>
+    <body>
+        <div style="text-align: center" id="header_content">
+            <img
+                src="https://pbs.twimg.com/profile_banners/1554748099/1496770096/1500x500"
+                alt="Logo Global Nexus DC"
+                width="300"
+                height="100"
+                style="margin: auto"
+            />
+        </div>
+        
+        <div id="footer_content" style="color: #2a4995; text-align: center; margin: 0;">
+            <p style="margin: 0; padding: 0;"> Page <pdf:pagenumber> </p>
+            <hr style="margin: 0; padding: 0;">
+            <p style="margin: 0.8em;"> 
+                &nbsp; &nbsp; &nbsp; &nbsp; WASHINGTON, DC &nbsp; &nbsp; &nbsp; | &nbsp; &nbsp; &nbsp; MEXICO CITY &nbsp; &nbsp; &nbsp; | &nbsp; &nbsp; &nbsp; GLOBALNEXUSDC.COM
+            </p>
+        </div>
+
+        {% for document in data %}
+            <div>
+                <div style="background-color: #1f497d; text-align: center; color: #ffffff; padding-top: 0.8em;">
+                    <b> {{ document.ubicacion}} </b>
+                </div>
+                <div style="margin-top: 0.6em; text-align: justify;">
+                    <b>DOCUMENTO:</b>
+                    <p style="margin: 0;">{{ document.documento }}</p>
+                </div>
+                <div style="margin-top: 0.6em; text-align: justify;">
+                    <b>FECHA:</b>
+                    <p style="margin: 0;">{{ document.fecha }}</p>
+                </div>
+                <div style="margin-top: 0.6em; text-align: justify;">
+                    <b>KEYWORD:</b>
+                    <p style="margin: 0;">{{ document.keyword }}</p>
+                </div>
+                <div style="margin-top: 0.6em; text-align: justify;">
+                    <b>SINOPSIS:</b>
+                    <p style="margin: 0;"> {{ document.sinopsis }}</p>
+                </div>
+            </div>
+        {% endfor %}
+    </body>
+</html>
