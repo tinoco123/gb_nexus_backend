@@ -1,4 +1,5 @@
 import datetime
+import json
 import os
 from django.http import Http404, HttpResponseNotAllowed, JsonResponse, HttpResponseBadRequest, HttpResponseServerError
 from django.shortcuts import get_object_or_404, render
@@ -111,45 +112,60 @@ def get_search_result_by_id(request, id):
             return HttpResponseServerError("El servidor fallo en la ejecución de la operación")
 
 
+@login_required
 def generate_pdf(request):
+    if request.method != "POST":
+        return HttpResponseNotAllowed(permitted_methods=("POST"))
 
-    context = {
-        "data": [
+    else:
 
-            {
-                "ubicacion": "CONGRESO DEL ESTADO DE VERACRUZ",
-                "documento": "INICIATIVA QUE REFORMA LA LEY DE MITIGACIÓN Y ADAPTACIÓN ANTE LOS EFECTOS DEL CAMBIO CLIMÁTICO PARA EL ESTADO",
-                "fecha": "23 de septiembre del 2023",
-                "keyword": "Medio ambiente",
-                "sinopsis": "-"
-            },
-            {
-                "ubicacion": "ESTADO DE BAJA CALIFORNIA NORTE",
-                "documento": "Propone el Diputado Enrique Ríos modernizar las haciendas públicas en BCS",
-                "fecha": "15/06/2023",
-                "keyword": "FORTALECIMIENTO HACENDARIO",
-                "sinopsis": "-"
-            },
-            {
-                "ubicacion": "ESTADO DE BAJA CALIFORNIA NORTE",
-                "documento": "Urge Diputada María Luisa Ojeda a Estado y SEP a garantizar cobertura completa de educación preescolar en BCS",
-                "fecha": "04/07/2023",
-                "keyword": "SEP",
-                "sinopsis": "-"
-            },
-            
-        ]
-    }
+        try:
+            print("si llego")
+            data = json.loads(request.body.decode('utf-8'))
+            print(data)
+            selected_ids = data.get('selectedIds', [])
+            print(selected_ids)
 
-    response = renderers.render_to_pdf("pdf/report.html", context)
-    if response.status_code == 404:
-        raise Http404("Resultados de búsqueda no encontrados")
+            context = {
+                "data": [
 
-    filename = f"Reporte-{datetime.date.today()}.pdf"
+                    {
+                        "ubicacion": "CONGRESO DEL ESTADO DE VERACRUZ",
+                        "documento": "INICIATIVA QUE REFORMA LA LEY DE MITIGACIÓN Y ADAPTACIÓN ANTE LOS EFECTOS DEL CAMBIO CLIMÁTICO PARA EL ESTADO",
+                        "fecha": "23 de septiembre del 2023",
+                        "keyword": "Medio ambiente",
+                        "sinopsis": "-"
+                    },
+                    {
+                        "ubicacion": "ESTADO DE BAJA CALIFORNIA NORTE",
+                        "documento": "Propone el Diputado Enrique Ríos modernizar las haciendas públicas en BCS",
+                        "fecha": "15/06/2023",
+                        "keyword": "FORTALECIMIENTO HACENDARIO",
+                        "sinopsis": "-"
+                    },
+                    {
+                        "ubicacion": "ESTADO DE BAJA CALIFORNIA NORTE",
+                        "documento": "Urge Diputada María Luisa Ojeda a Estado y SEP a garantizar cobertura completa de educación preescolar en BCS",
+                        "fecha": "04/07/2023",
+                        "keyword": "SEP",
+                        "sinopsis": "-"
+                    },
 
-    content = f"inline; filename={filename}"
-    download = request.GET.get("download")
-    if download:
-        content = f"attachment; filename={filename}"
-    response["Content-Disposition"] = content
-    return response
+                ]
+            }
+
+            response = renderers.render_to_pdf("pdf/report.html", context)
+            if response.status_code == 404:
+                raise Http404("Resultados de búsqueda no encontrados")
+
+            filename = f"Reporte-{datetime.date.today()}.pdf"
+
+            content = f"inline; filename={filename}"
+            download = request.GET.get("download")
+            if download:
+                content = f"attachment; filename={filename}"
+            response["Content-Disposition"] = content
+            return response
+
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'No se pudieron obtener los IDs seleccionados'}, status=400)
