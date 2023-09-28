@@ -22,8 +22,8 @@ class Federal(models.Model):
 class Keyword(models.Model):
 
     title = models.CharField(blank=False, null=False, max_length=60)
-    start_date = models.DateField(blank=True, null=True)
-    end_date = models.DateField(blank=True, null=True)
+    start_date = models.DateTimeField(blank=True, null=True)
+    end_date = models.DateTimeField(blank=True, null=True)
     congreso_search = models.ManyToManyField(States, blank=True)
     estatal_search = models.ManyToManyField(
         States, related_name="estatal_search", blank=True)
@@ -108,8 +108,8 @@ class Keyword(models.Model):
             subquery = {
 
                 "date": {
-                    "$gte": self.start_date.strftime("%d-%m-%Y"),
-                    "$lte": self.end_date.strftime("%d-%m-%Y")
+                    "$gte": self.start_date,
+                    "$lte": self.end_date
                 }
 
             }
@@ -118,14 +118,14 @@ class Keyword(models.Model):
             subquery = {
 
                 "date": {
-                    "$gte": self.start_date.strftime("%d-%m-%Y")
+                    "$gte": self.start_date
                 }
 
             }
         if self.end_date and not self.start_date:
             subquery = {
                 "date": {
-                    "$lte": self.end_date.strftime("%d-%m-%Y")
+                    "$lte": self.end_date
                 },
             }
         return subquery
