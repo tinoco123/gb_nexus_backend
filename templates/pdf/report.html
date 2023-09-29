@@ -48,15 +48,15 @@
         {% for document in data %}
             <div>
                 <div style="background-color: #1f497d; text-align: center; color: #ffffff; padding-top: 0.8em;">
-                    <b> {{ document.ubicacion}} </b>
+                    <b> {{ document.federalEstatal}}: {{ document.state }}</b>
                 </div>
                 <div style="margin-top: 0.6em; text-align: justify;">
                     <b>DOCUMENTO:</b>
-                    <p style="margin: 0;">{{ document.documento }}</p>
+                    <p style="margin: 0;">{{ document.title }}</p>
                 </div>
                 <div style="margin-top: 0.6em; text-align: justify;">
                     <b>FECHA:</b>
-                    <p style="margin: 0;">{{ document.fecha }}</p>
+                    <p style="margin: 0;">{{ document.date }}</p>
                 </div>
                 <div style="margin-top: 0.6em; text-align: justify;">
                     <b>KEYWORD:</b>
@@ -64,7 +64,7 @@
                 </div>
                 <div style="margin-top: 0.6em; text-align: justify;">
                     <b>SINOPSIS:</b>
-                    <p style="margin: 0;"> {{ document.sinopsis }}</p>
+                    <p style="margin: 0;"> {{ document.sinopsys }}</p>
                 </div>
             </div>
         {% endfor %}
