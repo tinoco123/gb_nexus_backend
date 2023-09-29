@@ -12,7 +12,8 @@ class SearchResultRepository:
             {"_id": id}, {"sinopsys": 1, "urlAttach": 1})
         return search_result
 
-    def get_url_attach_by_id(self, id):
+    def get_document_for_pdf(self, id):
         id = ObjectId(id)
-        urlAttach = self.collection.find_one({"_id": id}, {"urlAttach": 1})
-        return urlAttach
+        search_result = self.collection.find_one(
+            {"_id": id}, {"_id": 0, "urlPage": 0, "urlAttach": 0, "collectionName": 0})
+        return search_result

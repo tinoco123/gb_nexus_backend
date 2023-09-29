@@ -116,56 +116,65 @@ def get_search_result_by_id(request, id):
 def generate_pdf(request):
     if request.method != "POST":
         return HttpResponseNotAllowed(permitted_methods=("POST"))
-
     else:
-
         try:
-            print("si llego")
             data = json.loads(request.body.decode('utf-8'))
-            print(data)
             selected_ids = data.get('selectedIds', [])
-            print(selected_ids)
+            keyword = data.get("keyword", [])
 
-            context = {
-                "data": [
+            response_validated_date = validate_data_to_generate_pdf(
+                selected_ids, keyword)
+            context = get_context_data_pdf(selected_ids, keyword)
 
-                    {
-                        "ubicacion": "CONGRESO DEL ESTADO DE VERACRUZ",
-                        "documento": "INICIATIVA QUE REFORMA LA LEY DE MITIGACIÓN Y ADAPTACIÓN ANTE LOS EFECTOS DEL CAMBIO CLIMÁTICO PARA EL ESTADO",
-                        "fecha": "23 de septiembre del 2023",
-                        "keyword": "Medio ambiente",
-                        "sinopsis": "-"
-                    },
-                    {
-                        "ubicacion": "ESTADO DE BAJA CALIFORNIA NORTE",
-                        "documento": "Propone el Diputado Enrique Ríos modernizar las haciendas públicas en BCS",
-                        "fecha": "15/06/2023",
-                        "keyword": "FORTALECIMIENTO HACENDARIO",
-                        "sinopsis": "-"
-                    },
-                    {
-                        "ubicacion": "ESTADO DE BAJA CALIFORNIA NORTE",
-                        "documento": "Urge Diputada María Luisa Ojeda a Estado y SEP a garantizar cobertura completa de educación preescolar en BCS",
-                        "fecha": "04/07/2023",
-                        "keyword": "SEP",
-                        "sinopsis": "-"
-                    },
+            if response_validated_date:
+                return response_validated_date
+            else:
+                response = renderers.render_to_pdf("pdf/report.html", context)
+                if response.status_code == 404:
+                    raise Http404("Resultados de búsqueda no encontrados")
 
-                ]
-            }
+                filename = f"Reporte-{datetime.date.today()}.pdf"
+                content = f"inline; filename={filename}"
+                download = request.GET.get("download")
+                if download:
+                    content = f"attachment; filename={filename}"
+                response["Content-Disposition"] = content
 
-            response = renderers.render_to_pdf("pdf/report.html", context)
-            if response.status_code == 404:
-                raise Http404("Resultados de búsqueda no encontrados")
-
-            filename = f"Reporte-{datetime.date.today()}.pdf"
-
-            content = f"inline; filename={filename}"
-            download = request.GET.get("download")
-            if download:
-                content = f"attachment; filename={filename}"
-            response["Content-Disposition"] = content
-            return response
+                return response
 
         except json.JSONDecodeError:
             return JsonResponse({'error': 'No se pudieron obtener los IDs seleccionados'}, status=400)
+        except InvalidId:
+            return HttpResponseBadRequest("El id que solicitaste tiene un formato erroneo")
+        except ServerSelectionTimeoutError:
+            return HttpResponseServerError("El servidor tardo en retornar una respuesta")
+        except ConnectionFailure:
+            return HttpResponseServerError("Error en la conexión a la base de datos")
+        except OperationFailure:
+            return HttpResponseServerError("El servidor fallo en la ejecución de la operación")
+
+
+def validate_data_to_generate_pdf(selected_ids: list, keyword: str):
+    if len(selected_ids) <= 0:
+        return JsonResponse({"error": "No seleccionaste ningún documento"}, status=400)
+    if len(selected_ids) > 10:
+        return JsonResponse({"error": "La cantidad máxima de documentos a exportar es 10"}, status=400)
+    if not keyword:
+        return JsonResponse({"error": "Se necesita el parametro de keyword"}, status=400)
+
+
+def get_context_data_pdf(selected_ids: list, keyword: str):
+    mongo_client = MongoConnection(str(os.getenv("MONGODB_DATABASE")), str(
+        os.getenv("MONGODB_COLLECTION")))
+
+    search_result_repo = SearchResultRepository(mongo_client)
+
+    documents_data = []
+    context = {"data": documents_data}
+    keyword = Keyword.objects.get(pk=int(keyword)).title
+    for id in selected_ids:
+        document = search_result_repo.get_document_for_pdf(id)
+        document["keyword"] = keyword
+        documents_data.append(document)
+
+    return context
