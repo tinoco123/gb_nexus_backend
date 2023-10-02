@@ -15,16 +15,16 @@
     >
         <div class="btn-group mx-0 mx-lg-2 p-0 p-lg-2" role="group" aria-label="Seleccionar keywords">
             {% if user.user_type == "ADMINISTRADOR" %}
-                <input type="radio" class="btn-check" name="radioKeywords" id="administrador-keywords" autocomplete="off" checked>
-                <label class="btn btn-outline-primary" for="administrador-keywords">Mis keywords</label>
+                <input type="radio" class="btn-check" name="radioKeywords" id="my-keywords" autocomplete="off" checked>
+                <label class="btn btn-outline-primary" for="my-keywords">Mis keywords</label>
                 <input type="radio" class="btn-check" name="radioKeywords" id="usuario-keywords" autocomplete="off">
                 <label class="btn btn-outline-primary" for="usuario-keywords">Usuarios</label>
                 <input type="radio" class="btn-check" name="radioKeywords" id="cliente-keywords" autocomplete="off">
                 <label class="btn btn-outline-primary" for="cliente-keywords">Clientes</label>
             {% endif %}
             {% if user.user_type == "USUARIO" %}
-                <input type="radio" class="btn-check" name="radioKeywords" id="usuario-keywords" autocomplete="off" checked>
-                <label class="btn btn-outline-primary" for="usuario-keywords">Mis keywords</label>
+                <input type="radio" class="btn-check" name="radioKeywords" id="my-keywords" autocomplete="off" checked>
+                <label class="btn btn-outline-primary" for="my-keywords">Mis keywords</label>
                 <input type="radio" class="btn-check" name="radioKeywords" id="cliente-keywords" autocomplete="off">
                 <label class="btn btn-outline-primary" for="cliente-keywords">Clientes</label>
             {% endif %}
@@ -59,6 +59,7 @@
 {% endblock modales %}
 
 {% block js-files%}
+    <script type="text/javascript" src="{% static 'keywords_app/js/getKeywordsByUserType.js' %}"></script>
     <script type="text/javascript" src="{% static 'keywords_app/js/keywordsTable.js' %}"></script>
     <script type="text/javascript" src="{% static 'keywords_app/js/createKeyword.js' %}"></script>
     <script type="text/javascript" src="{% static 'keywords_app/js/editKeyword.js' %}"></script>

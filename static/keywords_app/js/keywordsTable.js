@@ -8,6 +8,9 @@ var table = new Tabulator("#keywordsTable", {
     pagination: true,
     paginationMode: "remote",
     ajaxURL: "/keywords/data/",
+    ajaxURLGenerator: function (url, config, params) {
+        return url + "?page=" + params.page + "&size=" + params.size + "&keyword_type=" + getRadioSelected()
+    },
     paginationSize: 10,
     paginationSizeSelector: [10, 20, 30, 40, 50],
     paginationCounter: "rows",
