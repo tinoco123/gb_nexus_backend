@@ -121,14 +121,12 @@ def generate_pdf(request):
             data = json.loads(request.body.decode('utf-8'))
             selected_ids = data.get('selectedIds', [])
             keyword = data.get("keyword", [])
-
             response_validated_date = validate_data_to_generate_pdf(
                 selected_ids, keyword)
-            context = get_context_data_pdf(selected_ids, keyword)
-
             if response_validated_date:
                 return response_validated_date
             else:
+                context = get_context_data_pdf(selected_ids, keyword)
                 response = renderers.render_to_pdf("pdf/report.html", context)
                 if response.status_code == 404:
                     raise Http404("Resultados de búsqueda no encontrados")
