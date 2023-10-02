@@ -56,6 +56,38 @@ def set_search_terms_to_keyword(keyword_form: KeywordForm, keyword: Keyword):
     SearchTerms.objects.bulk_create(search_terms)
 
 
+def keyword_query_for_administrador(keyword_type: str, user: UserBaseAccount):
+    if keyword_type == "my-keywords":
+        keywords_queryset = Keyword.objects.filter(user=user).values(
+            "id", "title", "date_created").order_by("id")
+    elif keyword_type == "usuario-keywords":
+        keywords_queryset = Keyword.objects.filter(user__user_type="USUARIO").values(
+            "id", "title", "date_created").order_by("id")
+    elif keyword_type == "cliente-keywords":
+        keywords_queryset = Keyword.objects.filter(user__user_type="CLIENTE").values(
+            "id", "title", "date_created").order_by("id")
+
+    return keywords_queryset
+
+
+def keyword_query_for_usuario(keyword_type: str, user: UserBaseAccount):
+    if keyword_type == "my-keywords":
+        keywords_queryset = Keyword.objects.filter(user=user).values(
+            "id", "title", "date_created").order_by("id")
+    elif keyword_type == "cliente-keywords":
+        keywords_queryset = Keyword.objects.filter(user__created_by=user.id).values(
+            "id", "title", "date_created").order_by("id")
+
+    return keywords_queryset
+
+
+def keyword_query_for_cliente(keyword_type: str, user: UserBaseAccount):
+    keywords_queryset = Keyword.objects.filter(user=user).values(
+        "id", "title", "date_created").order_by("id")
+
+    return keywords_queryset
+
+
 @login_required
 @permission_required("keywords_app.view_keyword", raise_exception=True)
 def paginate_keywords(request):
@@ -65,20 +97,21 @@ def paginate_keywords(request):
         try:
             page_number = int(request.GET.get("page"))
             page_size = int(request.GET.get("size"))
+            keyword_type = request.GET.get("keyword_type")
             user = get_object_or_404(UserBaseAccount, pk=request.user.id)
-            if request.user.user_type == "ADMINISTRADOR":
-                keywords_queryset = Keyword.objects.all().values(
-                    "id", "title", "date_created", "user").order_by("id")
-            else:
-                keywords_queryset = Keyword.objects.filter(user=user).values(
-                    "id", "title", "date_created").order_by("id")
-                clients = UserBaseAccount.objects.filter(created_by=request.user.id)
-                for client in clients:
-                    client_keywords_queryset = Keyword.objects.filter(user=client)
-                    keywords_queryset.union(client_keywords_queryset)
 
             if page_size not in (10, 20, 30, 40, 50):
                 return JsonResponse({"error": "El tamaño de los resultados de búsqueda debe tener alguno de los siguientes valores: 10, 20, 30, 40, 50"}, status=400)
+
+            if request.user.user_type == "ADMINISTRADOR":
+                keywords_queryset = keyword_query_for_administrador(
+                    keyword_type, user)
+            elif request.user.user_type == "USUARIO":
+                keywords_queryset = keyword_query_for_usuario(
+                    keyword_type, user)
+            elif request.user.user_type == "CLIENTE":
+                keywords_queryset = keyword_query_for_cliente(
+                    keyword_type, user)
 
             paginator = Paginator(keywords_queryset, page_size)
 
@@ -135,7 +168,7 @@ def edit_keyword(request, keyword_id):
                 edit_keyword_form.cleaned_data["estatal_search"])
             keyword.federal_search.set(
                 edit_keyword_form.cleaned_data["federal_search"])
-            
+
             set_search_terms(edit_keyword_form, keyword)
 
             return JsonResponse({"success": True, "status_text": "Keyword editado correctamente"}, status=200)
