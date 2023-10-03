@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404, render
 from django.core.paginator import Paginator, EmptyPage
 from keywords_app.models import Keyword, SearchTerms
 from .forms import KeywordForm, EditKeywordForm
-from tipos_usuarios.models import UserBaseAccount
+from tipos_usuarios.models import UserBaseAccount, Cliente
 from django.contrib.auth.decorators import login_required, permission_required
 
 
@@ -211,3 +211,29 @@ def delete_keyword(request, keyword_id):
         else:
             keyword.delete()
             return JsonResponse({"success": True, "status_text": "Keyword editada correctamente"}, status=200)
+
+
+@login_required
+@permission_required("keywords_app.view_searchterms", raise_exception=True)
+def get_search_terms(request, keyword_id):
+    if request.method != "GET":
+        return HttpResponseNotAllowed(permitted_methods=("GET"))
+    else:
+        keyword = get_object_or_404(Keyword, id=keyword_id)
+        if request.user.user_type == "ADMINISTRADOR":
+            search_terms = list(
+                keyword.searchterms_set.all().values("name", "is_required"))
+        elif request.user.user_type == "USUARIO":
+            ids_clientes = list(Cliente.objects.filter(
+                created_by=request.user.id).values_list("id", flat=True))
+            if keyword.user.id == request.user.id or keyword.user.id in ids_clientes:
+                search_terms = list(
+                    keyword.searchterms_set.all().values("name", "is_required"))
+            else:
+                return JsonResponse({"error": "No tienes la autorización para obtener la información solicitada"}, status=403)
+        elif request.user.user_type == "CLIENTE" and keyword.user.id == request.user.id:
+            search_terms = list(
+                keyword.searchterms_set.all().values("name", "is_required"))
+        else:
+            return JsonResponse({"error": "No tienes la autorización para obtener la información solicitada"}, status=403)
+        return JsonResponse({"data": search_terms, "keyword": keyword.title}, status=200)
