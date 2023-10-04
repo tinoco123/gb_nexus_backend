@@ -1,10 +1,16 @@
-from django.http import HttpResponseBadRequest, HttpResponseForbidden, HttpResponseNotAllowed, JsonResponse
+import os
+from django.http import HttpResponseBadRequest, HttpResponseNotAllowed, JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.core.paginator import Paginator, EmptyPage
 from keywords_app.models import Keyword, SearchTerms
+from mongo_connection.connection import MongoConnection
+from mongo_connection.search_result_repository import SearchResultRepository
 from .forms import KeywordForm, EditKeywordForm
 from tipos_usuarios.models import UserBaseAccount, Cliente
 from django.contrib.auth.decorators import login_required, permission_required
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 @login_required
@@ -236,4 +242,16 @@ def get_search_terms(request, keyword_id):
                 keyword.searchterms_set.all().values("name", "is_required"))
         else:
             return JsonResponse({"error": "No tienes la autorización para obtener la información solicitada"}, status=403)
-        return JsonResponse({"data": search_terms, "keyword": keyword.title}, status=200)
+        count = count_keyword_results(keyword)
+        return JsonResponse({"data": search_terms, "keyword": keyword.title, "count": count}, status=200)
+
+
+def count_keyword_results(keyword: Keyword) -> int:
+    mongo_client = MongoConnection(str(os.getenv("MONGODB_DATABASE")), str(
+        os.getenv("MONGODB_COLLECTION")))
+
+    search_result_repo = SearchResultRepository(mongo_client)
+
+    query = keyword.query()
+    result = search_result_repo.count_results(query)
+    return result

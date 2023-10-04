@@ -16,28 +16,17 @@
                     />
                     <span class="ms-2" id="keyword-title"></span>
                 </h1>
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                ></button>
             </div>
-            <div class="modal-body" id="modal-body">
-                <p>
-                    <strong>Término de búsqueda 1:</strong>
-                    <span>Medio ambiente</span>
-                </p>
-                <p>
-                    <strong>Término de búsqueda 2:</strong>
-                    <span>Medio ambiente</span>
-                </p>
-                <p>
-                    <strong>Término de búsqueda 3:</strong>
-                    <span>Medio ambiente</span>
-                </p>
-                <p>
-                    <strong>Término de búsqueda 4:</strong>
-                    <span>Medio ambiente</span>
-                </p>
-                <p>
-                    <strong>Término de búsqueda 5:</strong>
-                    <span>Medio ambiente</span>
-                </p>
+            <div class="modal-body">
+                <div id="searchterms-container"></div>
+                <strong>Resultados encontrados: </strong>
+                <span id="count"></span>
             </div>
             <div class="modal-footer">
                 <button

@@ -17,3 +17,7 @@ class SearchResultRepository:
         search_result = self.collection.find_one(
             {"_id": id}, {"_id": 0, "urlPage": 0, "urlAttach": 0, "collectionName": 0})
         return search_result
+
+    def count_results(self, query: dict):
+        results = self.collection.count_documents(query)
+        return results

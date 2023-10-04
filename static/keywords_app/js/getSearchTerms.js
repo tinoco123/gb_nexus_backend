@@ -11,9 +11,11 @@ function getSearchTerms(keyword_id) {
             response.json()
                 .then(data => {
                     if (response.ok) {
-                        var container = document.getElementById("modal-body")
+                        var container = document.getElementById("searchterms-container")
                         var keywordTitle  = document.getElementById("keyword-title")
+                        var countSpan = document.getElementById("count")
                         keywordTitle.innerHTML = "Keyword: " + data.keyword
+                        countSpan.innerHTML = data.count
                         container.innerHTML = ""
                         setSearchtTerms(data.data, container)
                     }
