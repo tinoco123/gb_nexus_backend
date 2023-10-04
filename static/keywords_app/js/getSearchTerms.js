@@ -38,7 +38,7 @@ function setSearchtTerms(data, container) {
         var is_required = data[i].is_required == true ? "Verdadero" : "Falso"
         container.innerHTML += `
           <p>
-            <strong>Término de búsqueda ${i+1}: </strong>
+            <strong>${i+1}: </strong>
             ${name}  |
             <strong> Es obligatorio: </strong>
             ${is_required}

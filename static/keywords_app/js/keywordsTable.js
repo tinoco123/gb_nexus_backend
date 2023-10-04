@@ -30,7 +30,7 @@ var table = new Tabulator("#keywordsTable", {
         { title: "ID", field: "id", sorter: "number" },
         { title: "Título", field: "title" },
         { title: "Fecha de creación", field: "date_created" },
-        { title: "Términos de búsqueda:", formatter: viewSearchTerms, hozAlign: "center", headerHozAlign: "center", headerSort: false },
+        { title: "SubKeywords:", formatter: viewSearchTerms, hozAlign: "center", headerHozAlign: "center", headerSort: false },
         { title: "Acciones", formatter: actionIcons, hozAlign: "center", headerHozAlign: "center", headerSort: false, width: 102, frozen: true },
     ],
 });
