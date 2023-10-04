@@ -255,3 +255,31 @@ def count_keyword_results(keyword: Keyword) -> int:
     query = keyword.query()
     result = search_result_repo.count_results(query)
     return result
+
+
+@login_required
+def get_user_information(request, keyword_id: int):
+    if request.method != "GET":
+        return HttpResponseNotAllowed(permitted_methods=("GET"))
+    else:
+
+        keyword = get_object_or_404(Keyword, id=keyword_id)
+        user = keyword.user
+        keyword_user_id = user.id
+        if request.user.user_type == "ADMINISTRADOR":
+            user_data = user.to_json()
+        elif request.user.user_type == "USUARIO":
+            if request.user.id == keyword_user_id:
+                user_data = user.to_json()
+            else:
+                ids_clientes = list(Cliente.objects.filter(
+                    created_by=request.user.id).values_list("id", flat=True))
+                if keyword_user_id not in ids_clientes:
+                    return JsonResponse({"error": "No tienes la autorización para obtener la información solicitada"}, status=403)
+                else:
+                    user_data = user.to_json()
+        elif request.user.user_type == "CLIENTE" and keyword_user_id == request.user.id:
+            user_data = user.to_json()
+        else:
+            return JsonResponse({"error": "No tienes la autorización para obtener la información solicitada"}, status=403)
+        return JsonResponse(user_data, status=200)

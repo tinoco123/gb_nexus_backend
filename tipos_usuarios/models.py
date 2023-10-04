@@ -21,6 +21,17 @@ class UserBaseAccount(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return str(self.email)
+    
+    def to_json(self):
+        user_as_json = {
+            "first_name": self.first_name,
+            "last_name": self.last_name,
+            "email": self.email,
+            "company": self.company,
+            "last_login": self.last_login,
+        }
+        return user_as_json
+        
 
 
 class Administrador(UserBaseAccount):
