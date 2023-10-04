@@ -8,6 +8,11 @@ var viewSearchTerms = function (cell, formatterParams) {
     return searchTermButton;
 };
 
+var viewUserInformation = function (cell, formatterParams) {
+    var searchTermButton = "<button class='btn px-1 py-0' data-bs-toggle='modal' data-bs-target='#user-information-modal'><i class='bi bi-person-lines-fill fs-5'></i></button>"
+    return searchTermButton;
+};
+
 var table = new Tabulator("#keywordsTable", {
     layout: "fitDataFill",
     pagination: true,
@@ -31,6 +36,7 @@ var table = new Tabulator("#keywordsTable", {
         { title: "Título", field: "title" },
         { title: "Fecha de creación", field: "date_created" },
         { title: "SubKeywords:", formatter: viewSearchTerms, hozAlign: "center", headerHozAlign: "center", headerSort: false },
+        { title: "Autor:", formatter: viewUserInformation, hozAlign: "center", headerHozAlign: "center", headerSort: false },
         { title: "Acciones", formatter: actionIcons, hozAlign: "center", headerHozAlign: "center", headerSort: false, width: 102, frozen: true },
     ],
 });

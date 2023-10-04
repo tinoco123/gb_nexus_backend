@@ -1,0 +1,53 @@
+{% load static %}
+<div
+    class="modal fade"
+    id="user-information-modal"
+    tabindex="-1"
+    aria-labelledby="Información del creador de una keyword"
+    aria-hidden="true"
+>
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5">Acerca del usuario</h1>
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                ></button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    <strong>Nombre: </strong>
+                    <span id="nombre"></span>
+                </p>
+                <p>
+                    <strong>Apellidos: </strong>
+                    <span id="apellidos"></span>
+                </p>
+                <p>
+                    <strong>Email: </strong>
+                    <span id="email"></span>
+                </p>
+                <p>
+                    <strong>Organización: </strong>
+                    <span id="apellidos"></span>
+                </p>
+                <p>
+                    <strong>Último acceso: </strong>
+                    <span id="last-login"></span>
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                >
+                    Cerrar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
