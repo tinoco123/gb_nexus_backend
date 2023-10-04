@@ -5,6 +5,7 @@ from django.http import HttpResponseBadRequest, JsonResponse, HttpResponseNotAll
 from .forms import UserForm, EditUserForm
 from tipos_usuarios.models import Usuario
 from datetime import date, datetime
+from .utils import DateJSONEnconder
 
 
 @login_required
@@ -29,7 +30,7 @@ def paginate_users(request):
             page_size = int(request.GET.get("size"))
 
             users_queryset = Usuario.objects.all().values("id", "first_name", "last_name",
-                                                          "email", "company", "date_joined").order_by("id")
+                                                          "email", "company", "date_joined", "last_login").order_by("id")
 
             if page_size > 50 or page_size < 10:
                 return HttpResponseBadRequest("El número de elementos a retornar es inválido. Debe ser mayor a mayor o igual que 10 y menor e igual que 50")
@@ -45,7 +46,7 @@ def paginate_users(request):
                 "data": list(selected_page.object_list)
             }
 
-            return JsonResponse(users_response)
+            return JsonResponse(users_response, encoder=DateJSONEnconder)
 
         except ValueError:
             return HttpResponseBadRequest("Los parámetros enviados son inválidos")
@@ -134,9 +135,3 @@ def delete_user(request, user_id):
         if user is not None:
             user.delete()
             return JsonResponse({"response": "El usuario fue eliminado correctamente"}, status=200)
-
-
-def date_serializer(obj):
-    if isinstance(obj, (datetime, date)):
-        return obj.isoformat()
-    raise TypeError("Type %s not serializable" % type(obj))

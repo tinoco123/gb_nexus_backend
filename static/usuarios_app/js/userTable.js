@@ -24,6 +24,7 @@ var table = new Tabulator("#userTable", {
         { title: "Apellidos", field: "last_name" },
         { title: "Mail", field: "email"},
         { title: "Empresa", field: "company" },
+        { title: "Último acceso", field: "last_login" },
         { title: "Fecha de registro", field: "date_joined"},
         { title: "Acciones", formatter: actionIcons, hozAlign: "center", headerHozAlign: "center", headerSort: false, width:102, frozen:true },
     ],

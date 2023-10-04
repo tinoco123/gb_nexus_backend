@@ -4,6 +4,7 @@ from django.http import HttpResponseNotAllowed, JsonResponse, HttpResponseBadReq
 from django.contrib.auth.decorators import login_required, permission_required
 from tipos_usuarios.models import Cliente
 from .forms import ClientForm, EditClientForm
+from usuarios_app.utils import DateJSONEnconder
 
 
 @login_required
@@ -28,10 +29,10 @@ def paginate_clients(request):
             page_size = int(request.GET.get("size"))
             if request.user.user_type == "ADMINISTRADOR":
                 clients_queryset = Cliente.objects.all().values("id", "first_name", "last_name",
-                                                                "email", "company", "date_joined").order_by("id")
+                                                                "email", "company", "last_login", "date_joined").order_by("id")
             else:
                 clients_queryset = Cliente.objects.filter(created_by=request.user.id).values(
-                    "id", "first_name", "last_name", "email", "company", "date_joined").order_by("id")
+                    "id", "first_name", "last_name", "email", "company", "last_login", "date_joined").order_by("id")
 
             if page_size > 50 or page_size < 10:
                 return HttpResponseBadRequest("El número de elementos a retornar es inválido. Debe ser mayor a mayor o igual que 10 y menor e igual que 50")
@@ -47,7 +48,7 @@ def paginate_clients(request):
                 "data": list(selected_page.object_list)
             }
 
-            return JsonResponse(clients_response)
+            return JsonResponse(clients_response, encoder=DateJSONEnconder)
 
         except ValueError:
             return HttpResponseBadRequest("Los parámetros enviados son inválidos")
