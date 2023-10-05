@@ -165,11 +165,8 @@ def get_keyword(request, keyword_id):
                     return JsonResponse({"error": "No tienes la autorización para obtener la información solicitada"}, status=403)
                 else:
                     keyword_data = keyword.to_json()
-        elif request_user_type == "CLIENTE":
-            if request_user == keyword_user_id:
-                keyword_data = keyword.to_json()
-            else:
-                return JsonResponse({"error": "No tienes la autorización para obtener la información solicitada"}, status=403)
+        elif request_user_type == "CLIENTE" and keyword_user_id == request_user:
+            keyword_data = keyword.to_json()
         else:
             return JsonResponse({"error": "No tienes la autorización para obtener la información solicitada"}, status=403)
         return JsonResponse(keyword_data, safe=False)
@@ -198,11 +195,8 @@ def edit_keyword(request, keyword_id):
                     return process_edit_keyword_form_and_edit(request, keyword)
                 else:
                     return JsonResponse({"error": "No tienes la autorización para editar esta keyword"}, status=403)
-        elif request_user_type == "CLIENTE":
-            if request_user == keyword_user_id:
-                return process_edit_keyword_form_and_edit(request, keyword)
-            else:
-                return JsonResponse({"error": "No tienes la autorización para editar esta keyword"}, status=403)
+        elif request_user_type == "CLIENTE" and keyword_user_id == request_user:
+            return process_edit_keyword_form_and_edit(request, keyword)
 
 
 def process_edit_keyword_form_and_edit(request, keyword):
@@ -272,12 +266,9 @@ def delete_keyword(request, keyword_id):
                     return JsonResponse({}, status=200)
                 else:
                     return JsonResponse({"error": "No tienes la autorización para eliminar esta keyword"}, status=403)
-        elif request_user_type == "CLIENTE":
-            if request_user == keyword_user_id:
-                keyword.delete()
-                return JsonResponse({}, status=200)
-            else:
-                return JsonResponse({"error": "No tienes la autorización para eliminar esta keyword"}, status=403)
+        elif request_user_type == "CLIENTE" and keyword_user_id == request_user:
+            keyword.delete()
+            return JsonResponse({}, status=200)
         else:
             return JsonResponse({"error": "No tienes la autorización para eliminar esta keyword"}, status=403)
 
@@ -289,22 +280,29 @@ def get_search_terms(request, keyword_id):
         return HttpResponseNotAllowed(permitted_methods=("GET"))
     else:
         keyword = get_object_or_404(Keyword, id=keyword_id)
-        if request.user.user_type == "ADMINISTRADOR":
+        keyword_user_id = keyword.user.id
+        request_user = request.user.id
+        request_user_type = request.user.user_type
+        if request_user_type == "ADMINISTRADOR":
             search_terms = list(
                 keyword.searchterms_set.all().values("name", "is_required"))
-        elif request.user.user_type == "USUARIO":
-            ids_clientes = list(Cliente.objects.filter(
-                created_by=request.user.id).values_list("id", flat=True))
-            if keyword.user.id == request.user.id or keyword.user.id in ids_clientes:
+        elif request_user_type == "USUARIO":
+            if request_user == keyword_user_id:
                 search_terms = list(
                     keyword.searchterms_set.all().values("name", "is_required"))
             else:
-                return JsonResponse({"error": "No tienes la autorización para obtener la información solicitada"}, status=403)
-        elif request.user.user_type == "CLIENTE" and keyword.user.id == request.user.id:
+                ids_clientes = list(Cliente.objects.filter(
+                    created_by=request_user).values_list("id", flat=True))
+                if keyword_user_id in ids_clientes:
+                    search_terms = list(
+                        keyword.searchterms_set.all().values("name", "is_required"))
+                else:
+                    return JsonResponse({"error": "No tienes la autorización para obtener estos términos de búsqueda"}, status=403)
+        elif request_user_type == "CLIENTE" and keyword_user_id == request_user:
             search_terms = list(
                 keyword.searchterms_set.all().values("name", "is_required"))
         else:
-            return JsonResponse({"error": "No tienes la autorización para obtener la información solicitada"}, status=403)
+            return JsonResponse({"error": "No tienes la autorización para obtener estos términos de búsqueda"}, status=403)
         count = count_keyword_results(keyword)
         return JsonResponse({"data": search_terms, "keyword": keyword.title, "count": count}, status=200)
 
@@ -328,20 +326,22 @@ def get_user_information(request, keyword_id: int):
 
         keyword = get_object_or_404(Keyword, id=keyword_id)
         user = keyword.user
-        keyword_user_id = user.id
-        if request.user.user_type == "ADMINISTRADOR":
+        keyword_user_id = keyword.user.id
+        request_user = request.user.id
+        request_user_type = request.user.user_type
+        if request_user_type == "ADMINISTRADOR":
             user_data = user.to_json()
-        elif request.user.user_type == "USUARIO":
-            if request.user.id == keyword_user_id:
+        elif request_user_type == "USUARIO":
+            if request_user == keyword_user_id:
                 user_data = user.to_json()
             else:
                 ids_clientes = list(Cliente.objects.filter(
-                    created_by=request.user.id).values_list("id", flat=True))
-                if keyword_user_id not in ids_clientes:
-                    return JsonResponse({"error": "No tienes la autorización para obtener la información solicitada"}, status=403)
-                else:
+                    created_by=request_user).values_list("id", flat=True))
+                if keyword_user_id in ids_clientes:
                     user_data = user.to_json()
-        elif request.user.user_type == "CLIENTE" and keyword_user_id == request.user.id:
+                else:
+                    return JsonResponse({"error": "No tienes la autorización para obtener la información de usuario"}, status=403)
+        elif request_user_type == "CLIENTE" and keyword_user_id == request_user:
             user_data = user.to_json()
         else:
             return JsonResponse({"error": "No tienes la autorización para obtener la información solicitada"}, status=403)
