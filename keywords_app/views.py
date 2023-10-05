@@ -182,24 +182,46 @@ def edit_keyword(request, keyword_id):
         return HttpResponseNotAllowed(permitted_methods=("POST"))
     else:
         keyword = get_object_or_404(Keyword, id=keyword_id)
-        if keyword.user.id != request.user.id and request.user.user_type != "ADMINISTRADOR":
-            return JsonResponse({'success': False, 'errors': "No puedes editar una keyword de otro usuario"}, status=403)
-        edit_keyword_form = EditKeywordForm(request.POST, instance=keyword)
-        if edit_keyword_form.is_valid():
-            keyword = edit_keyword_form.save()
-            keyword.congreso_search.set(
-                edit_keyword_form.cleaned_data["congreso_search"])
-            keyword.estatal_search.set(
-                edit_keyword_form.cleaned_data["estatal_search"])
-            keyword.federal_search.set(
-                edit_keyword_form.cleaned_data["federal_search"])
+        keyword_user_id = keyword.user.id
+        request_user = request.user.id
+        request_user_type = request.user.user_type
 
-            set_search_terms(edit_keyword_form, keyword)
+        if request_user_type == "ADMINISTRADOR":
+            return process_edit_keyword_form_and_edit(request, keyword)
+        elif request_user_type == "USUARIO":
+            if request_user == keyword_user_id:
+                return process_edit_keyword_form_and_edit(request, keyword)
+            else:
+                ids_clientes = list(Cliente.objects.filter(
+                    created_by=request_user).values_list("id", flat=True))
+                if keyword_user_id in ids_clientes:
+                    return process_edit_keyword_form_and_edit(request, keyword)
+                else:
+                    return JsonResponse({"error": "No tienes la autorización para editar esta keyword"}, status=403)
+        elif request_user_type == "CLIENTE":
+            if request_user == keyword_user_id:
+                return process_edit_keyword_form_and_edit(request, keyword)
+            else:
+                return JsonResponse({"error": "No tienes la autorización para editar esta keyword"}, status=403)
 
-            return JsonResponse({"success": True, "status_text": "Keyword editado correctamente"}, status=200)
-        else:
-            errors = edit_keyword_form.errors.as_json(escape_html=True)
-            return JsonResponse({'success': False, 'errors': errors}, status=400)
+
+def process_edit_keyword_form_and_edit(request, keyword):
+    edit_keyword_form = EditKeywordForm(request.POST, instance=keyword)
+    if edit_keyword_form.is_valid():
+        keyword = edit_keyword_form.save()
+        keyword.congreso_search.set(
+            edit_keyword_form.cleaned_data["congreso_search"])
+        keyword.estatal_search.set(
+            edit_keyword_form.cleaned_data["estatal_search"])
+        keyword.federal_search.set(
+            edit_keyword_form.cleaned_data["federal_search"])
+
+        set_search_terms(edit_keyword_form, keyword)
+
+        return JsonResponse({"success": True, "status_text": "Keyword editado correctamente"}, status=200)
+    else:
+        errors = edit_keyword_form.errors.as_json(escape_html=True)
+        return JsonResponse({'success': False, 'errors': errors}, status=400)
 
 
 def set_search_terms(edit_keyword_form: EditKeywordForm, keyword: Keyword):
@@ -231,11 +253,33 @@ def delete_keyword(request, keyword_id):
         return HttpResponseNotAllowed(permitted_methods=("DELETE"))
     else:
         keyword = get_object_or_404(Keyword, id=keyword_id)
-        if keyword.user.id != request.user.id and request.user.user_type != "ADMINISTRADOR":
-            return JsonResponse({'success': False, 'errors': "No puedes eliminar una keyword de otro usuario"}, status=403)
-        else:
+        keyword_user_id = keyword.user.id
+        request_user = request.user.id
+        request_user_type = request.user.user_type
+
+        if request_user_type == "ADMINISTRADOR":
             keyword.delete()
-            return JsonResponse({"success": True, "status_text": "Keyword editada correctamente"}, status=200)
+            return JsonResponse({}, status=200)
+        elif request_user_type == "USUARIO":
+            if request_user == keyword_user_id:
+                keyword.delete()
+                return JsonResponse({}, status=200)
+            else:
+                ids_clientes = list(Cliente.objects.filter(
+                    created_by=request_user).values_list("id", flat=True))
+                if keyword_user_id in ids_clientes:
+                    keyword.delete()
+                    return JsonResponse({}, status=200)
+                else:
+                    return JsonResponse({"error": "No tienes la autorización para eliminar esta keyword"}, status=403)
+        elif request_user_type == "CLIENTE":
+            if request_user == keyword_user_id:
+                keyword.delete()
+                return JsonResponse({}, status=200)
+            else:
+                return JsonResponse({"error": "No tienes la autorización para eliminar esta keyword"}, status=403)
+        else:
+            return JsonResponse({"error": "No tienes la autorización para eliminar esta keyword"}, status=403)
 
 
 @login_required
