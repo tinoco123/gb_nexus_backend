@@ -26,9 +26,14 @@ generatePDFButton.addEventListener("click", () => {
             }
         })
         .then(pdf => {
-            const pdfURL = URL.createObjectURL(pdf);
-            window.open(pdfURL, '_blank');
+            const pdfURL = URL.createObjectURL(pdf)
+            const a = document.createElement('a')
+            a.download = "Reporte.pdf"
+            a.href = pdfURL
+            a.target = '_self'
+            a.click()
             URL.revokeObjectURL(pdfURL)
+            a.remove()
         })
         .catch(error => {
             console.error(error);

@@ -131,13 +131,6 @@ def generate_pdf(request):
                 if response.status_code == 404:
                     raise Http404("Resultados de búsqueda no encontrados")
 
-                filename = f"Reporte-{datetime.date.today()}.pdf"
-                content = f"inline; filename={filename}"
-                download = request.GET.get("download")
-                if download:
-                    content = f"attachment; filename={filename}"
-                response["Content-Disposition"] = content
-
                 return response
 
         except json.JSONDecodeError:
