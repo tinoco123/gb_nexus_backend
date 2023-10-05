@@ -16,10 +16,19 @@ function fillFormWithData(data, form) {
             continue
         }
 
-        if (field.getAttribute("type") === 'text' || field.tagName === "TEXTAREA" || field.getAttribute("type") === "date" || field.getAttribute("type") === 'email') {
+        if (field.getAttribute("type") === 'text' || field.tagName === "TEXTAREA" || field.getAttribute("type") === 'email') {
             if (field.id) {
                 fieldName = field.getAttribute("name")
                 field.value = data[fieldName]
+            }
+        }
+        if (field.getAttribute("type") === "date") {
+            if (field.id) {
+                fieldName = field.getAttribute("name")
+                if (data[fieldName] == null) {
+                    continue
+                }
+                field.value = data[fieldName].substring(0, 10)
             }
         }
         if (field.getAttribute("name") == "congreso_search" || field.getAttribute("name") == "estatal_search" || field.getAttribute("name") == "federal_search") {
