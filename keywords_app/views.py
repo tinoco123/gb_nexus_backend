@@ -87,7 +87,7 @@ def keyword_query_for_usuario(keyword_type: str, user: UserBaseAccount):
     return keywords_queryset
 
 
-def keyword_query_for_cliente(keyword_type: str, user: UserBaseAccount):
+def keyword_query_for_cliente(user: UserBaseAccount):
     keywords_queryset = Keyword.objects.filter(user=user).values(
         "id", "title", "date_created").order_by("id")
 
@@ -116,8 +116,7 @@ def paginate_keywords(request):
                 keywords_queryset = keyword_query_for_usuario(
                     keyword_type, user)
             elif request.user.user_type == "CLIENTE":
-                keywords_queryset = keyword_query_for_cliente(
-                    keyword_type, user)
+                keywords_queryset = keyword_query_for_cliente(user)
 
             paginator = Paginator(keywords_queryset, page_size)
 
@@ -150,10 +149,30 @@ def get_keyword(request, keyword_id):
         return HttpResponseNotAllowed(permitted_methods=("GET"))
     else:
         keyword = get_object_or_404(Keyword, id=keyword_id)
-        if keyword.user.id == request.user.id or request.user.user_type == "ADMINISTRADOR":
-            return JsonResponse(keyword.to_json(), safe=False)
+        keyword_user_id = keyword.user.id
+        request_user = request.user.id
+        request_user_type = request.user.user_type
+
+        if request_user_type == "ADMINISTRADOR":
+            keyword_data = keyword.to_json()
+        elif request_user_type == "USUARIO":
+            if request_user == keyword_user_id:
+                keyword_data = keyword.to_json()
+            else:
+                ids_clientes = list(Cliente.objects.filter(
+                    created_by=request_user).values_list("id", flat=True))
+                if keyword_user_id not in ids_clientes:
+                    return JsonResponse({"error": "No tienes la autorización para obtener la información solicitada"}, status=403)
+                else:
+                    keyword_data = keyword.to_json()
+        elif request_user_type == "CLIENTE":
+            if request_user == keyword_user_id:
+                keyword_data = keyword.to_json()
+            else:
+                return JsonResponse({"error": "No tienes la autorización para obtener la información solicitada"}, status=403)
         else:
-            return JsonResponse({'success': False, 'errors': "No puedes obtener una keyword de otro usuario"}, status=403)
+            return JsonResponse({"error": "No tienes la autorización para obtener la información solicitada"}, status=403)
+        return JsonResponse(keyword_data, safe=False)
 
 
 @login_required
