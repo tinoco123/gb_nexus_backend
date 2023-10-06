@@ -62,6 +62,41 @@
                     <b>SINOPSIS:</b>
                     <p style="margin: 0;"> {{ document.sinopsys }}</p>
                 </div>
+                
+                {% if document.urlAttach|length > 1 %}
+                    <div style="background-color: #3d72b4; text-align: center; color: #ffffff; padding-top: 0.8em;">
+                        <b> Datos adjuntos</b>
+                    </div>
+                    {% for subdocument in document.urlAttach %}
+                        {% if subdocument.sinopsys %}
+                            <div style="margin-top: 0.6em; text-align: justify;">
+                                <b>URL:</b>
+                                <a style="margin: 0;" href="{{ subdocument.urlAttach }}">Link</a>
+                            </div>
+                            <div style="margin-top: 0.6em; text-align: justify;">
+                                <b>Sinopsis:</b>
+                                <p style="margin: 0;"> {{ subdocument.sinopsys }}</p>
+                            </div>
+                            <hr style="margin: 0; padding: 0;">
+                        {% endif %}
+                    {% endfor %}
+                {% elif document.urlAttach|length == 1%}
+                    {% for subdocument in document.urlAttach%}
+                        {% if subdocument.sinopsys %}
+                            <div style="background-color: #3d72b4; text-align: center; color: #ffffff; padding-top: 0.8em;">
+                                <b> Datos adjuntos</b>
+                            </div>
+                            <div style="margin-top: 0.6em; text-align: justify;">
+                                <b>URL:</b>
+                                <a style="margin: 0;" href="{{ subdocument.urlAttach }}">Link</a>
+                            </div>
+                            <div style="margin-top: 0.6em; text-align: justify;">
+                                <b>Sinopsis:</b>
+                                <p style="margin: 0;">{{ subdocument.sinopsys }}</p>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
             </div>
         {% endfor %}
     </body>
