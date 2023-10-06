@@ -17,6 +17,22 @@
     <div
         class="mx-3 mx-lg-5 mt-3 d-flex flex-column justify-content-center align-items-center"
     >
+        <div class="btn-group mx-0 mx-lg-2 p-1 p-lg-2" role="group" aria-label="Seleccionar keywords">
+            {% if user.user_type == "ADMINISTRADOR" %}
+                <input type="radio" class="btn-check" name="radioKeywords" id="my-keywords" autocomplete="off" checked>
+                <label class="btn btn-outline-primary" for="my-keywords">Mis keywords</label>
+                <input type="radio" class="btn-check" name="radioKeywords" id="usuario-keywords" autocomplete="off">
+                <label class="btn btn-outline-primary" for="usuario-keywords">Usuarios</label>
+                <input type="radio" class="btn-check" name="radioKeywords" id="cliente-keywords" autocomplete="off">
+                <label class="btn btn-outline-primary" for="cliente-keywords">Clientes</label>
+            {% endif %}
+            {% if user.user_type == "USUARIO" %}
+                <input type="radio" class="btn-check" name="radioKeywords" id="my-keywords" autocomplete="off" checked>
+                <label class="btn btn-outline-primary" for="my-keywords">Mis keywords</label>
+                <input type="radio" class="btn-check" name="radioKeywords" id="cliente-keywords" autocomplete="off">
+                <label class="btn btn-outline-primary" for="cliente-keywords">Clientes</label>
+            {% endif %}
+        </div>
         <ul
         class="list-unstyled border ms-lg-3 rounded keyword-list d-flex align-items-center"
         >   
