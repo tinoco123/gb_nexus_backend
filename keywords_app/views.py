@@ -1,5 +1,5 @@
 import os
-from django.http import HttpResponseBadRequest, HttpResponseNotAllowed, JsonResponse
+from django.http import HttpResponseNotAllowed, JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.core.paginator import Paginator, EmptyPage
 from keywords_app.models import Keyword, SearchTerms
@@ -121,7 +121,7 @@ def paginate_keywords(request):
             paginator = Paginator(keywords_queryset, page_size)
 
             if page_number > paginator.num_pages or page_number < 1:
-                return HttpResponseBadRequest("El número de página solicitado es inválido")
+                return JsonResponse({"error": "El número de página solicitado es inválido"}, status=400)
 
             selected_page = paginator.page(page_number)
             keywords_response = {
@@ -132,14 +132,14 @@ def paginate_keywords(request):
             return JsonResponse(keywords_response)
 
         except ValueError:
-            return HttpResponseBadRequest("Los parámetros enviados son inválidos")
+            return JsonResponse({"error": "Los parámetros enviados son inválidos"}, status=400)
         except EmptyPage:
             if page_number < 1:
-                return HttpResponseBadRequest("El número de la página es menor que 1")
+                return JsonResponse({"error": "El número de la página es menor que 1"}, status=400)
             else:
-                return HttpResponseBadRequest("La página solicitada no contiene resultados")
+                return JsonResponse({"error": "La página solicitada no contiene resultados"}, status=400)
         except TypeError:
-            return HttpResponseBadRequest("Los parámetros page y size no deben ser omitidos")
+            return JsonResponse({"error": "Los parámetros page y size no deben ser omitidos"}, status=400)
 
 
 @login_required

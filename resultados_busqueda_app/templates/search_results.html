@@ -33,40 +33,18 @@
                 <label class="btn btn-outline-primary" for="cliente-keywords">Clientes</label>
             {% endif %}
         </div>
-        <ul
-        class="list-unstyled border ms-lg-3 rounded keyword-list d-flex align-items-center"
-        >   
-            {% if not keyword_list %}
-                <li
-                    class="d-flex align-items-center bg-warning-subtle p-2 mx-2 keyword-li border border-warning rounded-2"
-                >
-                    <p class="d-flex m-0">
-                        <span>Sin keywords</span>
-                    </p>
-                </li>
-            {% else %}
-                <li
-                    class="d-flex align-items-center bg-primary-subtle p-2 mx-2 keyword-li border border-primary rounded-2"
-                >
-                    <p class="d-flex m-0">
-                        <span>Keywords:</span>
-                    </p>
-                </li>
-            {% endif %}
-            {% for keyword in keyword_list %}
-                <a href="" class="text-black keyword-link" id="{{keyword.id}}">
-                    <li
-                        class="d-flex align-items-center bg-light p-2 m-1 keyword-li border border-dark-subtle rounded-2"
-                    >
-                        <p class="d-flex m-0">
-                            <span>
-                                {{ keyword.title }} 
-                            </span>
-                        </p>
-                    </li>
-                </a>
-            {% endfor %}
-        </ul>
+        <div class="w-100 d-flex ms-lg-3">
+            <button class="button-pagination" id="btnAnterior">Previous</button>
+            <ul
+                class="list-unstyled border rounded keyword-list d-flex align-items-center"
+            >   
+                <div class="d-flex" id="keywords-container">
+                    
+                </div>
+            </ul>
+            <button class="button-pagination" id="btnSiguiente">Next</button>
+        </div>
+        
         <div id="searchResultsTable" class="mt-0 ms-lg-3"></div>
     </div>   
     <div class="opciones-abajo d-flex flex-column flex-sm-row justify-content-sm-between mx-3 mx-lg-5 mb-3">
@@ -194,6 +172,9 @@
 {% endblock modales %}
 
 {% block js-files%}
+    <script type="text/javascript" 
+        src="{% static 'base/js/getKeywordsByUserType.js' %}">
+    </script>
     <script type="text/javascript" 
         src="{% static 'resultados_busqueda_app/js/keywordList.js' %}">
     </script>

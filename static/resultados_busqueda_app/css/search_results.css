@@ -2,7 +2,7 @@
     position: relative;
     top: 0;
     left: 0;
-    height: 110px;
+    height: 90px;
     width: 100%;
     overflow-x: auto;
 }
@@ -13,4 +13,21 @@
     max-width: 175px;
     max-width: 175px;
     text-align: center;
+}
+
+.button-pagination {
+    width: 95px;
+    height: 30px;
+    position: relative;
+    top: 30px;
+    margin: 10px;
+    background-color: white;
+    border: 1px solid blue;
+    border-radius: 5px;
+    color: blue;
+}
+
+.button-pagination:hover{
+    background-color: #0b5ed7;
+    color: white;
 }
