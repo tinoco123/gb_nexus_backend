@@ -46,7 +46,7 @@ getKeywords()
 
 async function keywordsAJAX() {
     try {
-        
+
         var response = await fetch(`/keywords/data/?page=${page}&size=10&keyword_type=${getRadioSelected()}`)
         var data = await response.json()
         if (response.status === 200) {
@@ -59,7 +59,7 @@ async function keywordsAJAX() {
         } else {
             showNotifications(response.status, "Intentalo más tarde")
         }
-        
+
     } catch (error) {
         console.log(error)
     }
@@ -115,5 +115,6 @@ function showKeywordsInList(data) {
         })
     }
 
+    assignLinksToEachKeyword()
 
 }

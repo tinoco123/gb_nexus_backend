@@ -1,6 +1,6 @@
 var keyword
 
-function assignLinksToEachKeyword(params) {
+function assignLinksToEachKeyword() {
     var keywordLinks = document.querySelectorAll(".keyword-link")
 
     if (keywordLinks.length > 0) {
