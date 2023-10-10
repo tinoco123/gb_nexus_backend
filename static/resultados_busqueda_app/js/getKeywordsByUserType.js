@@ -89,15 +89,7 @@ function showKeywordsInList(data) {
             </li>
     `
     } else {
-        keywordsContainer.innerHTML = `
-            <li
-                class="d-flex align-items-center bg-primary-subtle p-2 mx-2 keyword-li border border-primary rounded-2"
-            >
-                <p class="d-flex m-0">
-                    <span>Keywords:</span>
-                </p>
-            </li>
-        `
+        keywordsContainer.innerHTML = ``
         data.data.forEach(keyword => {
             keywordsContainer.innerHTML += `
                 <a href="" class="text-black keyword-link" id="${keyword.id}">
