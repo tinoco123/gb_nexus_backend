@@ -36,9 +36,32 @@
 .user-information {
     position: absolute;
     background-color: white;
-    border: 1px solid black;
+    border: 1px solid #adb5bd;
     border-radius: 5px;
-    width: 300px;
-    height: 150px;
+    width: 320px;
+    height: 200px;
     padding: 1em;
+    text-align: left;
 }
+
+.spanLabelUserInfo {
+    font-weight: bold;
+}
+
+#btnClose{
+    position: relative;
+    left: 95%;
+}
+
+@media (max-width: 768px){
+    .user-information {
+      width: 230px;
+      height: 280px;
+      padding: .5em;
+    }
+    
+    #btnClose{
+        position: relative;
+        left: 90%;
+    }
+  }

@@ -28,7 +28,7 @@ class UserBaseAccount(AbstractBaseUser, PermissionsMixin):
             "last_name": self.last_name,
             "email": self.email,
             "company": self.company,
-            "last_login": self.last_login,
+            "last_login": self.last_login.strftime("%Y/%m/%d, %H:%M:%S"),
         }
         return user_as_json
         

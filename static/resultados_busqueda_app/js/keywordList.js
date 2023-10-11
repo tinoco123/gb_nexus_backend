@@ -11,6 +11,10 @@ function assignLinksToEachKeyword() {
                 setKeyword(link.getAttribute("id"))
                 table.setData("/search-results/data/", { keyword: getKeyword() })
                     .then(() => {
+                        var userInfoContainerExists = UserInfoContainerExists()
+                        if (userInfoContainerExists) {
+                            userInfoContainerExists.remove()
+                        }
                         showNotifications(200, "Resultados de keyword: " + link.textContent)
                     })
                 event.stopPropagation()

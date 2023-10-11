@@ -11,6 +11,10 @@ const btnSiguiente = document.getElementById('btnSiguiente');
 var last_page = page
 
 btnSiguiente.addEventListener('click', () => {
+    var userInfoContainerExists = UserInfoContainerExists()
+    if (userInfoContainerExists) {
+        userInfoContainerExists.remove()
+    }
     if (page + 1 > last_page) {
         showNotifications(400, "No existen más keywords")
     } else {
@@ -22,6 +26,10 @@ btnSiguiente.addEventListener('click', () => {
 });
 
 btnAnterior.addEventListener('click', () => {
+    var userInfoContainerExists = UserInfoContainerExists()
+    if (userInfoContainerExists) {
+        userInfoContainerExists.remove()
+    }
     if (page > 1) {
         page -= 1;
         keywordsAJAX()
