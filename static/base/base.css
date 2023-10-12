@@ -43,6 +43,10 @@ html {
     background: rgba(255, 255, 255, 0.1);
 }
 
+.sidebar-footer li a:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
 .sidebar-footer {
     position: fixed;
     left: 0px;

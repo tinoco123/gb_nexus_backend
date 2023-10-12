@@ -92,6 +92,23 @@
             </ul>
 
             <div class="sidebar-footer p-3">
+                {% if user.user_type == "CLIENTE" %}
+                    <ul class="sidebar-nav list-unstyled mt-4 mt-md-3">
+                        <li class="mt-2 menu-item" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Configurar frecuencia de emails">
+                            <a
+                                href=""
+                                class="text-decoration-none text-white px-2"
+                                data-bs-toggle="modal" 
+                                data-bs-target="#config-emails"
+                            >
+                                <i class="bi bi-envelope text-white fs-3"></i>
+                                <span class="ms-2 menu-item-span"
+                                    >Configurar emails</span
+                                >
+                            </a>
+                        </li>
+                    </ul>
+                {% endif %}
                 <hr class="opacity-100 text-white" />
                 <div
                     class="d-flex justify-content-center justify-content-lg-between"
@@ -130,6 +147,33 @@
             <div id="notificationContainer" style="position: fixed; bottom: 50px; right: 50px; z-index: 9999;"></div>
         </div>
         
+        {% if user.user_type == "CLIENTE" %}   
+            <div class="modal fade" id="config-emails" tabindex="-1" aria-labelledby="Configurar frecuencia de emails" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5">Configurar frecuencia de emails</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body d-flex flex-column align-items-center justify-content-center">
+                            <p>Seleccione la frecuencia de tiempo deseada para recibir emails de sus resultados de búsqueda:</p>
+                            <div class="btn-group" role="group" aria-label="Frecuencia de mails">
+                                <input type="radio" class="btn-check" name="frecuency-emails" id="daily" autocomplete="off" checked>
+                                <label class="btn btn-outline-primary" for="daily">Diario</label>
+                                <input type="radio" class="btn-check" name="frecuency-emails" id="weekly" autocomplete="off">
+                                <label class="btn btn-outline-primary" for="weekly">Semanal</label>
+                                <input type="radio" class="btn-check" name="frecuency-emails" id="monthly" autocomplete="off">
+                                <label class="btn btn-outline-primary" for="monthly">Mensual</label>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary">Guardar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
         {% block modales %}
         {% endblock modales %}
 
