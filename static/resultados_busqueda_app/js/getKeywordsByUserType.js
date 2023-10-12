@@ -102,7 +102,7 @@ function showKeywordsInList(data) {
             keywordsContainer.innerHTML += `
                 <a href="" class="text-black keyword-link" id="${keyword.id}">
                     <li
-                        class="d-flex align-items-center bg-light p-2 m-1 keyword-li border border-dark-subtle rounded-2"
+                        class="d-flex align-items-center bg-light p-2 m-1 keyword-li"
                     >
                         <p class="d-flex m-0">
                             <span>

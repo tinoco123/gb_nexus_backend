@@ -8,6 +8,7 @@ function assignLinksToEachKeyword() {
         keywordLinks.forEach(function (link) {
             link.addEventListener("click", function (event) {
                 event.preventDefault()
+                selectedKeywordUI(link)
                 setKeyword(link.getAttribute("id"))
                 table.setData("/search-results/data/", { keyword: getKeyword() })
                     .then(() => {
@@ -52,3 +53,11 @@ function setKeyword(valor) {
     keyword = valor
 }
 
+function selectedKeywordUI(link) {
+    var activeKeywords = document.getElementsByClassName("keyword-active")
+    for (var i = 0; i < activeKeywords.length; i++) {
+        var activeKeyword = activeKeywords[i];
+        activeKeyword.classList.remove("keyword-active")
+    }
+    link.children[0].classList.add("keyword-active")
+}

@@ -14,6 +14,12 @@
     max-width: 175px;
     text-align: center;
     max-height: 70px;
+    border: 1px solid #adb5bd;
+    border-radius: 5px;
+}
+
+.keyword-active{
+    border: 3px solid #0B5ED7;
 }
 
 .button-pagination {
