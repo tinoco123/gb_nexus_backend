@@ -1,9 +1,7 @@
 from django.db import models
 from tipos_usuarios.models import UserBaseAccount
-
-
 from django.db import models
-
+from .utils import conver_date_to_datetime
 
 class States(models.Model):
     state = models.CharField(max_length=30, unique=True)
@@ -22,8 +20,8 @@ class Federal(models.Model):
 class Keyword(models.Model):
 
     title = models.CharField(blank=False, null=False, max_length=60)
-    start_date = models.DateTimeField(blank=True, null=True)
-    end_date = models.DateTimeField(blank=True, null=True)
+    start_date = models.DateField(blank=True, null=True)
+    end_date = models.DateField(blank=True, null=True)
     congreso_search = models.ManyToManyField(States, blank=True)
     estatal_search = models.ManyToManyField(
         States, related_name="estatal_search", blank=True)
@@ -106,26 +104,24 @@ class Keyword(models.Model):
     def set_date_filter(self):
         if self.start_date and self.end_date:
             subquery = {
-
                 "date": {
-                    "$gte": self.start_date,
-                    "$lte": self.end_date
+                    "$gte": conver_date_to_datetime(self.start_date),
+                    "$lte": conver_date_to_datetime(self.end_date)
                 }
-
             }
 
         if self.start_date and not self.end_date:
             subquery = {
 
                 "date": {
-                    "$gte": self.start_date
+                    "$gte": conver_date_to_datetime(self.start_date)
                 }
 
             }
         if self.end_date and not self.start_date:
             subquery = {
                 "date": {
-                    "$lte": self.end_date
+                    "$lte": conver_date_to_datetime(self.end_date)
                 },
             }
         return subquery
