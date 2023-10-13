@@ -6,7 +6,7 @@
 {% endblock title%}
 
 {% block header %}
-    <i class="bi bi-key me-3"></i>Keywords
+    <i class="bi bi-key me-3"></i>Búsquedas
 {% endblock header %}
 
 {% block opciones-arriba %}
@@ -16,7 +16,7 @@
         <div class="btn-group mx-0 mx-lg-2 p-0 p-lg-2" role="group" aria-label="Seleccionar keywords">
             {% if user.user_type == "ADMINISTRADOR" %}
                 <input type="radio" class="btn-check" name="radioKeywords" id="my-keywords" autocomplete="off" checked>
-                <label class="btn btn-outline-primary" for="my-keywords">Mis keywords</label>
+                <label class="btn btn-outline-primary" for="my-keywords">Mis búsquedas</label>
                 <input type="radio" class="btn-check" name="radioKeywords" id="usuario-keywords" autocomplete="off">
                 <label class="btn btn-outline-primary" for="usuario-keywords">Usuarios</label>
                 <input type="radio" class="btn-check" name="radioKeywords" id="cliente-keywords" autocomplete="off">
@@ -24,7 +24,7 @@
             {% endif %}
             {% if user.user_type == "USUARIO" %}
                 <input type="radio" class="btn-check" name="radioKeywords" id="my-keywords" autocomplete="off" checked>
-                <label class="btn btn-outline-primary" for="my-keywords">Mis keywords</label>
+                <label class="btn btn-outline-primary" for="my-keywords">Mis búsquedas</label>
                 <input type="radio" class="btn-check" name="radioKeywords" id="cliente-keywords" autocomplete="off">
                 <label class="btn btn-outline-primary" for="cliente-keywords">Clientes</label>
             {% endif %}
@@ -38,7 +38,7 @@
                 data-bs-target="#create-keyword-modal"
             >
                 <i class="bi bi-plus-square fs-6 me-1"></i>
-                Keyword
+                Búsqueda
             </button>
         </div>
     </div>            

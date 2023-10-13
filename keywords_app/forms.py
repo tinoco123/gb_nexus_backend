@@ -42,7 +42,7 @@ class KeywordForm(forms.ModelForm):
         widgets = {
             "start_date": forms.DateInput(attrs={"class": "form-control", "type": "date"}),
             "end_date": forms.DateInput(attrs={"class": "form-control", "type": "date"}),
-            "title": forms.TextInput(attrs={"class": "form-control", "placeholder": "Título de la keyword"}),
+            "title": forms.TextInput(attrs={"class": "form-control", "placeholder": "Título de la búsqueda"}),
             "congreso_search": forms.CheckboxSelectMultiple(attrs={"class": "form-check-input create-congreso-checkboxes"}),
             "estatal_search": forms.CheckboxSelectMultiple(attrs={"class": "form-check-input create-estatal-checkboxes"}),
             "federal_search": forms.CheckboxSelectMultiple(attrs={"class": "form-check-input create-federal-checkboxes"})
@@ -51,7 +51,7 @@ class KeywordForm(forms.ModelForm):
         labels = {
             "start_date": _("Fecha inicio"),
             "end_date": _("Fecha final"),
-            "title": _("Título de la keyword"),
+            "title": _("Título de la búsqueda"),
             "congreso_search": _("Buscar en congreso:"),
             "estatal_search": _("Buscar en estatal:"),
             "federal_search": _("Buscar en federal:"),
@@ -92,7 +92,7 @@ class EditKeywordForm(KeywordForm):
         widgets = {
             "start_date": forms.DateInput(attrs={"class": "form-control", "type": "date", "id": "id_edit_start_date"}),
             "end_date": forms.DateInput(attrs={"class": "form-control", "type": "date", "id": "id_edit_start_date"}),
-            "title": forms.TextInput(attrs={"class": "form-control", "placeholder": "Título de la keyword", "id": "id_edit_title"}),
+            "title": forms.TextInput(attrs={"class": "form-control", "placeholder": "Título de la búsqueda", "id": "id_edit_title"}),
             "congreso_search": forms.CheckboxSelectMultiple(attrs={"class": "form-check-input edit-congreso-checkboxes", "id": "id_edit_congreso_search"}),
             "estatal_search": forms.CheckboxSelectMultiple(attrs={"class": "edit-estatal-checkboxes form-check-input", "id": "id_edit_estatal_search"}),
             "federal_search": forms.CheckboxSelectMultiple(attrs={"class": "edit-federal-checkboxes form-check-input", "id": "id_edit_federal_search"}),
