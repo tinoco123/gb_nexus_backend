@@ -30,7 +30,7 @@ def paginate_users(request):
             page_size = int(request.GET.get("size"))
 
             users_queryset = Usuario.objects.all().values("id", "first_name", "last_name",
-                                                          "email", "company", "date_joined", "last_login").order_by("id")
+                                                          "email", "company", "date_joined", "last_login").order_by("-id")
 
             if page_size > 50 or page_size < 10:
                 return HttpResponseBadRequest("El número de elementos a retornar es inválido. Debe ser mayor a mayor o igual que 10 y menor e igual que 50")

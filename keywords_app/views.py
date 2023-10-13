@@ -65,13 +65,13 @@ def set_search_terms_to_keyword(keyword_form: KeywordForm, keyword: Keyword):
 def keyword_query_for_administrador(keyword_type: str, user: UserBaseAccount):
     if keyword_type == "my-keywords":
         keywords_queryset = Keyword.objects.filter(user=user).values(
-            "id", "title", "date_created").order_by("id")
+            "id", "title", "date_created").order_by("-id")
     elif keyword_type == "usuario-keywords":
         keywords_queryset = Keyword.objects.filter(user__user_type="USUARIO").values(
-            "id", "title", "date_created").order_by("id")
+            "id", "title", "date_created").order_by("-id")
     elif keyword_type == "cliente-keywords":
         keywords_queryset = Keyword.objects.filter(user__user_type="CLIENTE").values(
-            "id", "title", "date_created").order_by("id")
+            "id", "title", "date_created").order_by("-id")
 
     return keywords_queryset
 
@@ -79,17 +79,17 @@ def keyword_query_for_administrador(keyword_type: str, user: UserBaseAccount):
 def keyword_query_for_usuario(keyword_type: str, user: UserBaseAccount):
     if keyword_type == "my-keywords":
         keywords_queryset = Keyword.objects.filter(user=user).values(
-            "id", "title", "date_created").order_by("id")
+            "id", "title", "date_created").order_by("-id")
     elif keyword_type == "cliente-keywords":
         keywords_queryset = Keyword.objects.filter(user__created_by=user.id).values(
-            "id", "title", "date_created").order_by("id")
+            "id", "title", "date_created").order_by("-id")
 
     return keywords_queryset
 
 
 def keyword_query_for_cliente(user: UserBaseAccount):
     keywords_queryset = Keyword.objects.filter(user=user).values(
-        "id", "title", "date_created").order_by("id")
+        "id", "title", "date_created").order_by("-id")
 
     return keywords_queryset
 
