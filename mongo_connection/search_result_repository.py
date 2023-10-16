@@ -15,7 +15,7 @@ class SearchResultRepository:
     def get_document_for_pdf(self, id):
         id = ObjectId(id)
         search_result = self.collection.find_one(
-            {"_id": id}, {"_id": 0, "urlPage": 0, "collectionName": 0})
+            {"_id": id}, {"_id": 0, "collectionName": 0, "image":0, "legislature": 0})
         return search_result
 
     def count_results(self, query: dict):
