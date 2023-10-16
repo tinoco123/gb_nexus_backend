@@ -67,4 +67,5 @@ editKeywordModal.addEventListener("hide.bs.modal", () => {
         const hiddenInput = hiddenIdsOfSearchTerms[i];
         hiddenInput.value = null
     }
+    removeContainerIfExists()
 })

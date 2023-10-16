@@ -27,3 +27,8 @@ createKeywordForm.addEventListener("submit", (event) => {
             console.error(error)
         })
 })
+
+document.getElementById("create-keyword-modal").addEventListener("hide.bs.modal", event => {
+    createKeywordForm.reset()
+    removeContainerIfExists()
+})
