@@ -8,31 +8,31 @@ options = [(True, "Obligatorio"), (False, "No obligatorio")]
 class KeywordForm(forms.ModelForm):
     search_term_1 = forms.CharField(label="Keyword 1", widget=forms.TextInput(
         attrs={"class": "form-control", "placeholder": "Campo obligatorio"}), required=True, min_length=2, max_length=30)
-    filter_1 = forms.ChoiceField(label="Filtro 1", choices=options, widget=forms.Select(
+    filter_1 = forms.ChoiceField(label="Condición 1", choices=options, widget=forms.Select(
         attrs={"class": "form-select"}))
 
     search_term_2 = forms.CharField(
         label="Keyword 2", widget=forms.TextInput(
             attrs={"class": "form-control"}), required=False, min_length=2, max_length=30)
-    filter_2 = forms.ChoiceField(label="Filtro 2", choices=options, widget=forms.Select(
+    filter_2 = forms.ChoiceField(label="Condición 2", choices=options, widget=forms.Select(
         attrs={"class": "form-select"}))
 
     search_term_3 = forms.CharField(
         label="Keyword 3", widget=forms.TextInput(
             attrs={"class": "form-control"}), required=False, min_length=2, max_length=30)
-    filter_3 = forms.ChoiceField(label="Filtro 3", choices=options, widget=forms.Select(
+    filter_3 = forms.ChoiceField(label="Condición 3", choices=options, widget=forms.Select(
         attrs={"class": "form-select"}))
 
     search_term_4 = forms.CharField(
         label="Keyword 4", widget=forms.TextInput(
             attrs={"class": "form-control"}), required=False, min_length=2, max_length=30)
-    filter_4 = forms.ChoiceField(label="Filtro 4", choices=options, widget=forms.Select(
+    filter_4 = forms.ChoiceField(label="Condición 4", choices=options, widget=forms.Select(
         attrs={"class": "form-select"}))
 
     search_term_5 = forms.CharField(
         label="Keyword 5", widget=forms.TextInput(
             attrs={"class": "form-control"}), required=False, min_length=2, max_length=30)
-    filter_5 = forms.ChoiceField(label="Filtro 5", choices=options, widget=forms.Select(
+    filter_5 = forms.ChoiceField(label="Condición 5", choices=options, widget=forms.Select(
         attrs={"class": "form-select"}))
 
     class Meta:
