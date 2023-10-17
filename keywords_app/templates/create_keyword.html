@@ -175,7 +175,7 @@
                                         <span id="error_estatal_search" class="text-danger"></span>
                                     </button>
                                 </h2>
-                                <div id="estatalAccordion" class="accordion-collapse collapse" data-bs-parent="#accordion">
+                                <div id="estatalAccordion" class="accordion-collapse collapse overflow-auto" data-bs-parent="#accordion">
                                     <div class="accordion-body d-flex">
                                         <div>
                                             <div>
@@ -186,7 +186,7 @@
                                                     </label>
                                                 </div>
                                             </div>
-                                            <div>
+                                            <div class="states d-lg-flex">
                                                 {% for state in create_keyword_form.estatal_search %}
                                                     <div class="form-check form-check-inline">
                                                         <label for="{{ state.id_for_label }}" class="form-check-label">
@@ -208,7 +208,7 @@
                                         <span id="error_congreso_search" class="text-danger"></span>
                                     </button>
                                 </h2>
-                                <div id="congresoAccordion" class="accordion-collapse collapse" data-bs-parent="#accordion">
+                                <div id="congresoAccordion" class="accordion-collapse collapse overflow-auto" data-bs-parent="#accordion">
                                     <div class="accordion-body d-flex">
                                         <div>
                                             <div class="form-check">
@@ -217,7 +217,7 @@
                                                   Seleccionar todos
                                                 </label>
                                             </div>
-                                            <div>
+                                            <div class="states d-lg-flex">
                                                 {% for state in create_keyword_form.congreso_search %}
                                                     <div class="form-check form-check-inline">
                                                         <label for="{{ state.id_for_label }}" class="form-check-label">
@@ -239,7 +239,7 @@
                                         <span id="error_federal_search" class="text-danger"></span>
                                     </button>
                                 </h2>
-                                <div id="federalAccordion" class="accordion-collapse collapse" data-bs-parent="#accordion">
+                                <div id="federalAccordion" class="accordion-collapse collapse overflow-auto" data-bs-parent="#accordion">
                                     <div class="accordion-body d-flex">
                                         <div>
                                             <div class="form-check">

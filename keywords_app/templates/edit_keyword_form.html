@@ -180,7 +180,7 @@
                                         <span id="error_edit_estatal_search" class="text-danger"></span>
                                     </button>
                                 </h2>
-                                <div id="editEstatalAccordion" class="accordion-collapse collapse" data-bs-parent="#accordionEditar">
+                                <div id="editEstatalAccordion" class="accordion-collapse collapse overflow-auto" data-bs-parent="#accordionEditar">
                                     <div class="accordion-body d-flex">
                                         <div>
                                             <div class="form-check">
@@ -189,7 +189,7 @@
                                                 Seleccionar todos
                                                 </label>
                                             </div>
-                                            <div>
+                                            <div class="states d-flex">
                                                 {% for state in edit_keyword_form.estatal_search %}
                                                     <div class="form-check form-check-inline">
                                                         <label for="{{ state.id_for_label }}" class="form-check-label">
@@ -211,7 +211,7 @@
                                         <span id="error_edit_congreso_search" class="text-danger"></span>
                                     </button>
                                 </h2>
-                                <div id="editCongresoAccordion" class="accordion-collapse collapse" data-bs-parent="#accordionEditar">
+                                <div id="editCongresoAccordion" class="accordion-collapse collapse overflow-auto" data-bs-parent="#accordionEditar">
                                     <div class="accordion-body d-flex">
                                         <div>
                                             <div class="form-check">
@@ -220,7 +220,7 @@
                                                   Seleccionar todos
                                                 </label>
                                             </div>
-                                            <div>
+                                            <div class="states d-flex">
                                                 {% for state in edit_keyword_form.congreso_search %}
                                                     <div class="form-check form-check-inline">
                                                         <label for="{{ state.id_for_label }}" class="form-check-label">
@@ -242,7 +242,7 @@
                                         <span id="error_edit_federal_search" class="text-danger"></span>
                                     </button>
                                 </h2>
-                                <div id="editFederalAccordion" class="accordion-collapse collapse" data-bs-parent="#accordionEditar">
+                                <div id="editFederalAccordion" class="accordion-collapse collapse overflow-auto" data-bs-parent="#accordionEditar">
                                     <div class="accordion-body d-flex">
                                         <div>
                                             <div class="form-check">
