@@ -42,105 +42,115 @@
                         <span id="error_title" class="text-danger"></span>
                     </div>
 
-                    <div class="col-3" >
-                        <label
-                            for="{{ create_keyword_form.filter_1.id_for_label }}"
-                            class="form-label"
-                        >
-                            {{ create_keyword_form.filter_1.label }}
-                            <i class="bi bi-info-circle icon-condition"></i>
-                        </label>
-                        {{ create_keyword_form.filter_1 }}
-                    </div>
-                    <div class="col-9" >
-                        <label
-                            for="{{ create_keyword_form.search_term_1.id_for_label }}"
-                            class="form-label"
-                        >
-                            {{ create_keyword_form.search_term_1.label }}
-                        </label>
-                        {{ create_keyword_form.search_term_1 }}
-                        <span id="error_search_term_1" class="text-danger"></span>
-                    </div>
-
-                    <div class="col-3" >
-                        <label
-                            for="{{ create_keyword_form.filter_2.id_for_label }}"
-                            class="form-label"
-                        >
-                            {{ create_keyword_form.filter_2.label }}
-                        </label>
-                        {{ create_keyword_form.filter_2 }}
-                    </div>
-                    <div class="col-9" >
-                        <label
-                            for="{{ create_keyword_form.search_term_2.id_for_label }}"
-                            class="form-label"
-                        >
-                            {{ create_keyword_form.search_term_2.label }}
-                        </label>
-                        {{ create_keyword_form.search_term_2 }}
-                        <span id="error_search_term_2" class="text-danger"></span>
+                    <div class="row mt-3 pe-0">
+                        <div class="col-3" >
+                            <label
+                                for="{{ create_keyword_form.filter_1.id_for_label }}"
+                                class="form-label"
+                            >
+                                {{ create_keyword_form.filter_1.label }}
+                                <i class="bi bi-info-circle icon-condition"></i>
+                            </label>
+                            {{ create_keyword_form.filter_1 }}
+                        </div>
+                        <div class="col-9 p-0" >
+                            <label
+                                for="{{ create_keyword_form.search_term_1.id_for_label }}"
+                                class="form-label"
+                            >
+                                {{ create_keyword_form.search_term_1.label }}
+                            </label>
+                            {{ create_keyword_form.search_term_1 }}
+                            <span id="error_search_term_1" class="text-danger"></span>
+                        </div>
                     </div>
 
-                    <div class="col-3" >
-                        <label
-                            for="{{ create_keyword_form.filter_3.id_for_label }}"
-                            class="form-label"
-                        >
-                            {{ create_keyword_form.filter_3.label }}
-                        </label>
-                        {{ create_keyword_form.filter_3 }}
-                    </div>
-                    <div class="col-9" >
-                        <label
-                            for="{{ create_keyword_form.search_term_3.id_for_label }}"
-                            class="form-label"
-                        >
-                            {{ create_keyword_form.search_term_3.label }}
-                        </label>
-                        {{ create_keyword_form.search_term_3 }}
-                        <span id="error_search_term_3" class="text-danger"></span>
-                    </div>
-
-                    <div class="col-3" >
-                        <label
-                            for="{{ create_keyword_form.filter_4.id_for_label }}"
-                            class="form-label"
-                        >
-                            {{ create_keyword_form.filter_4.label }}
-                        </label>
-                        {{ create_keyword_form.filter_4 }}
-                    </div>
-                    <div class="col-9" >
-                        <label
-                            for="{{ create_keyword_form.search_term_4.id_for_label }}"
-                            class="form-label"
-                        >
-                            {{ create_keyword_form.search_term_4.label }}
-                        </label>
-                        {{ create_keyword_form.search_term_4 }}
-                        <span id="error_search_term_4" class="text-danger"></span>
+                    <div class="row mt-3 pe-0 create-box" hidden>
+                        <div class="col-3" >
+                            <label
+                                for="{{ create_keyword_form.filter_2.id_for_label }}"
+                                class="form-label"
+                            >
+                                {{ create_keyword_form.filter_2.label }}
+                            </label>
+                            {{ create_keyword_form.filter_2 }}
+                        </div>
+                        <div class="col-9 p-0" >
+                            <label
+                                for="{{ create_keyword_form.search_term_2.id_for_label }}"
+                                class="form-label"
+                            >
+                                {{ create_keyword_form.search_term_2.label }}
+                            </label>
+                            {{ create_keyword_form.search_term_2 }}
+                            <span id="error_search_term_2" class="text-danger"></span>
+                        </div>
                     </div>
 
-                    <div class="col-3" >
-                        <label
-                            for="{{ create_keyword_form.filter_5.id_for_label }}"
-                            class="form-label"
-                        >
-                            {{ create_keyword_form.filter_5.label }}
-                        </label>
-                        {{ create_keyword_form.filter_5 }}
+                    <div class="row mt-3 pe-0 create-box" hidden>
+                        <div class="col-3" >
+                            <label
+                                for="{{ create_keyword_form.filter_3.id_for_label }}"
+                                class="form-label"
+                            >
+                                {{ create_keyword_form.filter_3.label }}
+                            </label>
+                            {{ create_keyword_form.filter_3 }}
+                        </div>
+                        <div class="col-9 p-0" >
+                            <label
+                                for="{{ create_keyword_form.search_term_3.id_for_label }}"
+                                class="form-label"
+                            >
+                                {{ create_keyword_form.search_term_3.label }}
+                            </label>
+                            {{ create_keyword_form.search_term_3 }}
+                            <span id="error_search_term_3" class="text-danger"></span>
+                        </div>
                     </div>
-                    <div class="col-9" >
-                        <label
-                            for="{{ create_keyword_form.search_term_5.id_for_label }}"
-                            class="form-label"
-                        >
-                            {{ create_keyword_form.search_term_5.label }}
-                        </label>
-                        {{ create_keyword_form.search_term_5 }}
-                        <span id="error_search_term_5" class="text-danger"></span>
+
+                    <div class="row mt-3 pe-0 create-box" hidden>
+                        <div class="col-3" >
+                            <label
+                                for="{{ create_keyword_form.filter_4.id_for_label }}"
+                                class="form-label"
+                            >
+                                {{ create_keyword_form.filter_4.label }}
+                            </label>
+                            {{ create_keyword_form.filter_4 }}
+                        </div>
+                        <div class="col-9 p-0" >
+                            <label
+                                for="{{ create_keyword_form.search_term_4.id_for_label }}"
+                                class="form-label"
+                            >
+                                {{ create_keyword_form.search_term_4.label }}
+                            </label>
+                            {{ create_keyword_form.search_term_4 }}
+                            <span id="error_search_term_4" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="row mt-3 pe-0 create-box" hidden>
+                        <div class="col-3" >
+                            <label
+                                for="{{ create_keyword_form.filter_5.id_for_label }}"
+                                class="form-label"
+                            >
+                                {{ create_keyword_form.filter_5.label }}
+                            </label>
+                            {{ create_keyword_form.filter_5 }}
+                        </div>
+                        <div class="col-9 p-0" >
+                            <label
+                                for="{{ create_keyword_form.search_term_5.id_for_label }}"
+                                class="form-label"
+                            >
+                                {{ create_keyword_form.search_term_5.label }}
+                            </label>
+                            {{ create_keyword_form.search_term_5 }}
+                            <span id="error_search_term_5" class="text-danger"></span>
+                        </div>
                     </div>
                     
                     <div class="col-6">

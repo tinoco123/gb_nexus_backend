@@ -42,110 +42,125 @@
                         <span id="error_edit_title" class="text-danger"></span>
                     </div>
 
-                    <div class="col-3" >
-                        <label
-                            for="{{ edit_keyword_form.filter_1.id_for_label }}"
-                            class="form-label"
-                        >
-                            {{ edit_keyword_form.filter_1.label }}
-                            <i class="bi bi-info-circle icon-condition"></i>
-                        </label>
-                        {{ edit_keyword_form.filter_1 }}
-                    </div>
-                    <div class="col-9" >
-                        <label
-                            for="{{ edit_keyword_form.search_term_1.id_for_label }}"
-                            class="form-label"
-                        >
-                            {{ edit_keyword_form.search_term_1.label }}
-                        </label>
-                        {{ edit_keyword_form.search_term_1 }}
-                        {{ edit_keyword_form.search_term_1_id }}
-                        <span id="error_edit_search_term_1" class="text-danger"></span>
-                    </div>
-
-                    <div class="col-3" >
-                        <label
-                            for="{{ edit_keyword_form.filter_2.id_for_label }}"
-                            class="form-label"
-                        >
-                            {{ edit_keyword_form.filter_2.label }}
-                        </label>
-                        {{ edit_keyword_form.filter_2 }}
-                    </div>
-                    <div class="col-9" >
-                        <label
-                            for="{{ edit_keyword_form.search_term_2.id_for_label }}"
-                            class="form-label"
-                        >
-                            {{ edit_keyword_form.search_term_2.label }}
-                        </label>
-                        {{ edit_keyword_form.search_term_2 }}
-                        {{ edit_keyword_form.search_term_2_id }}
-                        <span id="error_edit_search_term_2" class="text-danger"></span>
+                    <div class="row mt-3 pe-0">
+                        <div class="col-3" >
+                            <label
+                                for="{{ edit_keyword_form.filter_1.id_for_label }}"
+                                class="form-label"
+                            >
+                                {{ edit_keyword_form.filter_1.label }}
+                                <i class="bi bi-info-circle icon-condition"></i>
+                            </label>
+                            {{ edit_keyword_form.filter_1 }}
+                        </div>
+                        <div class="col-9 p-0" >
+                            <label
+                                for="{{ edit_keyword_form.search_term_1.id_for_label }}"
+                                class="form-label"
+                            >
+                                {{ edit_keyword_form.search_term_1.label }}
+                            </label>
+                            {{ edit_keyword_form.search_term_1 }}
+                            {{ edit_keyword_form.search_term_1_id }}
+                            <span id="error_edit_search_term_1" class="text-danger"></span>
+                        </div>
                     </div>
 
-                    <div class="col-3" >
-                        <label
-                            for="{{ edit_keyword_form.filter_3.id_for_label }}"
-                            class="form-label"
-                        >
-                            {{ edit_keyword_form.filter_3.label }}
-                        </label>
-                        {{ edit_keyword_form.filter_3 }}
+                    <div class="row mt-3 pe-0 edit-box" hidden>
+                        <div class="col-3">
+                            <label
+                                for="{{ edit_keyword_form.filter_2.id_for_label }}"
+                                class="form-label"
+                            >
+                                {{ edit_keyword_form.filter_2.label }}
+                            </label>
+                            {{ edit_keyword_form.filter_2 }}
+                        </div>
+                        <div class="col-9 p-0">
+                            <label
+                                for="{{ edit_keyword_form.search_term_2.id_for_label }}"
+                                class="form-label"
+                            >
+                                {{ edit_keyword_form.search_term_2.label }}
+                            </label>
+                            {{ edit_keyword_form.search_term_2 }}
+                            {{ edit_keyword_form.search_term_2_id }}
+                            <span id="error_edit_search_term_2" class="text-danger"></span>
+                        </div>
                     </div>
-                    <div class="col-9" >
-                        <label
-                            for="{{ edit_keyword_form.search_term_3.id_for_label }}"
-                            class="form-label"
-                        >
-                            {{ edit_keyword_form.search_term_3.label }}
-                        </label>
-                        {{ edit_keyword_form.search_term_3 }}
-                        {{ edit_keyword_form.search_term_3_id }}
-                        <span id="error_edit_search_term_3" class="text-danger"></span>
+                    
+                    <div class="row mt-3 pe-0 edit-box" hidden>
+                        <div class="col-3">
+                            <label
+                                for="{{ edit_keyword_form.filter_3.id_for_label }}"
+                                class="form-label"
+                            >
+                                {{ edit_keyword_form.filter_3.label }}
+                            </label>
+                            {{ edit_keyword_form.filter_3 }}
+                        </div>
+                        <div class="col-9 p-0">
+                            <label
+                                for="{{ edit_keyword_form.search_term_3.id_for_label }}"
+                                class="form-label"
+                            >
+                                {{ edit_keyword_form.search_term_3.label }}
+                            </label>
+                            {{ edit_keyword_form.search_term_3 }}
+                            {{ edit_keyword_form.search_term_3_id }}
+                            <span id="error_edit_search_term_3" class="text-danger"></span>
+                        </div>
                     </div>
 
-                    <div class="col-3" >
-                        <label
-                            for="{{ edit_keyword_form.filter_4.id_for_label }}"
-                            class="form-label"
-                        >
-                            {{ edit_keyword_form.filter_4.label }}
-                        </label>
-                        {{ edit_keyword_form.filter_4 }}
-                    </div>
-                    <div class="col-9" >
-                        <label
-                            for="{{ edit_keyword_form.search_term_4.id_for_label }}"
-                            class="form-label"
-                        >
-                            {{ edit_keyword_form.search_term_4.label }}
-                        </label>
-                        {{ edit_keyword_form.search_term_4 }}
-                        {{ edit_keyword_form.search_term_4_id }}
-                        <span id="error_edit_search_term_4" class="text-danger"></span>
+                    <div class="row mt-3 pe-0 edit-box" hidden>
+                        <div class="col-3">
+                            <label
+                                for="{{ edit_keyword_form.filter_4.id_for_label }}"
+                                class="form-label"
+                            >
+                                {{ edit_keyword_form.filter_4.label }}
+                            </label>
+                            {{ edit_keyword_form.filter_4 }}
+                        </div>
+                        <div class="col-9 p-0">
+                            <label
+                                for="{{ edit_keyword_form.search_term_4.id_for_label }}"
+                                class="form-label"
+                            >
+                                {{ edit_keyword_form.search_term_4.label }}
+                            </label>
+                            {{ edit_keyword_form.search_term_4 }}
+                            {{ edit_keyword_form.search_term_4_id }}
+                            <span id="error_edit_search_term_4" class="text-danger"></span>
+                        </div>
                     </div>
 
-                    <div class="col-3" >
-                        <label
-                            for="{{ edit_keyword_form.filter_5.id_for_label }}"
-                            class="form-label"
-                        >
-                            {{ edit_keyword_form.filter_5.label }}
-                        </label>
-                        {{ edit_keyword_form.filter_5 }}
+                    <div class="row mt-3 pe-0 edit-box" hidden>
+                        <div class="col-3">
+                            <label
+                                for="{{ edit_keyword_form.filter_5.id_for_label }}"
+                                class="form-label"
+                            >
+                                {{ edit_keyword_form.filter_5.label }}
+                            </label>
+                            {{ edit_keyword_form.filter_5 }}
+                        </div>
+                        <div class="col-9 p-0">
+                            <label
+                                for="{{ edit_keyword_form.search_term_5.id_for_label }}"
+                                class="form-label"
+                            >
+                                {{ edit_keyword_form.search_term_5.label }}
+                            </label>
+                            {{ edit_keyword_form.search_term_5 }}
+                            {{ edit_keyword_form.search_term_5_id }}
+                            <span id="error_edit_search_term_5" class="text-danger"></span>
+                        </div>
                     </div>
-                    <div class="col-9" >
-                        <label
-                            for="{{ edit_keyword_form.search_term_5.id_for_label }}"
-                            class="form-label"
-                        >
-                            {{ edit_keyword_form.search_term_5.label }}
-                        </label>
-                        {{ edit_keyword_form.search_term_5 }}
-                        {{ edit_keyword_form.search_term_5_id }}
-                        <span id="error_edit_search_term_5" class="text-danger"></span>
+
+                    <div class="col-12 d-flex justify-content-center">
+                        <button type="button">Add</button>
+                        <button type="button">Delete</button>
                     </div>
 
                     <div class="col-6">
