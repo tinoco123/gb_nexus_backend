@@ -13,6 +13,7 @@ function getKeywordById(keyword_id) {
                     if (response.ok) {
                         var editKeywordForm = document.getElementById("edit-keyword-form")
                         fillFormWithData(data, editKeywordForm)
+                        manipulateKeywordsUIEditModal()
                     }
                     else if (response.status >= 400 && response.status < 500) {
                         showNotifications(response.status, "Error de usuario: No puedes ver una keyword de otro usuario")
@@ -60,7 +61,7 @@ function editKeyword(formData, keyword_id) {
         })
 }
 
-editKeywordModal.addEventListener("hide.bs.modal", () => {
+editKeywordModal.addEventListener("hidden.bs.modal", () => {
     document.getElementById("edit-keyword-form").reset()
     var hiddenIdsOfSearchTerms = document.getElementsByClassName("search_terms_ids")
     for (let i = 0; i < hiddenIdsOfSearchTerms.length; i++) {
@@ -68,4 +69,5 @@ editKeywordModal.addEventListener("hide.bs.modal", () => {
         hiddenInput.value = null
     }
     removeContainerIfExists()
+    removeKeywordBoxes()
 })
