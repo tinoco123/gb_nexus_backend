@@ -1,4 +1,3 @@
-import datetime
 import json
 import os
 from django.http import Http404, HttpResponseNotAllowed, JsonResponse, HttpResponseBadRequest, HttpResponseServerError
@@ -160,6 +159,8 @@ def get_context_data_pdf(selected_ids: list, keyword: str):
     keyword = Keyword.objects.get(pk=int(keyword)).title
     for id in selected_ids:
         document = search_result_repo.get_document_for_pdf(id)
+        if not document:
+            continue
         document["keyword"] = keyword
         documents_data.append(document)
 

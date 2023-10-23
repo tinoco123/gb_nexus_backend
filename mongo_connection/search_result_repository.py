@@ -1,4 +1,5 @@
 from bson import ObjectId
+from .pipelines import get_pipeline_pdf, get_sinopsys_and_urlAttach
 
 
 class SearchResultRepository:
@@ -9,14 +10,24 @@ class SearchResultRepository:
     def get_by_id(self, id):
         id = ObjectId(id)
         search_result = self.collection.find_one(
-            {"_id": id}, {"sinopsys": 1, "urlAttach": 1})
-        return search_result
+            {"_id": id}, {"_id": 1})
+        if search_result:
+            search_result = list(
+                self.collection.aggregate(get_sinopsys_and_urlAttach(id)))
+            return search_result[0]
+        else:
+            return {}
 
     def get_document_for_pdf(self, id):
         id = ObjectId(id)
         search_result = self.collection.find_one(
-            {"_id": id}, {"_id": 0, "collectionName": 0, "image":0, "legislature": 0})
-        return search_result
+            {"_id": id}, {"_id": 1})
+        if search_result:
+            search_result = list(
+                self.collection.aggregate(get_pipeline_pdf(id)))
+            return search_result[0]
+        else:
+            return {}
 
     def count_results(self, query: dict):
         results = self.collection.count_documents(query)
