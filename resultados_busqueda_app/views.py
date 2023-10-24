@@ -7,11 +7,10 @@ from mongo_connection.paginator import Pagination
 from dotenv import load_dotenv
 from pymongo.errors import OperationFailure, ServerSelectionTimeoutError, ConnectionFailure
 from bson.errors import InvalidId
-from .utils import MongoJSONEncoder
+from .utils import MongoJSONEncoder, resaltar_keywords
 from mongo_connection.connection import MongoConnection
 from mongo_connection.search_result_repository import SearchResultRepository
 from keywords_app.models import Keyword
-from tipos_usuarios.models import UserBaseAccount
 from gb_nexus_backend import renderers
 
 load_dotenv()
@@ -156,12 +155,20 @@ def get_context_data_pdf(selected_ids: list, keyword: str):
 
     documents_data = []
     context = {"data": documents_data}
-    keyword = Keyword.objects.get(pk=int(keyword)).title
+    
+    keyword = Keyword.objects.get(pk=int(keyword))
+    keyword_title = keyword.title
+    subkeywords = list(keyword.searchterms_set.values_list("name", flat=True))
+
     for id in selected_ids:
         document = search_result_repo.get_document_for_pdf(id)
         if not document:
             continue
-        document["keyword"] = keyword
+        hightlighted_sinopsys = resaltar_keywords(subkeywords, document["sinopsys"])
+        document["sinopsys"] = hightlighted_sinopsys
+        for attachment in document["urlAttach"]:
+            attachment["sinopsys"] = resaltar_keywords(subkeywords, attachment["sinopsys"])
+        document["keyword"] = keyword_title
         documents_data.append(document)
 
     return context

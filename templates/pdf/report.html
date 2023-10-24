@@ -68,7 +68,7 @@
                 </div>
                 <div style="margin-top: 0.6em; text-align: justify;">
                     <b>SINOPSIS:</b>
-                    <p style="margin: 0;"> {{ document.sinopsys }}</p>
+                    <p style="margin: 0;"> {{ document.sinopsys|safe }}</p>
                 </div>
                 
                 {% if document.urlAttach|length > 1 %}
@@ -83,7 +83,7 @@
                             </div>
                             <div style="margin-top: 0.6em; text-align: justify;">
                                 <b>Sinopsis:</b>
-                                <p style="margin: 0;"> {{ subdocument.sinopsys }}</p>
+                                <p style="margin: 0;"> {{ subdocument.sinopsys|safe }}</p>
                             </div>
                             <hr style="margin: 0; padding: 0;">
                         {% endif %}
@@ -100,7 +100,7 @@
                             </div>
                             <div style="margin-top: 0.6em; text-align: justify;">
                                 <b>Sinopsis:</b>
-                                <p style="margin: 0;">{{ subdocument.sinopsys }}</p>
+                                <p style="margin: 0;">{{ subdocument.sinopsys|safe }}</p>
                             </div>
                         {% endif %}
                     {% endfor %}

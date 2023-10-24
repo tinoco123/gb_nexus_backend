@@ -9,7 +9,7 @@ def get_pipeline_pdf(id: ObjectId):
                 "title": 1,
                 "urlPage": 1,
                 "sinopsys": {
-                    "$substrCP": ["$sinopsys", 0, 20341]
+                    "$substrCP": ["$sinopsys", 0, 3500]
                 },
                 "federalEstatal": 1,
                 "state": 1,
@@ -21,7 +21,7 @@ def get_pipeline_pdf(id: ObjectId):
                         "in": {
                             "urlAttach": "$$attachment.urlAttach",
                             "sinopsys": {
-                                "$substrCP": ["$$attachment.sinopsys", 0, 20341]
+                                "$substrCP": ["$$attachment.sinopsys", 0, 3500]
                             }
                         }
                     }
@@ -39,7 +39,7 @@ def get_sinopsys_and_urlAttach(id: ObjectId):
         {
             "$project": {
                 "sinopsys": {
-                    "$substrCP": ["$sinopsys", 0, 20341]
+                    "$substrCP": ["$sinopsys", 0, 3500]
                 },
                 "urlAttach": {
                     "$map": {
@@ -48,7 +48,7 @@ def get_sinopsys_and_urlAttach(id: ObjectId):
                         "in": {
                             "urlAttach": "$$attachment.urlAttach",
                             "sinopsys": {
-                                "$substrCP": ["$$attachment.sinopsys", 0, 20341]
+                                "$substrCP": ["$$attachment.sinopsys", 0, 3500]
                             }
                         }
                     }
