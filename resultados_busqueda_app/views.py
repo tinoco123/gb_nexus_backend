@@ -89,14 +89,22 @@ def get_search_result_by_id(request, id):
         try:
             mongo_client = MongoConnection(str(os.getenv("MONGODB_DATABASE")), str(
                 os.getenv("MONGODB_COLLECTION")))
+            keyword_id = int(request.GET.get("keyword"))
+            keyword = get_object_or_404(Keyword, pk=keyword_id)
             search_result_repo = SearchResultRepository(mongo_client)
             search_result = search_result_repo.get_by_id(id)
             if search_result:
+                subkeywords = list(keyword.searchterms_set.values_list("name", flat=True))
+                search_result["sinopsys"] = resaltar_keywords(subkeywords, search_result["sinopsys"])
+                for attachment in search_result["urlAttach"]:
+                    attachment["sinopsys"] = resaltar_keywords(subkeywords, attachment["sinopsys"])
                 return JsonResponse(search_result, encoder=MongoJSONEncoder)
             else:
                 return HttpResponseBadRequest("No se encontró el elemento solicitado")
         except InvalidId:
             return HttpResponseBadRequest("El id que solicitaste tiene un formato erroneo")
+        except ValueError:
+            return HttpResponseBadRequest("Id de keyword no valido")
         except ServerSelectionTimeoutError:
             return HttpResponseServerError("El servidor tardo en retornar una respuesta")
         except ConnectionFailure:

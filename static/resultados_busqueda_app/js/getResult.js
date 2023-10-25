@@ -30,8 +30,10 @@ modalVerResultadosBusqueda.addEventListener('show.bs.modal', event => {
 
 async function getSinopsys() {
     try {
+        const params = new URLSearchParams()
+        params.append('keyword', getKeyword())
         const searchResultId = rowSelected.getData()._id;
-        const response = await fetch("/search-results/data/get/" + searchResultId, {
+        const response = await fetch("/search-results/data/get/" + searchResultId + "?" + params.toString(), {
             method: "GET"
         });
         if (!response.ok) {
