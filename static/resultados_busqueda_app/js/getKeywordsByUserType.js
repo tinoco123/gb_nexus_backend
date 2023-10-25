@@ -113,8 +113,9 @@ function showKeywordsInList(data) {
                 </a>
             `
         })
+        assignLinksToEachKeyword()
     }
 
-    assignLinksToEachKeyword()
+    
 
 }
