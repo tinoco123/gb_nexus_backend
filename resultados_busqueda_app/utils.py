@@ -22,3 +22,9 @@ def resaltar_keywords(keywords: list, sinopsys: str):
         sinopsys_resaltada = re.sub(
             r'\b' + re.escape(keyword.lower()) + r'\b', reemplazar, sinopsys_resaltada)
     return sinopsys_resaltada
+
+def change_title_label_when_is_na(search_results: list):
+    for result in search_results:
+        if result["title"] == "na":
+            result["title"] = "-"
+    
