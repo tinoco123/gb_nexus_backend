@@ -8,7 +8,10 @@ createKeywordForm.addEventListener("submit", (event) => {
     })
         .then((response) => {
             if (response.ok) {
-                window.location.href = "/keywords";
+                response.json()
+                .then(keyword => {
+                    window.location.href = `/search-results?keyword=${keyword.id}`;
+                })
             }
             else if (response.status >= 400 || response.status < 500) {
                 response.json()

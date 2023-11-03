@@ -43,7 +43,7 @@ function getKeywords() {
                 if (radio.checked) {
                     page = 1
                     setRadioSelected(radio.id)
-                    keywordsAJAX()
+                    await keywordsAJAX()
                 }
             })
         }
@@ -114,8 +114,15 @@ function showKeywordsInList(data) {
             `
         })
         assignLinksToEachKeyword()
+        autoClickKeyword()
     }
+}
 
-    
-
+function autoClickKeyword() {
+    const url = new URL(window.location.href)
+    const keyword_id = url.searchParams.get("keyword").toString()
+    var keyword = document.getElementById(keyword_id)
+    if (keyword) {
+        keyword.click()
+    }
 }

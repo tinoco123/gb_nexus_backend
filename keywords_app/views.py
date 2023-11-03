@@ -45,7 +45,7 @@ def create_keyword(request):
 
             set_search_terms_to_keyword(keyword_form, keyword)
 
-            return JsonResponse({}, status=200)
+            return JsonResponse({"id": keyword.id}, status=200)
         else:
             errors = keyword_form.errors.as_json(escape_html=True)
             return JsonResponse({'success': False, 'errors': errors}, status=400)

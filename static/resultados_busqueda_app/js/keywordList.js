@@ -40,8 +40,7 @@ function assignLinksToEachKeyword() {
         })
     } else {
         table.setData("/search-results/data/", { keyword: 0 })
-    }
-
+    } 
 }
 
 
