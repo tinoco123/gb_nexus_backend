@@ -58,7 +58,7 @@ def set_search_terms_to_keyword(keyword_form: KeywordForm, keyword: Keyword):
         filter = keyword_form.cleaned_data[f"filter_{i}"]
         if search_term and filter:
             search_terms.append(SearchTerms(
-                name=search_term, is_required=filter, keyword=keyword))
+                name=search_term, is_required=True if i == 1 else filter, keyword=keyword))
     SearchTerms.objects.bulk_create(search_terms)
 
 
