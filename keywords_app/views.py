@@ -199,7 +199,7 @@ def edit_keyword(request, keyword_id):
             return process_edit_keyword_form_and_edit(request, keyword)
 
 
-def process_edit_keyword_form_and_edit(request, keyword):
+def process_edit_keyword_form_and_edit(request, keyword: Keyword):
     edit_keyword_form = EditKeywordForm(request.POST, instance=keyword)
     if edit_keyword_form.is_valid():
         keyword = edit_keyword_form.save()
@@ -212,7 +212,7 @@ def process_edit_keyword_form_and_edit(request, keyword):
 
         set_search_terms(edit_keyword_form, keyword)
 
-        return JsonResponse({"success": True, "status_text": "Keyword editado correctamente"}, status=200)
+        return JsonResponse({"id": keyword.id}, status=200)
     else:
         errors = edit_keyword_form.errors.as_json(escape_html=True)
         return JsonResponse({'success': False, 'errors': errors}, status=400)
