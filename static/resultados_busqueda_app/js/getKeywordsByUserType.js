@@ -4,24 +4,10 @@ const clienteKeywords = document.getElementById("cliente-keywords")
 var radios = [myKeywords, usuarioKeywords, clienteKeywords]
 var radioSelected = ""
 
-radios.forEach(radio => {
-        if (radio) {
-            radio.addEventListener("change", async () => {
-                if (radio.checked) {
-                    page = 1
-                    setRadioSelected(radio.id)
-                    await keywordsAJAX()
-                }
-            })
-        }
-})
-
 let page = 1;
 const btnAnterior = document.getElementById('btnAnterior');
 const btnSiguiente = document.getElementById('btnSiguiente');
 var last_page = page
-
-
 
 btnSiguiente.addEventListener('click', () => {
     var userInfoContainerExists = UserInfoContainerExists()
@@ -34,8 +20,6 @@ btnSiguiente.addEventListener('click', () => {
         page += 1;
         keywordsAJAX()
     }
-
-
 });
 
 btnAnterior.addEventListener('click', () => {
@@ -52,36 +36,35 @@ btnAnterior.addEventListener('click', () => {
 const url = new URL(window.location.href)
 var keyword_id = url.searchParams.get("keyword")
 var where = url.searchParams.get("keyword_type")
-if (keyword_id && where) {
-    var radioToSelect = document.getElementById(where)
-    if (radioToSelect == null && where =="my-keywords") {
-        setRadioSelected("my-keywords")
-        page = 1
-        keywordsAJAX()
-
-    }
-    setRadioSelected(radioToSelect.id)
+var radioToSelect = document.getElementById(where)
+if (radioToSelect != null){
+  if (keyword_id && page) {
     getKeywords(radioToSelect)
-} else {
-    if (myKeywords) {
-        setRadioSelected(myKeywords.id)
-        getKeywords(myKeywords)
-    } else {
-        page = 1
-        setRadioSelected("my-keywords")
-        keywordsAJAX()
-    }
+  }
+}else if (where == "my-keywords" && keyword_id && page){
+    setRadioSelected("my-keywords")
+    keywordsAJAX()
+}else if(!keyword_id && !where && page){
+    setRadioSelected("my-keywords")
+    keywordsAJAX()
 }
 
 function getKeywords(radio) {
     if (radio){
-        radio.checked = true
+        if (radio.checked == false) {
+            radio.checked = true
+            setRadioSelected(radio.id)
+            keywordsAJAX()
+        } else {
+            radio.checked = true
+            setRadioSelected(radio.id)
+            keywordsAJAX()
+        }        
     }
 }
 
 async function keywordsAJAX() {
     try {
-
         var response = await fetch(`/keywords/data/?page=${page}&size=10&keyword_type=${getRadioSelected()}`)
         var data = await response.json()
         if (response.status === 200) {
@@ -94,13 +77,10 @@ async function keywordsAJAX() {
         } else {
             showNotifications(response.status, "Intentalo más tarde")
         }
-
     } catch (error) {
         console.log(error)
     }
 }
-
-keywordsAJAX()
 
 function getRadioSelected() {
     return radioSelected
@@ -137,15 +117,13 @@ function showKeywordsInList(data) {
                             </span>
                         </p>
                     </li>
-                </a>
-            `
+                </a>            `
         })
         assignLinksToEachKeyword()
         var keyword = document.getElementById(keyword_id)
         if(keyword){
             keyword.click()
             keyword_id = 0
-        }
-        
+        }        
     }
 }
