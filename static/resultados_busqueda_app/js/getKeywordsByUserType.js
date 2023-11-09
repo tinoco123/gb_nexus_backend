@@ -9,6 +9,18 @@ const btnAnterior = document.getElementById('btnAnterior');
 const btnSiguiente = document.getElementById('btnSiguiente');
 var last_page = page
 
+radios.forEach(radio => {
+    if (radio) {
+        radio.addEventListener("change", async () => {
+            if (radio.checked) {
+                page = 1
+                setRadioSelected(radio.id)
+                await keywordsAJAX()
+            }
+        })
+    }
+})
+
 btnSiguiente.addEventListener('click', () => {
     var userInfoContainerExists = UserInfoContainerExists()
     if (userInfoContainerExists) {
@@ -36,21 +48,24 @@ btnAnterior.addEventListener('click', () => {
 const url = new URL(window.location.href)
 var keyword_id = url.searchParams.get("keyword")
 var where = url.searchParams.get("keyword_type")
+if (parseInt(url.searchParams.get("page"))) {
+    page = parseInt(url.searchParams.get("page"))
+}
 var radioToSelect = document.getElementById(where)
-if (radioToSelect != null){
-  if (keyword_id && page) {
-    getKeywords(radioToSelect)
-  }
-}else if (where == "my-keywords" && keyword_id && page){
+if (radioToSelect != null) {
+    if (keyword_id && page) {
+        getKeywords(radioToSelect)
+    }
+} else if (where == "my-keywords" && keyword_id && page) {
     setRadioSelected("my-keywords")
     keywordsAJAX()
-}else if(!keyword_id && !where && page){
+} else if (!keyword_id && !where && page) {
     setRadioSelected("my-keywords")
     keywordsAJAX()
 }
 
 function getKeywords(radio) {
-    if (radio){
+    if (radio) {
         if (radio.checked == false) {
             radio.checked = true
             setRadioSelected(radio.id)
@@ -59,7 +74,7 @@ function getKeywords(radio) {
             radio.checked = true
             setRadioSelected(radio.id)
             keywordsAJAX()
-        }        
+        }
     }
 }
 
@@ -121,9 +136,9 @@ function showKeywordsInList(data) {
         })
         assignLinksToEachKeyword()
         var keyword = document.getElementById(keyword_id)
-        if(keyword){
+        if (keyword) {
             keyword.click()
             keyword_id = 0
-        }        
+        }
     }
 }
