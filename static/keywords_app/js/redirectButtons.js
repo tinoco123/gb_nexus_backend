@@ -7,8 +7,9 @@ table.on("dataLoaded", function(data){
                 const redirectBtn = redirectButtons[i];
                 redirectBtn.addEventListener("click", () => {
                     setTimeout(() => {
+                        console.log(pageNumber);
                         var radioSelected = getRadioSelected()
-                        window.location.href = `/search-results?keyword=${idActualizado}&keyword_type=${radioSelected}`;
+                        window.location.href = `/search-results?keyword=${idActualizado}&keyword_type=${radioSelected}&page=${pageNumber}`;
                     }, 1)
                 })
             }

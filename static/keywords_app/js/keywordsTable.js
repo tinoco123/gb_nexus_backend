@@ -48,3 +48,8 @@ table.on("rowClick", function (e, row) {
     idActualizado = row.getData().id
     rowIndex = row.getIndex()
 });
+
+var pageNumber = 1
+table.on("pageLoaded", function(pageno){
+    pageNumber = pageno
+});

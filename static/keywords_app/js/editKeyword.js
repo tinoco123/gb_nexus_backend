@@ -44,7 +44,7 @@ async function editKeyword(formData, keyword_id) {
             }else if (myRadio != null && myRadio.checked){
                 keyword_type = "my-keywords"
             }
-            window.location.href = `/search-results?keyword=${json_response.id}&keyword_type=${keyword_type}`
+            window.location.href = `/search-results?keyword=${json_response.id}&keyword_type=${keyword_type}&page${pageNumber}`
         } else if (response.status === 400) {
             setErrorsInForm(json_response, "error_edit_")
             showNotifications(response.status, "Error de usuario: Existen errores en tu formulario")
