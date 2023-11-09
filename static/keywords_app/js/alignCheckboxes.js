@@ -18,16 +18,6 @@ document.addEventListener("DOMContentLoaded", () => {
         statesDiv.appendChild(createDivWithStates(parte6))
         statesDiv.appendChild(createDivWithStates(parte7))
     }
-
-    setTimeout(() => {
-        var redirectButtons = document.getElementsByClassName("redirect")
-        for (let i = 0; i < redirectButtons.length; i++) {
-            const redirectButton = redirectButtons[i];
-            redirectButton.addEventListener("click", () => {
-                window.location.href = `/search-results?keyword=${idActualizado}`
-            })
-        }
-    }, 1)
 })
 
 
