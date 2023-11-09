@@ -10,6 +10,8 @@ const btnAnterior = document.getElementById('btnAnterior');
 const btnSiguiente = document.getElementById('btnSiguiente');
 var last_page = page
 
+
+
 btnSiguiente.addEventListener('click', () => {
     var userInfoContainerExists = UserInfoContainerExists()
     if (userInfoContainerExists) {
@@ -52,6 +54,13 @@ function getKeywords() {
 
 getKeywords()
 
+const url = new URL(window.location.href)
+var keyword_id = url.searchParams.get("keyword")
+var where = url.searchParams.get("keyword_type")
+if (keyword_id && where) {
+    var radioToSelect = document.getElementById(where)
+    radioToSelect.click()
+}
 async function keywordsAJAX() {
     try {
 
@@ -114,15 +123,7 @@ function showKeywordsInList(data) {
             `
         })
         assignLinksToEachKeyword()
-        autoClickKeyword()
-    }
-}
-
-function autoClickKeyword() {
-    const url = new URL(window.location.href)
-    const keyword_id = url.searchParams.get("keyword").toString()
-    var keyword = document.getElementById(keyword_id)
-    if (keyword) {
-        keyword.click()
+        document.getElementById(keyword_id).click()
+        keyword_id = 0
     }
 }
