@@ -1,5 +1,5 @@
 var actionIcons = function (cell, formatterParams) {
-    var actionHTML = "<button class='btn px-1 py-0'><i class='bi bi-search fs-5'></i></button><button class='btn ms-1 px-1 py-0' data-bs-toggle='modal' data-bs-target='#edit-keyword-modal'><i class='bi bi-pen fs-5'></i></button> <button class='btn px-1 py-0' data-bs-toggle='modal' data-bs-target='#delete-keyword-modal'><i class='bi bi-trash fs-5'></i></button>"
+    var actionHTML = "<button class='btn px-1 py-0 redirect'><i class='bi bi-search fs-5'></i></button><button class='btn ms-1 px-1 py-0' data-bs-toggle='modal' data-bs-target='#edit-keyword-modal'><i class='bi bi-pen fs-5'></i></button> <button class='btn px-1 py-0' data-bs-toggle='modal' data-bs-target='#delete-keyword-modal'><i class='bi bi-trash fs-5'></i></button>"
     return actionHTML;
 };
 
