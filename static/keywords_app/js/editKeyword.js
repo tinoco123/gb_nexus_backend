@@ -33,7 +33,18 @@ async function editKeyword(formData, keyword_id) {
         const response = await fetch("/keywords/edit/" + keyword_id, { method: "POST", body: formData })
         const json_response = await response.json()
         if (response.ok) {
-            window.location.href = `/search-results?keyword=${json_response.id}`
+            var clienteRadio = document.getElementById("cliente-keywords")
+            var usuarioRadio = document.getElementById("usuario-keywords")
+            var myRadio = document.getElementById("my-keywords")
+            var keyword_type = "my-keywords";
+            if (clienteRadio != null && clienteRadio.checked){
+                keyword_type = "cliente-keywords"
+            } else if (usuarioRadio != null && usuarioRadio.checked){
+                keyword_type = "usuario-keywords"
+            }else if (myRadio != null && myRadio.checked){
+                keyword_type = "my-keywords"
+            }
+            window.location.href = `/search-results?keyword=${json_response.id}&keyword_type=${keyword_type}`
         } else if (response.status === 400) {
             setErrorsInForm(json_response, "error_edit_")
             showNotifications(response.status, "Error de usuario: Existen errores en tu formulario")

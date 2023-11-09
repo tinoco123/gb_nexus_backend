@@ -11,9 +11,6 @@ radios.forEach(radio => {
                 setRadioSelected(radio.id)
                 event.preventDefault()
                 table.setData("/keywords/data/", { keyword_type: getRadioSelected() })
-                    .then(() => {
-                        console.log(getRadioSelected());
-                    })
                 event.stopPropagation()
             }
         })

@@ -48,8 +48,8 @@ async function getSinopsys() {
 
 function moreInformation(data, container) {
     for (let i = 0; i < data.urlAttach.length; i++) {
-        url = data.urlAttach[i].urlAttach
-        sinopsys = data.urlAttach[i].sinopsys
+        var url = data.urlAttach[i].urlAttach
+        var sinopsys = data.urlAttach[i].sinopsys
         container.innerHTML += `
         <tr>
             <th scope="row" class="titulo-ver-mas">

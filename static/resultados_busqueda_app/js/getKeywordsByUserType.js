@@ -1,9 +1,20 @@
-
 const myKeywords = document.getElementById("my-keywords")
 const usuarioKeywords = document.getElementById("usuario-keywords")
 const clienteKeywords = document.getElementById("cliente-keywords")
 var radios = [myKeywords, usuarioKeywords, clienteKeywords]
-var radioSelected = "my-keywords"
+var radioSelected = ""
+
+radios.forEach(radio => {
+        if (radio) {
+            radio.addEventListener("change", async () => {
+                if (radio.checked) {
+                    page = 1
+                    setRadioSelected(radio.id)
+                    await keywordsAJAX()
+                }
+            })
+        }
+})
 
 let page = 1;
 const btnAnterior = document.getElementById('btnAnterior');
@@ -38,29 +49,36 @@ btnAnterior.addEventListener('click', () => {
     }
 });
 
-function getKeywords() {
-    radios.forEach(radio => {
-        if (radio) {
-            radio.addEventListener("change", async () => {
-                if (radio.checked) {
-                    page = 1
-                    setRadioSelected(radio.id)
-                    await keywordsAJAX()
-                }
-            })
-        }
-    })
-}
-
-getKeywords()
-
 const url = new URL(window.location.href)
 var keyword_id = url.searchParams.get("keyword")
 var where = url.searchParams.get("keyword_type")
 if (keyword_id && where) {
     var radioToSelect = document.getElementById(where)
-    radioToSelect.click()
+    if (radioToSelect == null && where =="my-keywords") {
+        setRadioSelected("my-keywords")
+        page = 1
+        keywordsAJAX()
+
+    }
+    setRadioSelected(radioToSelect.id)
+    getKeywords(radioToSelect)
+} else {
+    if (myKeywords) {
+        setRadioSelected(myKeywords.id)
+        getKeywords(myKeywords)
+    } else {
+        page = 1
+        setRadioSelected("my-keywords")
+        keywordsAJAX()
+    }
 }
+
+function getKeywords(radio) {
+    if (radio){
+        radio.checked = true
+    }
+}
+
 async function keywordsAJAX() {
     try {
 
@@ -123,7 +141,11 @@ function showKeywordsInList(data) {
             `
         })
         assignLinksToEachKeyword()
-        document.getElementById(keyword_id).click()
-        keyword_id = 0
+        var keyword = document.getElementById(keyword_id)
+        if(keyword){
+            keyword.click()
+            keyword_id = 0
+        }
+        
     }
 }
