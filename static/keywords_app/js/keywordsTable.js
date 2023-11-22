@@ -21,10 +21,10 @@ var table = new Tabulator("#keywordsTable", {
     ajaxURLGenerator: function (url, config, params) {
         return url + "?page=" + params.page + "&size=" + params.size + "&keyword_type=" + getRadioSelected()
     },
-    paginationSize: 10,
-    paginationSizeSelector: [10, 20, 30, 40, 50],
+    paginationSize: 20,
+    paginationSizeSelector: [20, 30, 40, 50],
     paginationCounter: "rows",
-    height: 680,
+    height: 1000,
     placeholder: "Sin datos que mostrar",
     columns: [
         {
@@ -42,14 +42,10 @@ var table = new Tabulator("#keywordsTable", {
 });
 
 var idActualizado = 0
-var rowIndex = 0
+var rowSelected
 
 table.on("rowClick", function (e, row) {
     idActualizado = row.getData().id
-    rowIndex = row.getIndex()
+    rowSelected = row
 });
 
-var pageNumber = 1
-table.on("pageLoaded", function(pageno){
-    pageNumber = pageno
-});
