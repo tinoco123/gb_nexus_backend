@@ -12,10 +12,10 @@ var table = new Tabulator("#searchResultsTable", {
     ajaxURLGenerator: function (url, config, params) {
         return url + "?page=" + params.page + "&size=" + params.size + "&keyword=" + getKeyword()
     },
-    paginationSize: 10,
-    paginationSizeSelector: [5, 10, 20, 30, 40, 50],
+    paginationSize: 20,
+    paginationSizeSelector: [20, 30, 40, 50],
     paginationCounter: "rows",
-    height: 680,
+    height: 1000,
     columns: [
         {
             formatter: "rowSelection", titleFormatter: "rowSelection", hozAlign: "center", headerHozAlign: "center", resizable: false, headerSort: false, cellClick: function (e, cell) {

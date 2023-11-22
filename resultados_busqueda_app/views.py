@@ -42,6 +42,9 @@ def get_page_of_search_results(request):
             page_number = int(request.GET.get("page"))
             page_size = int(request.GET.get("size"))
 
+            if page_size not in (20, 30, 40, 50):
+                return JsonResponse({"error": "El tamaño de los resultados de búsqueda debe tener alguno de los siguientes valores: 20, 30, 40, 50"}, status=400)
+            
             keyword = get_object_or_404(Keyword, pk=keyword_id)
             query = keyword.query()
             paginator = Pagination(page_size, query, mongo_client)
@@ -54,8 +57,7 @@ def get_page_of_search_results(request):
                     return JsonResponse({"last_page": 0, "data": [], "error": "Sin resultados de búsqueda  para esta keyword"})
 
                 return JsonResponse({"error": "La página solicitada es mayor a la última disponible"}, status=400)
-            if page_size not in (10, 20, 30, 40, 50):
-                return JsonResponse({"error": "El tamaño de los resultados de búsqueda debe tener alguno de los siguientes valores: 10, 20, 30, 40, 50"}, status=400)
+            
 
             documents = paginator.get_page(page_number)
             search_results = [doc for doc in documents]
