@@ -7,20 +7,7 @@ table.on("dataLoaded", function(){
                 const redirectBtn = redirectButtons[i];
                 redirectBtn.addEventListener("click", () => {
                     setTimeout(() => {
-                        var maxPageElements = table.getPageSize()
-                        var currentPage = table.getPage()
-                        var rowPosition = table.getRowPosition(rowSelected)
-
-                        var lowerLimit = maxPageElements * (currentPage - 1)
-                        var position = lowerLimit + rowPosition
-
-                        var page = 0
-
-                        if (position % 10 != 0){
-                            page = Math.trunc(position / 10) + 1
-                        } else {
-                            page = Math.trunc(position / 10)
-                        }
+                        var page = getPageToShowInSearchResults()
 
                         var radioSelected = getRadioSelected()
                         

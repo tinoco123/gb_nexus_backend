@@ -49,3 +49,21 @@ table.on("rowClick", function (e, row) {
     rowSelected = row
 });
 
+function getPageToShowInSearchResults() {
+    var maxPageElements = table.getPageSize()
+    var currentPage = table.getPage()
+    var rowPosition = table.getRowPosition(rowSelected)
+
+    var lowerLimit = maxPageElements * (currentPage - 1)
+    var position = lowerLimit + rowPosition
+
+    var page = 0
+
+    if (position % 10 != 0) {
+        page = Math.trunc(position / 10) + 1
+    } else {
+        page = Math.trunc(position / 10)
+    }
+
+    return page
+}

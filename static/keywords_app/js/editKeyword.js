@@ -37,14 +37,15 @@ async function editKeyword(formData, keyword_id) {
             var usuarioRadio = document.getElementById("usuario-keywords")
             var myRadio = document.getElementById("my-keywords")
             var keyword_type = "my-keywords";
-            if (clienteRadio != null && clienteRadio.checked){
+            if (clienteRadio != null && clienteRadio.checked) {
                 keyword_type = "cliente-keywords"
-            } else if (usuarioRadio != null && usuarioRadio.checked){
+            } else if (usuarioRadio != null && usuarioRadio.checked) {
                 keyword_type = "usuario-keywords"
-            }else if (myRadio != null && myRadio.checked){
+            } else if (myRadio != null && myRadio.checked) {
                 keyword_type = "my-keywords"
             }
-            window.location.href = `/search-results?keyword=${json_response.id}&keyword_type=${keyword_type}&page=${pageNumber}`
+            var page = getPageToShowInSearchResults()
+            window.location.href = `/search-results?keyword=${json_response.id}&keyword_type=${keyword_type}&page=${page}`
         } else if (response.status === 400) {
             setErrorsInForm(json_response, "error_edit_")
             showNotifications(response.status, "Error de usuario: Existen errores en tu formulario")
