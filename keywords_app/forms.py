@@ -53,7 +53,7 @@ class KeywordForm(forms.ModelForm):
             "end_date": _("Fecha final"),
             "title": _("Título de la búsqueda"),
             "congreso_search": _("Buscar en Congresos Locales:"),
-            "estatal_search": _("Buscar en Diarios Oficiales Estatales y Gobiernos Estatales:"),
+            "estatal_search": _("Buscar en Diarios Oficiales Estatales:"),
             "federal_search": _("Buscar en Federal:"),
         }
 
