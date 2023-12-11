@@ -5,26 +5,33 @@ const sinopsysSpan = document.getElementById("id-sinopsys")
 const dateSpan = document.getElementById("id-date")
 const zoneSpan = document.getElementById("id-zone")
 const moreInformationContainer = document.getElementById("information-container")
+const footerMoreInformation = document.getElementById("footer-more-information")
 const modalVerResultadosBusqueda = document.getElementById("modalVerResultadosBusqueda")
 
 modalVerResultadosBusqueda.addEventListener('show.bs.modal', event => {
     setTimeout(() => {
-        pageSpan.innerHTML = rowSelected.getData().title
-        urlSpan.innerHTML = rowSelected.getData().urlPage
-        urlSpan.setAttribute("href", rowSelected.getData().urlPage)
-        stateSpan.innerHTML = rowSelected.getData().state
-        dateSpan.innerHTML = rowSelected.getData().date
-        zoneSpan.innerHTML = rowSelected.getData().federalEstatal
         getSinopsys()
             .then(data => {
-                if (data) {
-                    sinopsysSpan.innerHTML = data.sinopsys
-                    moreInformationContainer.innerHTML = ""
-                    moreInformation(data, moreInformationContainer)
-                    
-
+                if (data.urlAttach.length == 1) {
+                    urlSpan.innerHTML = data.urlAttach[0].urlAttach
+                    urlSpan.setAttribute("href", data.urlAttach[0].urlAttach)
+                    if (data.urlAttach[0].sinopsys == "") {
+                        footerMoreInformation.hidden = true
+                    }
+                }else{
+                    urlSpan.innerHTML = rowSelected.getData().urlPage
+                    urlSpan.setAttribute("href", rowSelected.getData().urlPage)
+                    footerMoreInformation.hidden = false
                 }
+                pageSpan.innerHTML = rowSelected.getData().title                                
+                stateSpan.innerHTML = rowSelected.getData().state
+                dateSpan.innerHTML = rowSelected.getData().date
+                zoneSpan.innerHTML = rowSelected.getData().federalEstatal
+                sinopsysSpan.innerHTML = data.sinopsys
+                moreInformationContainer.innerHTML = ""
+                moreInformation(data, moreInformationContainer)
             });
+
     }, 1)
 })
 
