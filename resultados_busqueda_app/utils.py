@@ -26,5 +26,5 @@ def resaltar_keywords(keywords: list, sinopsys: str):
 def change_title_label_when_is_na(search_results: list):
     for result in search_results:
         if result["title"] == "na":
-            result["title"] = "-"
+            result["title"] = result["collectionName"]
     
