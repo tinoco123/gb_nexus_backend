@@ -19,7 +19,7 @@ var table = new Tabulator("#keywordsTable", {
     paginationMode: "remote",
     ajaxURL: "/keywords/data/",
     ajaxURLGenerator: function (url, config, params) {
-        return url + "?page=" + params.page + "&size=" + params.size + "&keyword_type=" + getRadioSelected()
+        return url + "?page=" + params.page + "&size=" + params.size + "&keyword_type=" + getRadioSelected() + "&search=" + getSearchText()
     },
     paginationSize: 20,
     paginationSizeSelector: [20, 30, 40, 50],

@@ -33,6 +33,9 @@
                 <label class="btn btn-outline-primary" for="cliente-keywords">Clientes</label>
             {% endif %}
         </div>
+        <div class="mx-0 mx-lg-2 p-0 p-lg-2">
+            <input type="text" id="search-keyword" placeholder="Buscar keywords" class="form-control">
+        </div>
         <div class="d-flex flex-column flex-sm-row align-items-center">
             <button
                 id="btn-agregar-keyword"
@@ -70,6 +73,7 @@
     <script type="text/javascript" src="{% static 'keywords_app/js/redirectButtons.js'%}"></script>
     <script type="text/javascript" src="{% static 'keywords_app/js/createKeyword.js' %}"></script>
     <script type="text/javascript" src="{% static 'keywords_app/js/editKeyword.js' %}"></script>
+    <script type="text/javascript" src="{% static 'keywords_app/js/searchKeywords.js' %}"></script>
     <script type="text/javascript" src="{% static 'keywords_app/js/deleteKeyword.js' %}"></script>
     <script type="text/javascript" src="{% static 'keywords_app/js/getSearchTerms.js' %}"></script>
     <script type="text/javascript" src="{% static 'keywords_app/js/getUserInformation.js' %}"></script>

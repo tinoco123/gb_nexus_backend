@@ -104,6 +104,7 @@ def paginate_keywords(request):
             page_number = int(request.GET.get("page"))
             page_size = int(request.GET.get("size"))
             keyword_type = request.GET.get("keyword_type")
+            search = request.GET.get("search")
             user = get_object_or_404(UserBaseAccount, pk=request.user.id)
 
             if page_size not in (10, 20, 30, 40, 50):
@@ -117,6 +118,8 @@ def paginate_keywords(request):
                     keyword_type, user)
             elif request.user.user_type == "CLIENTE":
                 keywords_queryset = keyword_query_for_cliente(user)
+            
+            keywords_queryset = keywords_queryset.filter(title__startswith=search)
 
             paginator = Paginator(keywords_queryset, page_size)
 
