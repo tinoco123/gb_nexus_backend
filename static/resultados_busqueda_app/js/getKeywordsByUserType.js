@@ -48,6 +48,10 @@ btnAnterior.addEventListener('click', () => {
 const url = new URL(window.location.href)
 var keyword_id = url.searchParams.get("keyword")
 var where = url.searchParams.get("keyword_type")
+var includeKeywordInTop = url.searchParams.get("includeKeywordInTop")
+includeKeywordInTop = Boolean(includeKeywordInTop)
+var keyword_title = url.searchParams.get("keyword_title")
+
 if (parseInt(url.searchParams.get("page"))) {
     page = parseInt(url.searchParams.get("page"))
 }
@@ -119,7 +123,23 @@ function showKeywordsInList(data) {
             </li>
     `
     } else {
-        keywordsContainer.innerHTML = ``
+        if (includeKeywordInTop) {
+            keywordsContainer.innerHTML = `
+            <a href="" class="text-black keyword-link" id="${keyword_id}">
+                    <li
+                        class="d-flex align-items-center bg-light p-2 m-1 keyword-li"
+                    >
+                        <p class="d-flex m-0">
+                            <span>
+                                ${keyword_title} 
+                            </span>
+                        </p>
+                    </li>
+                </a>
+            `
+        }else{
+            keywordsContainer.innerHTML = ``
+        }        
         data.data.forEach(keyword => {
             keywordsContainer.innerHTML += `
                 <a href="" class="text-black keyword-link" id="${keyword.id}">
@@ -132,7 +152,7 @@ function showKeywordsInList(data) {
                             </span>
                         </p>
                     </li>
-                </a>            `
+                </a>`
         })
         assignLinksToEachKeyword()
         var keyword = document.getElementById(keyword_id)

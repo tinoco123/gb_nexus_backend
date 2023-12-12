@@ -43,9 +43,10 @@ var table = new Tabulator("#keywordsTable", {
 
 var idActualizado = 0
 var rowSelected
-
+var keyword_title = ""
 table.on("rowClick", function (e, row) {
     idActualizado = row.getData().id
+    keyword_title = row.getData().title
     rowSelected = row
 });
 
