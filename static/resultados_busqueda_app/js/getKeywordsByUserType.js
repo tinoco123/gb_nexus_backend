@@ -80,7 +80,7 @@ function getKeywords(radio) {
 
 async function keywordsAJAX() {
     try {
-        var response = await fetch(`/keywords/data/?page=${page}&size=10&keyword_type=${getRadioSelected()}`)
+        var response = await fetch(`/keywords/data/?page=${page}&size=10&keyword_type=${getRadioSelected()}&search=`)
         var data = await response.json()
         if (response.status === 200) {
             last_page = data.last_page

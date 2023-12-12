@@ -119,7 +119,7 @@ def paginate_keywords(request):
             elif request.user.user_type == "CLIENTE":
                 keywords_queryset = keyword_query_for_cliente(user)
             
-            keywords_queryset = keywords_queryset.filter(title__startswith=search)
+            keywords_queryset = keywords_queryset.filter(title__icontains=search)
 
             paginator = Paginator(keywords_queryset, page_size)
 
