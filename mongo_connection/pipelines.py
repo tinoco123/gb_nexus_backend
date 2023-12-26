@@ -13,7 +13,7 @@ def get_pipeline_pdf(id: ObjectId):
                 },
                 "federalEstatal": 1,
                 "state": 1,
-                "date": 1,
+                "date": { "$dateToString": { "format": "%Y-%m-%d", "date": "$date" }},
                 "urlAttach": {
                     "$map": {
                         "input": "$urlAttach",

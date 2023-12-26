@@ -77,7 +77,7 @@ class Keyword(models.Model):
         query_estatal = {
             "$and": [
                 {"state": {"$in": estatal_states}},
-                {"federalEstatal": "Estatal"}
+                {"federalEstatal": {"$regex": "estatal", "$options": 'i'}}
             ]}
         return query_estatal
 
@@ -87,7 +87,7 @@ class Keyword(models.Model):
         query_congreso = {
             "$and": [
                 {"state": {"$in": congreso_states}},
-                {"federalEstatal": "Congreso"}
+                {"federalEstatal": {"$regex": "congreso", "$options": 'i'}}
             ]}
         return query_congreso
 
@@ -97,7 +97,7 @@ class Keyword(models.Model):
         query_federal = {
             "$and": [
                 {"state": {"$in": federal_list}},
-                {"federalEstatal": "Federal"}
+                {"federalEstatal": {"$regex": "federal", "$options": 'i'}}
             ]}
         return query_federal
 

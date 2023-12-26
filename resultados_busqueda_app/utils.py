@@ -25,6 +25,10 @@ def resaltar_keywords(keywords: list, sinopsys: str):
 
 def change_title_label_when_is_na(search_results: list):
     for result in search_results:
-        if result["title"] == "na":
+        if result["title"] == "na" or result["title"] == "-":
             result["title"] = result["collectionName"]
+
+def change_date_format(search_results: list):
+    for result in search_results:
+        result["date"] = result["date"].strftime("%Y-%m-%d")
     

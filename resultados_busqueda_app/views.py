@@ -7,7 +7,7 @@ from mongo_connection.paginator import Pagination
 from dotenv import load_dotenv
 from pymongo.errors import OperationFailure, ServerSelectionTimeoutError, ConnectionFailure
 from bson.errors import InvalidId
-from .utils import MongoJSONEncoder, resaltar_keywords, change_title_label_when_is_na
+from .utils import MongoJSONEncoder, resaltar_keywords, change_title_label_when_is_na, change_date_format
 from mongo_connection.connection import MongoConnection
 from mongo_connection.search_result_repository import SearchResultRepository
 from keywords_app.models import Keyword
@@ -62,6 +62,7 @@ def get_page_of_search_results(request):
             documents = paginator.get_page(page_number)
             search_results = [doc for doc in documents]
             change_title_label_when_is_na(search_results)
+            change_date_format(search_results)
             data_dict = {
                 "last_page": last_page,
                 "data": search_results
