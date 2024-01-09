@@ -9,6 +9,7 @@ from .forms import KeywordForm, EditKeywordForm
 from tipos_usuarios.models import UserBaseAccount, Cliente
 from django.contrib.auth.decorators import login_required, permission_required
 from dotenv import load_dotenv
+from usuarios_app.utils import DateJSONEnconder
 
 load_dotenv()
 
@@ -132,7 +133,7 @@ def paginate_keywords(request):
                 "data": list(selected_page.object_list)
             }
 
-            return JsonResponse(keywords_response)
+            return JsonResponse(keywords_response, encoder=DateJSONEnconder)
 
         except ValueError:
             return JsonResponse({"error": "Los parámetros enviados son inválidos"}, status=400)

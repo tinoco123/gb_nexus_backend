@@ -7,7 +7,7 @@ from mongo_connection.paginator import Pagination
 from dotenv import load_dotenv
 from pymongo.errors import OperationFailure, ServerSelectionTimeoutError, ConnectionFailure
 from bson.errors import InvalidId
-from .utils import MongoJSONEncoder, resaltar_keywords, change_title_label_when_is_na, change_date_format
+from .utils import MongoJSONEncoder, resaltar_keywords, change_title_labels, change_title_label
 from mongo_connection.connection import MongoConnection
 from mongo_connection.search_result_repository import SearchResultRepository
 from keywords_app.models import Keyword
@@ -61,8 +61,7 @@ def get_page_of_search_results(request):
 
             documents = paginator.get_page(page_number)
             search_results = [doc for doc in documents]
-            change_title_label_when_is_na(search_results)
-            change_date_format(search_results)
+            change_title_labels(search_results)
             data_dict = {
                 "last_page": last_page,
                 "data": search_results
@@ -173,14 +172,14 @@ def get_context_data_pdf(selected_ids: list, keyword: str):
     subkeywords = list(keyword.searchterms_set.values_list("name", flat=True))
 
     for id in selected_ids:
-        document = search_result_repo.get_document_for_pdf(id)
+        document = search_result_repo.get_document_for_pdf(id)         
         if not document:
             continue
+        change_title_label(document)
         hightlighted_sinopsys = resaltar_keywords(subkeywords, document["sinopsys"])
         document["sinopsys"] = hightlighted_sinopsys
         for attachment in document["urlAttach"]:
             attachment["sinopsys"] = resaltar_keywords(subkeywords, attachment["sinopsys"])
         document["keyword"] = keyword_title
         documents_data.append(document)
-
     return context

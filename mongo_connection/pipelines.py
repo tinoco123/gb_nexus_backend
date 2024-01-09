@@ -8,6 +8,7 @@ def get_pipeline_pdf(id: ObjectId):
             "$project": {
                 "title": 1,
                 "urlPage": 1,
+                "collectionName": 1,
                 "sinopsys": {
                     "$substrCP": ["$sinopsys", 0, 3500]
                 },
