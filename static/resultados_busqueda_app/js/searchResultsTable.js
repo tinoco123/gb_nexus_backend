@@ -24,7 +24,10 @@ var table = new Tabulator("#searchResultsTable", {
         },
         { title: "id", field: "_id", visible: false },
         { title: "Página", field: "title", width: 500 },
-        { title: "Fecha", field: "date", sorter: "date" },
+        { title: "Fecha", field: "date", sorter:"date", sorterParams:{
+            format:"yyyy-MM-dd",
+            alignEmptyValues:"top",
+        }},
         { title: "Estado", field: "state" },
         { title: "URL", field: "urlPage", width: 500 },
         { title: "Zona", field: "federalEstatal" },

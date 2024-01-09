@@ -22,11 +22,21 @@ var table = new Tabulator("#userTable", {
         { title: "ID", field: "id", sorter: "number" },
         { title: "Nombre", field: "first_name" },
         { title: "Apellidos", field: "last_name" },
-        { title: "Mail", field: "email"},
+        { title: "Mail", field: "email" },
         { title: "Empresa", field: "company" },
-        { title: "Último acceso", field: "last_login" },
-        { title: "Fecha de registro", field: "date_joined"},
-        { title: "Acciones", formatter: actionIcons, hozAlign: "center", headerHozAlign: "center", headerSort: false, width:102, frozen:true },
+        {
+            title: "Último acceso", field: "last_login", sorter: "date", sorterParams: {
+                format: "yyyy-MM-dd",
+                alignEmptyValues: "top",
+            }
+        },
+        {
+            title: "Fecha de registro", field: "date_joined", sorter: "date", sorterParams: {
+                format: "yyyy-MM-dd",
+                alignEmptyValues: "top",
+            }
+        },
+        { title: "Acciones", formatter: actionIcons, hozAlign: "center", headerHozAlign: "center", headerSort: false, width: 102, frozen: true },
     ],
 });
 

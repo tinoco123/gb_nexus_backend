@@ -34,7 +34,12 @@ var table = new Tabulator("#keywordsTable", {
         },
         { title: "ID", field: "id", sorter: "number" },
         { title: "Título", field: "title" },
-        { title: "Fecha de creación", field: "date_created" },
+        {
+            title: "Fecha de creación", field: "date_created", sorter: "date", sorterParams: {
+                format: "yyyy-MM-dd",
+                alignEmptyValues: "top",
+            }
+        },
         { title: "Keywords:", formatter: viewSearchTerms, hozAlign: "center", headerHozAlign: "center", headerSort: false },
         { title: "Autor:", formatter: viewUserInformation, hozAlign: "center", headerHozAlign: "center", headerSort: false },
         { title: "Acciones", formatter: actionIcons, hozAlign: "center", headerHozAlign: "center", headerSort: false, frozen: true },
