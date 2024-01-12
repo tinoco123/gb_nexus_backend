@@ -29,6 +29,8 @@ def change_title_labels(search_results: list):
         if result["title"] == "na" or result["title"] == "-":
             collection_name = result["collectionName"]
             result["title"] = mexico_states_dict[collection_name]
+        elif result["title"] == "DESCARGA LA GACETA" and result["collectionName"] == "EdomexPeriodicoOficial":
+            result["title"] = "Diario Oficial del Estado de México"
 
 
 def change_title_label(search_result: dict):
