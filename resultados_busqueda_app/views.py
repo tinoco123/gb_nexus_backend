@@ -112,7 +112,7 @@ def get_search_result_by_id(request, id):
             return HttpResponseServerError("El servidor tardo en retornar una respuesta")
         except ConnectionFailure:
             return HttpResponseServerError("Error en la conexión a la base de datos")
-        except OperationFailure:
+        except OperationFailure:            
             return HttpResponseServerError("El servidor fallo en la ejecución de la operación")
 
 

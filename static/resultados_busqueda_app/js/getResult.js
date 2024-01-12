@@ -21,7 +21,12 @@ modalVerResultadosBusqueda.addEventListener('show.bs.modal', event => {
                 }else{
                     urlSpan.innerHTML = rowSelected.getData().urlPage
                     urlSpan.setAttribute("href", rowSelected.getData().urlPage)
-                    footerMoreInformation.hidden = false
+                    if(data.urlAttach.length == 0){
+                        footerMoreInformation.hidden = true
+                    }else {
+                        footerMoreInformation.hidden = false
+                    }
+                    
                 }
                 pageSpan.innerHTML = rowSelected.getData().title                                
                 stateSpan.innerHTML = rowSelected.getData().state

@@ -16,14 +16,20 @@ def get_pipeline_pdf(id: ObjectId):
                 "state": 1,
                 "date": { "$dateToString": { "format": "%Y-%m-%d", "date": "$date" }},
                 "urlAttach": {
-                    "$map": {
-                        "input": "$urlAttach",
-                        "as": "attachment",
-                        "in": {
-                            "urlAttach": "$$attachment.urlAttach",
-                            "sinopsys": {
-                                "$substrCP": ["$$attachment.sinopsys", 0, 3500]
+                    "$cond" : {
+                        "if" : {"$eq": ["$urlAttach", "na"]},
+                        "then": [],
+                        "else": {
+                            "$map": {
+                            "input": "$urlAttach",
+                            "as": "attachment",
+                            "in": {
+                                "urlAttach": "$$attachment.urlAttach",
+                                "sinopsys": {
+                                    "$substrCP": ["$$attachment.sinopsys", 0, 3500]
+                                }
                             }
+                    }
                         }
                     }
                 },
@@ -43,14 +49,20 @@ def get_sinopsys_and_urlAttach(id: ObjectId):
                     "$substrCP": ["$sinopsys", 0, 3500]
                 },
                 "urlAttach": {
-                    "$map": {
-                        "input": "$urlAttach",
-                        "as": "attachment",
-                        "in": {
-                            "urlAttach": "$$attachment.urlAttach",
-                            "sinopsys": {
-                                "$substrCP": ["$$attachment.sinopsys", 0, 3500]
+                    "$cond" : {
+                        "if" : {"$eq": ["$urlAttach", "na"]},
+                        "then": [],
+                        "else": {
+                            "$map": {
+                            "input": "$urlAttach",
+                            "as": "attachment",
+                            "in": {
+                                "urlAttach": "$$attachment.urlAttach",
+                                "sinopsys": {
+                                    "$substrCP": ["$$attachment.sinopsys", 0, 3500]
+                                }
                             }
+                    }
                         }
                     }
                 },
