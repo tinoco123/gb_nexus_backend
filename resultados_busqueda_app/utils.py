@@ -20,7 +20,7 @@ def resaltar_keywords(keywords: list, sinopsys: str):
         return f"<strong>{match.group()}</strong>"
     for keyword in keywords:
         sinopsys_resaltada = re.sub(
-            r'\b' + re.escape(keyword.lower()) + r'\b', reemplazar, sinopsys_resaltada)
+            r'\b' + re.escape(keyword.lower()) + r'\b', reemplazar, sinopsys_resaltada, flags=re.IGNORECASE)
     return sinopsys_resaltada
 
 
