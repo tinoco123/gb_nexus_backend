@@ -107,7 +107,7 @@ def get_search_result_by_id(request, id):
                 for attachment in attachments_with_sinopsys:
                     resaltar_keywords(subkeywords, attachment["sinopsys"])
 
-                search_result["urlAttach"]  = attachments_with_sinopsys
+                search_result["urlAttach"]  = attachments_with_sinopsys                
 
                 return JsonResponse(search_result, encoder=MongoJSONEncoder)
             else:

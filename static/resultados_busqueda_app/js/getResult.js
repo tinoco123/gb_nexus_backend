@@ -17,6 +17,8 @@ modalVerResultadosBusqueda.addEventListener('show.bs.modal', event => {
                     urlSpan.setAttribute("href", data.urlAttach[0].urlAttach)
                     if (data.urlAttach[0].sinopsys == "") {
                         footerMoreInformation.hidden = true
+                    }else{
+                        footerMoreInformation.hidden = false
                     }
                 }else{
                     urlSpan.innerHTML = rowSelected.getData().urlPage
@@ -25,8 +27,7 @@ modalVerResultadosBusqueda.addEventListener('show.bs.modal', event => {
                         footerMoreInformation.hidden = true
                     }else {
                         footerMoreInformation.hidden = false
-                    }
-                    
+                    }                    
                 }
                 pageSpan.innerHTML = rowSelected.getData().title                                
                 stateSpan.innerHTML = rowSelected.getData().state
