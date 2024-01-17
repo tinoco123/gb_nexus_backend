@@ -26,17 +26,23 @@ def resaltar_keywords(keywords: list, sinopsys: str):
 
 def change_title_labels(search_results: list):
     for result in search_results:
-        if result["title"] == "na" or result["title"] == "-":
-            collection_name = result["collectionName"]
-            result["title"] = mexico_states_dict[collection_name]
-        elif result["title"] == "DESCARGA LA GACETA" and result["collectionName"] == "EdomexPeriodicoOficial":
-            result["title"] = "Diario Oficial del Estado de México"
+        try:
+            if result["title"] in ("na", "-", "N/A"):
+                collection_name = result["collectionName"]
+                result["title"] = mexico_states_dict[collection_name]
+            elif result["title"] == "DESCARGA LA GACETA" and result["collectionName"] == "EdomexPeriodicoOficial":
+                result["title"] = "Diario Oficial del Estado de México"
+        except KeyError:
+            continue        
 
 
 def change_title_label(search_result: dict):
-    if search_result["title"] == "na" or search_result["title"] == "-":
-        collection_name = search_result["collectionName"]
-        search_result["title"] = mexico_states_dict[collection_name]
+    try:
+        if search_result["title"] in ("na", "-", "N/A"):
+            collection_name = search_result["collectionName"]
+            search_result["title"] = mexico_states_dict[collection_name]
+    except KeyError:
+        return
 
 
 mexico_states_dict = {
@@ -68,6 +74,7 @@ mexico_states_dict = {
     'DurangoPeriodicoOficial': 'Diario Oficial de Durango',
     'EdomexGaceta': 'Congreso del Estado de México',
     'EdomexPeriodicoOficial': 'Diario Oficial del Estado de México',
+    'GuanajuatoIniciativa': 'Congreso de Guanajuato',
     'GuanajuatoComunicacion': 'Congreso de Guanajuato',
     'GuanajuatoCongreso': 'Congreso de Guanajuato',
     'GuanajuatoGaceta': 'Congreso de Guanajuato',

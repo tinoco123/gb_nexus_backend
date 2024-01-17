@@ -44,7 +44,7 @@ def get_page_of_search_results(request):
 
             if page_size not in (20, 30, 40, 50):
                 return JsonResponse({"error": "El tamaño de los resultados de búsqueda debe tener alguno de los siguientes valores: 20, 30, 40, 50"}, status=400)
-            
+
             keyword = get_object_or_404(Keyword, pk=keyword_id)
             query = keyword.query()
             paginator = Pagination(page_size, query, mongo_client)
@@ -57,7 +57,6 @@ def get_page_of_search_results(request):
                     return JsonResponse({"last_page": 0, "data": [], "error": "Sin resultados de búsqueda  para esta keyword"})
 
                 return JsonResponse({"error": "La página solicitada es mayor a la última disponible"}, status=400)
-            
 
             documents = paginator.get_page(page_number)
             search_results = [doc for doc in documents]
@@ -97,10 +96,19 @@ def get_search_result_by_id(request, id):
             search_result_repo = SearchResultRepository(mongo_client)
             search_result = search_result_repo.get_by_id(id)
             if search_result:
-                subkeywords = list(keyword.searchterms_set.values_list("name", flat=True))
-                search_result["sinopsys"] = resaltar_keywords(subkeywords, search_result["sinopsys"])
-                for attachment in search_result["urlAttach"]:
-                    attachment["sinopsys"] = resaltar_keywords(subkeywords, attachment["sinopsys"])
+                subkeywords = list(
+                    keyword.searchterms_set.values_list("name", flat=True))
+                search_result["sinopsys"] = resaltar_keywords(
+                    subkeywords, search_result["sinopsys"])
+                
+                attachments_with_sinopsys = list(filter(lambda attachment: attachment["sinopsys"] != "",
+                                         search_result["urlAttach"]))                
+
+                for attachment in attachments_with_sinopsys:
+                    resaltar_keywords(subkeywords, attachment["sinopsys"])
+
+                search_result["urlAttach"]  = attachments_with_sinopsys
+
                 return JsonResponse(search_result, encoder=MongoJSONEncoder)
             else:
                 return HttpResponseBadRequest("No se encontró el elemento solicitado")
@@ -112,7 +120,7 @@ def get_search_result_by_id(request, id):
             return HttpResponseServerError("El servidor tardo en retornar una respuesta")
         except ConnectionFailure:
             return HttpResponseServerError("Error en la conexión a la base de datos")
-        except OperationFailure:            
+        except OperationFailure:
             return HttpResponseServerError("El servidor fallo en la ejecución de la operación")
 
 
@@ -166,20 +174,22 @@ def get_context_data_pdf(selected_ids: list, keyword: str):
 
     documents_data = []
     context = {"data": documents_data}
-    
+
     keyword = Keyword.objects.get(pk=int(keyword))
     keyword_title = keyword.title
     subkeywords = list(keyword.searchterms_set.values_list("name", flat=True))
 
     for id in selected_ids:
-        document = search_result_repo.get_document_for_pdf(id)         
+        document = search_result_repo.get_document_for_pdf(id)
         if not document:
             continue
         change_title_label(document)
-        hightlighted_sinopsys = resaltar_keywords(subkeywords, document["sinopsys"])
+        hightlighted_sinopsys = resaltar_keywords(
+            subkeywords, document["sinopsys"])
         document["sinopsys"] = hightlighted_sinopsys
         for attachment in document["urlAttach"]:
-            attachment["sinopsys"] = resaltar_keywords(subkeywords, attachment["sinopsys"])
+            attachment["sinopsys"] = resaltar_keywords(
+                subkeywords, attachment["sinopsys"])
         document["keyword"] = keyword_title
         documents_data.append(document)
     return context
