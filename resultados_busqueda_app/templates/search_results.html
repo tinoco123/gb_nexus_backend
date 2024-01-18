@@ -52,6 +52,10 @@
             <i class="bi bi-file-earmark-pdf-fill fs-5 me-1 me-sm-2"></i>
                     Exportar PDF
         </button>
+        <button class="btn btn-primary px-1 p-sm-2 mt-2 mt-md-0" id="send-mail">
+            <i class="bi bi-envelope-fill fs-5 me-1 me-sm-2"></i>
+            Enviar por email
+        </button>
     </div>         
 {% endblock tabla %}
 
@@ -195,5 +199,8 @@
     </script>
     <script type="text/javascript" 
         src="{% static 'resultados_busqueda_app/js/pdf.js' %}">
+    </script>
+    <script type="text/javascript" 
+        src="{% static 'resultados_busqueda_app/js/mails.js' %}">
     </script>
 {% endblock js-files %}

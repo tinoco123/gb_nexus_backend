@@ -1,3 +1,4 @@
+import threading
 import json
 import os
 from django.http import Http404, HttpResponseNotAllowed, JsonResponse, HttpResponseBadRequest, HttpResponseServerError
@@ -12,6 +13,9 @@ from mongo_connection.connection import MongoConnection
 from mongo_connection.search_result_repository import SearchResultRepository
 from keywords_app.models import Keyword
 from gb_nexus_backend import renderers
+from django.template.loader import get_template
+from django.core.mail import EmailMultiAlternatives
+from django.conf import settings
 
 load_dotenv()
 
@@ -100,14 +104,14 @@ def get_search_result_by_id(request, id):
                     keyword.searchterms_set.values_list("name", flat=True))
                 search_result["sinopsys"] = resaltar_keywords(
                     subkeywords, search_result["sinopsys"])
-                
+
                 attachments_with_sinopsys = list(filter(lambda attachment: attachment["sinopsys"] != "",
-                                         search_result["urlAttach"]))                
+                                                        search_result["urlAttach"]))
 
                 for attachment in attachments_with_sinopsys:
                     resaltar_keywords(subkeywords, attachment["sinopsys"])
 
-                search_result["urlAttach"]  = attachments_with_sinopsys                
+                search_result["urlAttach"] = attachments_with_sinopsys
 
                 return JsonResponse(search_result, encoder=MongoJSONEncoder)
             else:
@@ -193,3 +197,49 @@ def get_context_data_pdf(selected_ids: list, keyword: str):
         document["keyword"] = keyword_title
         documents_data.append(document)
     return context
+
+
+def create_mail(email: str, subject: str, context: dict, template_path: str, attachments: list[dict]):
+    template = get_template(template_path)
+    content = template.render(context)
+
+    mail = EmailMultiAlternatives(
+        subject=subject,
+        body='',
+        from_email=f"COMPASS <{settings.EMAIL_HOST_USERNAME}>",
+        to=[email]
+    )
+    mail.attach_alternative(content, "text/html")
+
+    for attachment in attachments:
+        mail.attach(attachment["filename"],
+                    attachment["content"], attachment["mimetype"])
+
+    return mail
+
+
+def send_search_results_mail(request):
+
+    data = json.loads(request.body.decode('utf-8'))
+    keyword_id = data.get("keyword", [])
+    keyword_title = get_object_or_404(Keyword, id=keyword_id).title
+
+    pdf = {"filename": f"{keyword_title}", "content": generate_pdf(
+        request).content, "mimetype": "application/pdf"}
+
+    recipient = request.user.email
+    mail = create_mail("htinoco@intekelfinancer.com",
+                       f"Resultados de búsqueda de Compass - Keyword: {keyword_title}", {}, "mails/search_results.html", [pdf])
+
+    mail.send(fail_silently=False)
+
+
+@login_required
+def send_mail(request):
+    try:
+        thread = threading.Thread(target=send_search_results_mail(request))
+        thread.start()
+        return JsonResponse({}, status=200)
+    except Exception as ex:
+        print(ex)
+        return JsonResponse({}, status=400)

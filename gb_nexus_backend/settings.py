@@ -13,7 +13,9 @@ from dotenv import load_dotenv
 from pathlib import Path
 from django.contrib.messages import constants as messages
 import os
-
+import django
+from django.utils.encoding import smart_str
+django.utils.encoding.smart_text = smart_str
 load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -45,7 +47,8 @@ INSTALLED_APPS = [
     'usuarios_app',
     'clientes_app',
     'resultados_busqueda_app',
-    'keywords_app'
+    'keywords_app',
+    'django_inlinecss'
 ]
 
 MIDDLEWARE = [
@@ -152,3 +155,19 @@ MESSAGE_TAGS = {
     messages.WARNING: 'alert-warning',
     messages.ERROR: 'alert-danger',
 }
+
+AWS_ACCESS_KEY_ID= str(os.getenv("AWS_ACCESS_KEY_ID"))
+
+AWS_SECRET_ACCESS_KEY = str(os.getenv("AWS_SECRET_ACCESS_KEY"))
+
+EMAIL_HOST_USERNAME = str(os.getenv("EMAIL_HOST_USERNAME"))
+
+AWS_SES_REGION_NAME = str(os.getenv("AWS_SES_REGION_NAME"))
+
+AWS_SES_REGION_ENDPOINT = str(os.getenv("AWS_SES_REGION_ENDPOINT"))
+
+EMAIL_BACKEND = 'django_ses.SESBackend'
+
+
+
+
