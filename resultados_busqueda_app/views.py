@@ -222,14 +222,20 @@ def send_search_results_mail(request):
 
     data = json.loads(request.body.decode('utf-8'))
     keyword_id = data.get("keyword", [])
-    keyword_title = get_object_or_404(Keyword, id=keyword_id).title
+    keyword = get_object_or_404(Keyword, id=int(keyword_id))
+    keyword_title = keyword.title
+    subkeywords = list(keyword.searchterms_set.values_list("name", flat=True))
 
     pdf = {"filename": f"{keyword_title}", "content": generate_pdf(
         request).content, "mimetype": "application/pdf"}
 
     recipient = request.user.email
-    mail = create_mail("htinoco@intekelfinancer.com",
-                       f"Resultados de búsqueda de Compass - Keyword: {keyword_title}", {}, "mails/search_results.html", [pdf])
+    context = {
+        "username": request.user.first_name,
+        "keyword_title": keyword_title,
+        "subkeywords": subkeywords
+    }
+    mail = create_mail(recipient, f"Resultados de búsqueda de Compass - Keyword: {keyword_title}", context, "mails/search_results.html", [pdf])
 
     mail.send(fail_silently=False)
 
