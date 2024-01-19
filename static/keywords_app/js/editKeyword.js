@@ -46,10 +46,10 @@ async function editKeyword(formData, keyword_id) {
             }
             var searchInput = document.getElementById("search-keyword")
             if (searchInput.value != ""){
-                window.location.href = `/search-results?keyword=${json_response.id}&keyword_type=${keyword_type}&page=1&includeKeywordInTop=true&keyword_title=${keyword_title}`;
+                window.location.href = `/search-results/?keyword=${json_response.id}&keyword_type=${keyword_type}&page=1&includeKeywordInTop=true&keyword_title=${keyword_title}`;
             }else{
                 var page = getPageToShowInSearchResults()
-                window.location.href = `/search-results?keyword=${json_response.id}&keyword_type=${keyword_type}&page=${page}`
+                window.location.href = `/search-results/?keyword=${json_response.id}&keyword_type=${keyword_type}&page=${page}`
             }            
         } else if (response.status === 400) {
             setErrorsInForm(json_response, "error_edit_")

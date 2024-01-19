@@ -10,11 +10,11 @@ table.on("dataLoaded", function(){
                         var searchInput = document.getElementById("search-keyword")
                         var radioSelected = getRadioSelected()
                         if (searchInput.value != "") {
-                            window.location.href = `/search-results?keyword=${idActualizado}&keyword_type=${radioSelected}&page=1&includeKeywordInTop=true&keyword_title=${keyword_title}`;
+                            window.location.href = `/search-results/?keyword=${idActualizado}&keyword_type=${radioSelected}&page=1&includeKeywordInTop=true&keyword_title=${keyword_title}`;
                         } else {
                             var page = getPageToShowInSearchResults()
                                                         
-                            window.location.href = `/search-results?keyword=${idActualizado}&keyword_type=${radioSelected}&page=${page}`;
+                            window.location.href = `/search-results/?keyword=${idActualizado}&keyword_type=${radioSelected}&page=${page}`;
                         }                        
                         
                     }, 1)
