@@ -8,7 +8,6 @@ sendMailButon.addEventListener("click", async () => {
             selectedIds: ids,
             keyword: getKeyword()
         }
-
         var response = await fetch("/search-results/send-mail/", {method: "POST", headers: {"Content-Type": 'application/json', 'X-CSRFToken': getCSRFToken()}, body: JSON.stringify(data)})
 
         if (response.status === 200){
