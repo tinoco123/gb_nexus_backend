@@ -218,9 +218,7 @@ def create_mail(email: str, subject: str, context: dict, template_path: str, att
     return mail
 
 
-def send_search_results_mail(request):
-
-    data = json.loads(request.body.decode('utf-8'))
+def send_search_results_mail(request, data):    
     keyword_id = data.get("keyword", [])
     keyword = get_object_or_404(Keyword, id=int(keyword_id))
     keyword_title = keyword.title
@@ -243,9 +241,14 @@ def send_search_results_mail(request):
 @login_required
 def send_mail(request):
     try:
-        thread = threading.Thread(target=send_search_results_mail(request))
+        data = json.loads(request.body.decode('utf-8'))
+        response_validated_date = validate_data_to_generate_pdf(data.get('selectedIds', []), data.get("keyword", []))
+        if response_validated_date:
+            return response_validated_date
+        
+        thread = threading.Thread(target=send_search_results_mail(request, data))
         thread.start()
         return JsonResponse({}, status=200)
     except Exception as ex:
         print(ex)
-        return JsonResponse({}, status=400)
+        return JsonResponse({"error": ex}, status=400)

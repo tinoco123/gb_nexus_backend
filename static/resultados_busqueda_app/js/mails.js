@@ -13,6 +13,9 @@ sendMailButon.addEventListener("click", async () => {
 
         if (response.status === 200){
             showNotifications(response.status, "Email enviado correctamente")
+        } else if (response.status === 400){
+            var error = await response.json()
+            showNotifications(response.status, error.error)
         }
 
     } catch (error) {
