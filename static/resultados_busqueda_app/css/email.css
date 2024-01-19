@@ -1,21 +1,35 @@
 body {
-    font-family: Arial, sans-serif;
-    font-size: 16px;
-    color: #333;
-    line-height: 1.6;
-    text-align: center;   
+    font-family: Helvetica, sans-serif;
+    font-size: 17px;
+    color: #000000;
+    text-align: justify;   
     margin: 0;
     padding: 0;
 }
 
 .container {
-    max-width: 600px;
+    max-width: 1280px;
     margin: 0 auto;
     padding: 20px;
     background-color: #fff;
-    border: 1px solid #ccc;
 }
 
+table {
+    width:70%; 
+    border-collapse: collapse; 
+    border: 1px solid #dddddd;
+}
+
+th{
+    padding: 8px; 
+    border: 1px solid #dddddd; 
+    text-align: left;
+}
+
+td{
+    padding: 8px; 
+    border: 1px solid #dddddd;
+}
 img {
     max-width: 100%;
     height: auto;
@@ -23,20 +37,14 @@ img {
     margin: 0 auto;
 }
 
-h1, h2, h3 {
-    color: #007bff;
-}
-
 p {
     margin-bottom: 20px;
     text-align: justify;
 }
 
-a {
-    color: #007bff;
-    text-decoration: none;
-}
-
-a:hover {
-    text-decoration: underline;
+.confidencial, .contacto {
+    margin-top: 2em;
+    color: rgb(51, 51, 51);
+    font-size: 13px;
+    font-style: italic;
 }

@@ -1,61 +1,82 @@
 {% load inlinecss %} {% inlinecss "resultados_busqueda_app\css\email.css" %}
-    <html>
-        <body>
-            <div class="container">
-                <h2>Global Nexus DC</h2>
-                <img
-                    src="https://www.globalnexusdc.com/wp-content/uploads/2017/08/GLOBALNEXUS_Logo.jpg"
-                    alt=""
-                />
-            </div>
+<html>
+    <body>
+        <div class="container">
+            <img
+                src="https://www.globalnexusdc.com/wp-content/uploads/2017/08/GLOBALNEXUS_Logo.jpg"
+                alt=""
+            />
             <p>Buenos días {{ data.username }}</p>
             <p>
-                A nombre de Global Nexus compartimos las últimas noticias recabadas
-                por nuestro sistema de scraping COMPASS del {{ data.date }}:
+                A nombre de Global Nexus compartimos las últimas noticias
+                recabadas por nuestro sistema de scraping COMPASS del {{ data.date }}:
             </p>
 
-            <p>
-                Los resultados de las búsquedas podrán encontrarla en los documentos
-                PDFs anexos.
+            <div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nombre de la búsqueda</th>
+                            <th>Keywords agregadas</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Iniciativa</td>
+                            <td>Iniciativa de ley</td>
+                        </tr>
+                        <tr>
+                            <td>Decreto</td>
+                            <td>Decreto</td>
+                        </tr>
+                    </tbody>                
+                </table>
+            </div>
+
+            <p style="margin-top: 2.5em;">
+                Los resultados de las búsquedas podrán encontrarla en los
+                documentos PDFs anexos.
             </p>
-            <p>
-                A Global Nexus DC Solution. Mexico City. Mexico. Washington DC. USA
+            <p class="contacto">
+                A Global Nexus DC Solution.<br />Mexico City. Mexico.
+                <br />Washington DC.USA <br />
                 +52 (55) 1948 8343
             </p>
 
-            <p>
+            <p class="confidencial">
                 Aviso de confidencialidad y alcance de contenido. La información
-                contenida en este mensaje así como cualquier archivo dentro de él,
-                es confidencial y queda restringida únicamente para el uso de las
-                personas o entidades a las cuales es dirigido. Cualquier revisión,
-                retransmisión, diseminación, o cualquier otro uso o acción
-                relacionada con esta información ya sea por personas o entidades
-                distintas a los recipientes a los que ha sido dirigida, está
-                prohibida. Si usted recibe esta información por error, debe
-                eliminarlo y notificar al remitente por esta misma vía y no debe
-                leer, copiar, conservar, imprimir, divulgar o distribuir este
-                mensaje o su contenido ya que tales acciones pueden ser ilegales.
-                Precaución: se han tomado medidas preventivas para evitar que algún
-                virus esté presente en este mensaje por lo que no se acepta
-                responsabilidad de alguna pérdida o daño que se presente del uso de
-                su contenido
+                contenida en este mensaje así como cualquier archivo dentro de
+                él, es confidencial y queda restringida únicamente para el uso
+                de las personas o entidades a las cuales es dirigido. Cualquier
+                revisión, retransmisión, diseminación, o cualquier otro uso o
+                acción relacionada con esta información ya sea por personas o
+                entidades distintas a los recipientes a los que ha sido
+                dirigida, está prohibida. Si usted recibe esta información por
+                error, debe eliminarlo y notificar al remitente por esta misma
+                vía y no debe leer, copiar, conservar, imprimir, divulgar o
+                distribuir este mensaje o su contenido ya que tales acciones
+                pueden ser ilegales. Precaución: se han tomado medidas
+                preventivas para evitar que algún virus esté presente en este
+                mensaje por lo que no se acepta responsabilidad de alguna
+                pérdida o daño que se presente del uso de su contenido
             </p>
-            <p>
+            <p class="confidencial">
                 Notice of confidentiality and scope of content. The information
                 contained in this message, as well as any file within, is
-                confidential and is restricted only for the use of the persons or
-                entities to which it’s directed. Any review, retransmission,
+                confidential and is restricted only for the use of the persons
+                or entities to which it’s directed. Any review, retransmission,
                 dissemination, or any other use or action related to this
-                information by either persons or entities other than the recipients
-                to whom it has been directed, is prohibited. If you receive this
-                information in error, you must delete it and notify the sender in
-                this same way and you must not read, copy, keep, print, disseminate
-                or distribute this message or its content since such actions may be
-                illegal. Caution: Preventive measures have been taken to prevent any
-                virus from being present in this message, therefore no
-                responsibility is accepted for any loss or damage arising from the
-                use of its content.
+                information by either persons or entities other than the
+                recipients to whom it has been directed, is prohibited. If you
+                receive this information in error, you must delete it and notify
+                the sender in this same way and you must not read, copy, keep,
+                print, disseminate or distribute this message or its content
+                since such actions may be illegal. Caution: Preventive measures
+                have been taken to prevent any virus from being present in this
+                message, therefore no responsibility is accepted for any loss or
+                damage arising from the use of its content.
             </p>
-        </body>
-    </html>
+        </div>
+    </body>
+</html>
 {% endinlinecss %}
