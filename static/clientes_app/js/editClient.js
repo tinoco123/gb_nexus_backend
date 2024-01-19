@@ -43,7 +43,7 @@ function editClient(formData, user_id) {
     })
         .then(response => {
             if (response.ok) {
-                window.location.href = "/clients"
+                window.location.href = "/clients/"
             } else if (response.status >= 400 && response.status < 500) {
                 response.json()
                     .then(form_errors => {

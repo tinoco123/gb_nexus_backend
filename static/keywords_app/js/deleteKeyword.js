@@ -23,7 +23,7 @@ deleteKeywordBtn.addEventListener("click", () => {
     })
         .then(response => {
             if (response.ok) {
-                window.location.href = "/keywords";
+                window.location.href = "/keywords/";
             }
             else if (response.status >= 400 || response.status < 500) {
                 response.json()

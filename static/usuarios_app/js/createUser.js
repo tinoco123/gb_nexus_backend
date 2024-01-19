@@ -8,7 +8,7 @@ createUserForm.addEventListener("submit", (event) => {
   })
     .then((response) => {
       if (response.ok) {
-        window.location.href = "/users";
+        window.location.href = "/users/";
       }
       else if (response.status >= 400 || response.status < 500) {
         response.json()
