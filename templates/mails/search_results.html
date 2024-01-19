@@ -4,12 +4,14 @@
         <div class="container">
             <img
                 src="https://www.globalnexusdc.com/wp-content/uploads/2017/08/GLOBALNEXUS_Logo.jpg"
-                alt=""
+                alt="Logo de Global Nexus"
             />
-            <p>Buenos días {{ data.username }}</p>
+            <p>
+                <b>Buenos días {{ username }}:</b>            
+            </p>
             <p>
                 A nombre de Global Nexus compartimos las últimas noticias
-                recabadas por nuestro sistema de scraping COMPASS del {{ data.date }}:
+                recabadas por nuestro sistema de scraping COMPASS:
             </p>
 
             <div>
@@ -20,15 +22,20 @@
                             <th>Keywords agregadas</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody>                        
                         <tr>
-                            <td>Iniciativa</td>
-                            <td>Iniciativa de ley</td>
-                        </tr>
-                        <tr>
-                            <td>Decreto</td>
-                            <td>Decreto</td>
-                        </tr>
+                            <td>{{ keyword_title }}</td>
+                            <td>
+                                <ul>
+                                    {% for subkeyword in subkeywords %}
+                                        <li style="padding: 0; margin: 0;">
+                                            {{ subkeyword }}
+                                        </li>
+                                    {% endfor%}
+                                </ul>
+                                
+                            </td>
+                        </tr>                        
                     </tbody>                
                 </table>
             </div>
