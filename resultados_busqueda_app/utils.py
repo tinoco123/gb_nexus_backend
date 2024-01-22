@@ -25,24 +25,37 @@ def resaltar_keywords(keywords: list, sinopsys: str):
 
 
 def change_title_labels(search_results: list):
-    for result in search_results:
+    for search_result in search_results:
         try:
-            if result["title"] in ("na", "-", "N/A"):
-                collection_name = result["collectionName"]
-                result["title"] = mexico_states_dict[collection_name]
-            elif result["title"] == "DESCARGA LA GACETA" and result["collectionName"] == "EdomexPeriodicoOficial":
-                result["title"] = "Diario Oficial del Estado de México"
+            title = search_result["title"]
+            collection_name = search_result["collectionName"]
+            if is_common_title(title) or collection_name == "OaxacaDictamen":
+                search_result["title"] = mexico_states_dict[collection_name]
         except KeyError:
-            continue        
+            continue
 
 
 def change_title_label(search_result: dict):
     try:
-        if search_result["title"] in ("na", "-", "N/A"):
-            collection_name = search_result["collectionName"]
+        title = search_result["title"]
+        collection_name = search_result["collectionName"]
+        if is_common_title(title) or collection_name == "OaxacaDictamen":
             search_result["title"] = mexico_states_dict[collection_name]
     except KeyError:
         return
+
+
+common_titles = ["na", "-", "n/a", "descarga la gaceta",
+                 "orden del", "lista de ejemplares"]
+
+
+def is_common_title(title: str):
+    for common_title in common_titles:
+        match = re.search(r"\b" + common_title + r"\b", title, re.IGNORECASE)
+        if match:
+            return True
+    else:
+        return False
 
 
 mexico_states_dict = {
