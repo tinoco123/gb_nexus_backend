@@ -51,7 +51,8 @@ common_titles = ["na", "-", "n/a", "descarga la gaceta",
 
 def is_common_title(title: str):
     for common_title in common_titles:
-        match = re.search(r"\b" + common_title + r"\b", title, re.IGNORECASE)
+        patron = r"\b" + common_title + r"\b" if common_title != '-' else re.escape(common_title)
+        match = re.search(patron, title, re.IGNORECASE)
         if match:
             return True
     else:
