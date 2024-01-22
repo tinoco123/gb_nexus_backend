@@ -9,35 +9,26 @@ const footerMoreInformation = document.getElementById("footer-more-information")
 const modalVerResultadosBusqueda = document.getElementById("modalVerResultadosBusqueda")
 
 modalVerResultadosBusqueda.addEventListener('show.bs.modal', event => {
-    setTimeout(() => {
-        getSinopsys()
-            .then(data => {
-                if (data.urlAttach.length == 1) {
-                    urlSpan.innerHTML = data.urlAttach[0].urlAttach
-                    urlSpan.setAttribute("href", data.urlAttach[0].urlAttach)
-                    if (data.urlAttach[0].sinopsys == "") {
-                        footerMoreInformation.hidden = true
-                    }else{
-                        footerMoreInformation.hidden = false
-                    }
-                }else{
-                    urlSpan.innerHTML = rowSelected.getData().urlPage
-                    urlSpan.setAttribute("href", rowSelected.getData().urlPage)
-                    if(data.urlAttach.length == 0){
-                        footerMoreInformation.hidden = true
-                    }else {
-                        footerMoreInformation.hidden = false
-                    }                    
-                }
-                pageSpan.innerHTML = rowSelected.getData().title                                
-                stateSpan.innerHTML = rowSelected.getData().state
-                dateSpan.innerHTML = rowSelected.getData().date
-                zoneSpan.innerHTML = rowSelected.getData().federalEstatal
-                sinopsysSpan.innerHTML = data.sinopsys
-                moreInformationContainer.innerHTML = ""
-                moreInformation(data, moreInformationContainer)
-            });
+    setTimeout(async () => {
+        var searchResult = await getSinopsys()
 
+        pageSpan.innerHTML = rowSelected.getData().title
+        stateSpan.innerHTML = rowSelected.getData().state
+        dateSpan.innerHTML = rowSelected.getData().date
+        zoneSpan.innerHTML = rowSelected.getData().federalEstatal
+        sinopsysSpan.innerHTML = searchResult.sinopsys
+
+        if (searchResult.urlAttach.length >= 1) {
+            footerMoreInformation.hidden = false
+            urlSpan.innerHTML = searchResult.urlAttach[0].urlAttach
+            urlSpan.setAttribute("href", searchResult.urlAttach[0].urlAttach)
+            moreInformationContainer.innerHTML = ""
+            moreInformation(searchResult, moreInformationContainer)
+        } else {
+            footerMoreInformation.hidden = true
+            urlSpan.innerHTML = rowSelected.getData().urlPage
+            urlSpan.setAttribute("href", rowSelected.getData().urlPage)
+        }
     }, 1)
 })
 
