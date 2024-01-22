@@ -1,4 +1,5 @@
-import threading, traceback
+import threading
+import traceback
 import json
 import os
 from django.http import Http404, HttpResponseNotAllowed, JsonResponse, HttpResponseBadRequest, HttpResponseServerError
@@ -108,10 +109,10 @@ def get_search_result_by_id(request, id):
                 attachments_with_sinopsys = list(filter(lambda attachment: attachment["sinopsys"] != "",
                                                         search_result["urlAttach"]))
 
-                for attachment in attachments_with_sinopsys:
-                    resaltar_keywords(subkeywords, attachment["sinopsys"])
+                attachments_with_bold_sinopsys = list(map(lambda attachment: {
+                                                      **attachment, "sinopsys": resaltar_keywords(subkeywords, attachment["sinopsys"])}, attachments_with_sinopsys))
 
-                search_result["urlAttach"] = attachments_with_sinopsys
+                search_result["urlAttach"] = attachments_with_bold_sinopsys
 
                 return JsonResponse(search_result, encoder=MongoJSONEncoder)
             else:
@@ -218,7 +219,7 @@ def create_mail(email: str, subject: str, context: dict, template_path: str, att
     return mail
 
 
-def send_search_results_mail(request, data):    
+def send_search_results_mail(request, data):
     keyword_id = data.get("keyword", [])
     keyword = get_object_or_404(Keyword, id=int(keyword_id))
     keyword_title = keyword.title
@@ -233,7 +234,8 @@ def send_search_results_mail(request, data):
         "keyword_title": keyword_title,
         "subkeywords": subkeywords
     }
-    mail = create_mail(recipient, f"Resultados de búsqueda de Compass - Keyword: {keyword_title}", context, "mails/search_results.html", [pdf])
+    mail = create_mail(
+        recipient, f"Resultados de búsqueda de Compass - Keyword: {keyword_title}", context, "mails/search_results.html", [pdf])
 
     mail.send(fail_silently=False)
 
@@ -245,11 +247,13 @@ def send_mail(request):
     else:
         try:
             data = json.loads(request.body.decode('utf-8'))
-            response_validated_date = validate_data_to_generate_pdf(data.get('selectedIds', []), data.get("keyword", []))
+            response_validated_date = validate_data_to_generate_pdf(
+                data.get('selectedIds', []), data.get("keyword", []))
             if response_validated_date:
                 return response_validated_date
-            
-            thread = threading.Thread(target=send_search_results_mail(request, data))
+
+            thread = threading.Thread(
+                target=send_search_results_mail(request, data))
             thread.start()
             return JsonResponse({}, status=200)
         except Exception as ex:

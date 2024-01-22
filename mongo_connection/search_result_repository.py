@@ -7,7 +7,7 @@ class SearchResultRepository:
         self.mongo_client = mongo_client
         self.collection = mongo_client.collection
 
-    def get_by_id(self, id):
+    def get_by_id(self, id) -> dict:
         id = ObjectId(id)
         search_result = self.collection.find_one(
             {"_id": id}, {"_id": 1})
