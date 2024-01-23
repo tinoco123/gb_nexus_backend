@@ -11,23 +11,26 @@ const modalVerResultadosBusqueda = document.getElementById("modalVerResultadosBu
 modalVerResultadosBusqueda.addEventListener('show.bs.modal', event => {
     setTimeout(async () => {
         var searchResult = await getSinopsys()
-
         pageSpan.innerHTML = rowSelected.getData().title
         stateSpan.innerHTML = rowSelected.getData().state
         dateSpan.innerHTML = rowSelected.getData().date
         zoneSpan.innerHTML = rowSelected.getData().federalEstatal
         sinopsysSpan.innerHTML = searchResult.sinopsys
 
+        if (searchResult.firstUrl != undefined) {
+            urlSpan.innerHTML = searchResult.firstUrl
+            urlSpan.setAttribute("href", searchResult.firstUrl)
+        } else {
+            urlSpan.innerHTML = rowSelected.getData().urlPage
+            urlSpan.setAttribute("href", rowSelected.getData().urlPage)
+        }
+
         if (searchResult.urlAttach.length >= 1) {
             footerMoreInformation.hidden = false
-            urlSpan.innerHTML = searchResult.urlAttach[0].urlAttach
-            urlSpan.setAttribute("href", searchResult.urlAttach[0].urlAttach)
             moreInformationContainer.innerHTML = ""
             moreInformation(searchResult, moreInformationContainer)
         } else {
             footerMoreInformation.hidden = true
-            urlSpan.innerHTML = rowSelected.getData().urlPage
-            urlSpan.setAttribute("href", rowSelected.getData().urlPage)
         }
     }, 1)
 })

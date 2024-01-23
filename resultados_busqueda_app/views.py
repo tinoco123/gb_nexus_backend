@@ -106,6 +106,10 @@ def get_search_result_by_id(request, id):
                 search_result["sinopsys"] = resaltar_keywords(
                     subkeywords, search_result["sinopsys"])
 
+                if len(search_result["urlAttach"]) >= 1:
+                    first_attachment_url = search_result["urlAttach"][0]["urlAttach"]
+                    search_result["firstUrl"] = first_attachment_url
+                
                 attachments_with_sinopsys = list(filter(lambda attachment: attachment["sinopsys"] != "",
                                                         search_result["urlAttach"]))
 
@@ -113,7 +117,7 @@ def get_search_result_by_id(request, id):
                                                       **attachment, "sinopsys": resaltar_keywords(subkeywords, attachment["sinopsys"])}, attachments_with_sinopsys))
 
                 search_result["urlAttach"] = attachments_with_bold_sinopsys
-
+                
                 return JsonResponse(search_result, encoder=MongoJSONEncoder)
             else:
                 return HttpResponseBadRequest("No se encontró el elemento solicitado")
