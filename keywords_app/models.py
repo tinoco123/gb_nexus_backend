@@ -27,6 +27,7 @@ class Keyword(models.Model):
         States, related_name="estatal_search", blank=True)
     federal_search = models.ManyToManyField(Federal, blank=True)
     date_created = models.DateTimeField(auto_now_add=True)
+    is_mail_active = models.BooleanField(null=True, blank=True, default=False)
     user = models.ForeignKey(
         UserBaseAccount, on_delete=models.CASCADE, null=False)
 
