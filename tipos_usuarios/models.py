@@ -16,7 +16,6 @@ class UserBaseAccount(AbstractBaseUser, PermissionsMixin):
     date_birth = models.DateField(blank=False, null=False)
     created_by = models.IntegerField(blank=True, null=True)
     is_active = models.BooleanField(blank=True, null=True, default=True)
-    mail_notifications_active = models.BooleanField(blank=True, null=True, default=False)
     last_mail = models.DateField(blank=True, null=True)
     mail_frequency = models.SmallIntegerField(blank=True, null=True, default=0)
 
