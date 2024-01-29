@@ -1,4 +1,6 @@
 from bson import ObjectId
+
+
 def get_pipeline_pdf(id: ObjectId):
     pipeline = [
         {
@@ -14,22 +16,28 @@ def get_pipeline_pdf(id: ObjectId):
                 },
                 "federalEstatal": 1,
                 "state": 1,
-                "date": { "$dateToString": { "format": "%Y-%m-%d", "date": "$date" }},
+                "date": {"$dateToString": {"format": "%Y-%m-%d", "date": "$date"}},
                 "urlAttach": {
-                    "$cond" : {
-                        "if" : {"$eq": ["$urlAttach", "na"]},
+                    "$cond": {
+                        "if": {"$eq": ["$urlAttach", "na"]},
                         "then": [],
                         "else": {
-                            "$map": {
-                            "input": "$urlAttach",
-                            "as": "attachment",
-                            "in": {
-                                "urlAttach": "$$attachment.urlAttach",
-                                "sinopsys": {
-                                    "$substrCP": ["$$attachment.sinopsys", 0, 3500]
+                            "$cond": {
+                                "if": {"$eq": ["$urlAttach", "N/A"]},
+                                "then": [],
+                                "else": {
+                                    "$map": {
+                                        "input": "$urlAttach",
+                                        "as": "attachment",
+                                        "in": {
+                                            "urlAttach": "$$attachment.urlAttach",
+                                            "sinopsys": {
+                                                "$substrCP": ["$$attachment.sinopsys", 0, 3500]
+                                            }
+                                        }
+                                    }
                                 }
                             }
-                    }
                         }
                     }
                 },
@@ -37,6 +45,7 @@ def get_pipeline_pdf(id: ObjectId):
         }
     ]
     return pipeline
+
 
 def get_sinopsys_and_urlAttach(id: ObjectId):
     pipeline = [
@@ -49,20 +58,26 @@ def get_sinopsys_and_urlAttach(id: ObjectId):
                     "$substrCP": ["$sinopsys", 0, 3500]
                 },
                 "urlAttach": {
-                    "$cond" : {
-                        "if" : {"$eq": ["$urlAttach", "na"]},
+                    "$cond": {
+                        "if": {"$eq": ["$urlAttach", "na"]},
                         "then": [],
                         "else": {
-                            "$map": {
-                            "input": "$urlAttach",
-                            "as": "attachment",
-                            "in": {
-                                "urlAttach": "$$attachment.urlAttach",
-                                "sinopsys": {
-                                    "$substrCP": ["$$attachment.sinopsys", 0, 3500]
+                            "$cond": {
+                                "if": {"$eq": ["$urlAttach", "N/A"]},
+                                "then": [],
+                                "else": {
+                                    "$map": {
+                                        "input": "$urlAttach",
+                                        "as": "attachment",
+                                        "in": {
+                                            "urlAttach": "$$attachment.urlAttach",
+                                            "sinopsys": {
+                                                "$substrCP": ["$$attachment.sinopsys", 0, 3500]
+                                            }
+                                        }
+                                    }
                                 }
                             }
-                    }
                         }
                     }
                 },
