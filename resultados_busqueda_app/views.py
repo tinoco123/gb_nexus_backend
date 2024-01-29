@@ -9,14 +9,11 @@ from mongo_connection.paginator import Pagination
 from dotenv import load_dotenv
 from pymongo.errors import OperationFailure, ServerSelectionTimeoutError, ConnectionFailure
 from bson.errors import InvalidId
-from .utils import MongoJSONEncoder, resaltar_keywords, change_title_labels, change_title_label
+from .utils import MongoJSONEncoder, resaltar_keywords, change_title_labels, change_title_label, create_mail
 from mongo_connection.connection import MongoConnection
 from mongo_connection.search_result_repository import SearchResultRepository
 from keywords_app.models import Keyword
 from gb_nexus_backend import renderers
-from django.template.loader import get_template
-from django.core.mail import EmailMultiAlternatives
-from django.conf import settings
 
 load_dotenv()
 
@@ -202,25 +199,6 @@ def get_context_data_pdf(selected_ids: list, keyword: str):
         document["keyword"] = keyword_title
         documents_data.append(document)
     return context
-
-
-def create_mail(email: str, subject: str, context: dict, template_path: str, attachments: list[dict]):
-    template = get_template(template_path)
-    content = template.render(context)
-
-    mail = EmailMultiAlternatives(
-        subject=subject,
-        body='',
-        from_email=f"COMPASS <{settings.EMAIL_HOST_USERNAME}>",
-        to=[email]
-    )
-    mail.attach_alternative(content, "text/html")
-
-    for attachment in attachments:
-        mail.attach(attachment["filename"],
-                    attachment["content"], attachment["mimetype"])
-
-    return mail
 
 
 def send_search_results_mail(request, data):

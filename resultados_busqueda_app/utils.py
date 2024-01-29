@@ -2,7 +2,9 @@ import json
 from bson import ObjectId
 from datetime import datetime, date
 import re
-
+from django.template.loader import get_template
+from django.core.mail import EmailMultiAlternatives
+from django.conf import settings
 
 class MongoJSONEncoder(json.JSONEncoder):
     def default(self, o):
@@ -58,6 +60,24 @@ def is_common_title(title: str):
     else:
         return False
 
+
+def create_mail(email: str, subject: str, context: dict, template_path: str, attachments: list[dict]):
+    template = get_template(template_path)
+    content = template.render(context)
+
+    mail = EmailMultiAlternatives(
+        subject=subject,
+        body='',
+        from_email=f"COMPASS <{settings.EMAIL_HOST_USERNAME}>",
+        to=[email]
+    )
+    mail.attach_alternative(content, "text/html")
+
+    for attachment in attachments:
+        mail.attach(attachment["filename"],
+                    attachment["content"], attachment["mimetype"])
+
+    return mail
 
 mexico_states_dict = {
     'BCNComunicacion': 'Congreso de Baja California Norte',
