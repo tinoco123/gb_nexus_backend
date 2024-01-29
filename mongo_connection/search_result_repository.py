@@ -29,6 +29,10 @@ class SearchResultRepository:
         else:
             return {}
 
+    def get_keyword_search_results_ids(self, query: dict) -> list[dict]:
+        search_results_ids = self.collection.find(query, {"_id":1})
+        return search_results_ids
+
     def count_results(self, query: dict):
         results = self.collection.count_documents(query)
         return results
