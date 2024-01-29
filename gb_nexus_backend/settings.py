@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     'clientes_app',
     'resultados_busqueda_app',
     'keywords_app',
-    'django_inlinecss'
+    'django_inlinecss',
+    'django_extensions'
 ]
 
 MIDDLEWARE = [
