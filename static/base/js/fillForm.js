@@ -16,6 +16,10 @@ function fillFormWithData(data, form) {
             continue
         }
 
+        if (field.getAttribute("name") == "is_mail_active") {
+            field.checked = data[field.getAttribute("name")]
+        }
+
         if (field.getAttribute("type") === 'text' || field.tagName === "TEXTAREA" || field.getAttribute("type") === 'email') {
             if (field.id) {
                 fieldName = field.getAttribute("name")

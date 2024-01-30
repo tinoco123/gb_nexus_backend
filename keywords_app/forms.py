@@ -98,5 +98,5 @@ class EditKeywordForm(KeywordForm):
             "congreso_search": forms.CheckboxSelectMultiple(attrs={"class": "form-check-input edit-congreso-checkboxes", "id": "id_edit_congreso_search"}),
             "estatal_search": forms.CheckboxSelectMultiple(attrs={"class": "edit-estatal-checkboxes form-check-input", "id": "id_edit_estatal_search"}),
             "federal_search": forms.CheckboxSelectMultiple(attrs={"class": "edit-federal-checkboxes form-check-input", "id": "id_edit_federal_search"}),
-            "is_mail_active": forms.CheckboxInput(attrs={"class": "form-check-input"})
+            "is_mail_active": forms.CheckboxInput(attrs={"class": "form-check-input", "id": "id_edit_is_mail_active"})
         }
