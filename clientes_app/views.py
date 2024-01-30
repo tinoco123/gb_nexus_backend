@@ -1,10 +1,13 @@
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
 from django.core.paginator import Paginator, EmptyPage
 from django.http import HttpResponseNotAllowed, JsonResponse, HttpResponseBadRequest
 from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib import messages
+from django.utils import timezone
 from tipos_usuarios.models import Cliente
 from .forms import ClientForm, EditClientForm
 from usuarios_app.utils import DateJSONEnconder
+from datetime import timedelta
 
 
 @login_required
@@ -146,3 +149,34 @@ def delete_client(request, client_id):
         if user is not None:
             user.delete()
             return JsonResponse({"response": "El usuario fue eliminado correctamente"}, status=200)
+
+
+@login_required
+def set_mail_frequency(request):
+    if request.method != "POST":
+        return HttpResponseNotAllowed(permitted_methods=("POST"))
+    else:
+        client_id = request.user.id
+        client = get_object_or_404(Cliente, id=client_id)
+
+        today_date = timezone.now().date()
+
+        frequency_selected = request.POST.get("frecuency-emails", "")
+        if frequency_selected == "custom":
+            custom_frequency = int(request.POST.get("custom-day-frequency"))
+            if custom_frequency > 30 or custom_frequency < 1:
+                messages.error(request, "La frecuencia debe estar en un rango de 1 a 30 días")
+            else:
+                client.mail_frequency = custom_frequency
+                client.last_mail = today_date + timedelta(days=custom_frequency)
+                messages.success(request, "Mails personalizados configurados correctamente")
+        elif frequency_selected == "1":
+            client.mail_frequency = 1
+            client.last_mail = today_date + timedelta(days=1)
+            messages.success(request, "Mails diarios configurados correctamente")
+        elif frequency_selected == "7":
+            client.mail_frequency = 7
+            client.last_mail = today_date + timedelta(days=7)
+            messages.success(request, "Mails semanales configurados correctamente")
+        client.save()
+        return redirect("keywords") 
