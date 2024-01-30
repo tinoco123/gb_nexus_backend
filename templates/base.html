@@ -144,7 +144,18 @@
             {% block opciones-abajo %}
             {% endblock opciones-abajo %}
 
-            <div id="notificationContainer" style="position: fixed; bottom: 50px; right: 50px; z-index: 9999;"></div>
+            <div id="notificationContainer" style="position: fixed; bottom: 50px; right: 50px; z-index: 9999;">
+                {% if messages %}
+                    <ul class="messages list-unstyled" id="messages">
+                        {% for message in messages %}
+                            <li {% if message.tags %} class="alert alert-dismissible fade show {{ message.tags }}" {% endif %} role="alert">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
         </div>
         
         {% if user.user_type == "CLIENTE" %}   
@@ -155,20 +166,37 @@
                             <h1 class="modal-title fs-5">Configurar frecuencia de emails</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="modal-body d-flex flex-column align-items-center justify-content-center">
-                            <p>Seleccione la frecuencia de tiempo deseada para recibir emails de sus resultados de búsqueda:</p>
-                            <div class="btn-group" role="group" aria-label="Frecuencia de mails">
-                                <input type="radio" class="btn-check" name="frecuency-emails" id="daily" autocomplete="off" checked>
-                                <label class="btn btn-outline-primary" for="daily">Diario</label>
-                                <input type="radio" class="btn-check" name="frecuency-emails" id="weekly" autocomplete="off">
-                                <label class="btn btn-outline-primary" for="weekly">Semanal</label>
-                                <input type="radio" class="btn-check" name="frecuency-emails" id="monthly" autocomplete="off">
-                                <label class="btn btn-outline-primary" for="monthly">Mensual</label>
+                        <form action="{% url 'mail_frequency' %}" method="POST">
+                            {% csrf_token %}
+                            <div class="d-flex flex-column">
+                                <p class="px-4 mt-2 pt-2">
+                                    Actualmente recibes emails <b>cada {{ user.mail_frequency }} días</b>
+                                </p>
+                                <p class="px-4">
+                                    Seleccione la frecuencia de tiempo deseada para recibir emails de sus resultados de búsqueda:
+                                </p> 
+                            </div>                            
+                            <div class="modal-body d-flex flex-column align-items-center justify-content-center">       
+                                <div class="btn-group" role="group" aria-label="Frecuencia de mails">   
+                                    <input type="radio" class="btn-check" value="1" name="frecuency-emails" id="daily" autocomplete="off" checked>
+                                    <label class="btn btn-outline-primary" for="daily">Diario</label>
+
+                                    <input type="radio" class="btn-check" value="7" name="frecuency-emails" id="weekly" autocomplete="off">
+                                    <label class="btn btn-outline-primary" for="weekly">Semanal</label>
+
+                                    <input type="radio" class="btn-check" value="custom" name="frecuency-emails" id="custom-frequency" autocomplete="off">
+                                    <label class="btn btn-outline-primary" for="custom-frequency">Personalizado</label>                                    
+                                </div>
+                                <div class="mt-3 d-none" id="custom-frequency-container">
+                                    <span class="me-2 pt-2">Cada</span>
+                                    <input type="number" min="1" max="30" class="form-control"   id="custom-day-frequency" name="custom-day-frequency">
+                                    <span class="ms-2 pt-2">días</span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-primary">Guardar</button>
-                        </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">Guardar</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -190,6 +218,8 @@
             const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
             const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
         </script>
+        <script type="text/javascript" src="{% static 'base/js/mailFrequency.js' %}"></script>
+
         {% block js-files%}
         {% endblock js-files%}
     </body>
