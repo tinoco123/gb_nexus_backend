@@ -169,10 +169,12 @@
                         <form action="{% url 'mail_frequency' %}" method="POST">
                             {% csrf_token %}
                             <div class="d-flex flex-column">
-                                <p class="px-4 mt-2 pt-2">
-                                    Actualmente recibes emails <b>cada {{ user.mail_frequency }} días</b>
-                                </p>
-                                <p class="px-4">
+                                {% if user.mail_frequency > 0 %}
+                                    <p class="px-4 mt-2 pt-2">
+                                        Actualmente recibes emails <b>cada {{ user.mail_frequency }} días</b>
+                                    </p>
+                                {% endif %}
+                                <p class="px-4 mt-2">
                                     Seleccione la frecuencia de tiempo deseada para recibir emails de sus resultados de búsqueda:
                                 </p> 
                             </div>                            
