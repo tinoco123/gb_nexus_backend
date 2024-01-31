@@ -18,14 +18,13 @@ def run():
     clientes = get_clients_with_mail_on()
 
     for cliente in clientes:
-        # Check if we have to send mail to this client
-        mail_frequency = cliente.mail_frequency  # 1
+        mail_frequency = cliente.mail_frequency
         today_date = timezone.now().date()
         last_mail_date = today_date - timedelta(days=mail_frequency)
 
         start_date = datetime.combine(last_mail_date, datetime.min.time())
         end_date = datetime.combine(today_date, datetime.min.time())
-        
+
         keywords = get_keywords_with_mail_on(cliente)
         pdfs_to_merge = []
         keywords_list = []
@@ -42,9 +41,11 @@ def run():
             keyword_title = keyword.title
             subkeywords = list(
                 keyword.searchterms_set.values_list("name", flat=True))
-            keywords_list.append({"title": keyword_title, "subkeywords": subkeywords})
-                
-            context = get_context_for_pdf(keyword_query, keyword_title, subkeywords)
+            keywords_list.append(
+                {"title": keyword_title, "subkeywords": subkeywords})
+
+            context = get_context_for_pdf(
+                keyword_query, keyword_title, subkeywords)
             if context is None:
                 continue
             pdf = renderers.render_to_pdf("pdf/report.html", context)
@@ -56,15 +57,17 @@ def run():
                 "filename": f"Reporte-{today_date.strftime('%Y-%m-%d')}", "content": merged_pdf, "mimetype": "application/pdf"}
             notification_mail = create_notification_mail(
                 cliente.email, today_date, cliente.first_name, start_date, end_date, keywords_list, pdf_to_attach)
-                
+
             notification_mail.send(fail_silently=False)
 
-        cliente.last_mail = today_date + timedelta(days=mail_frequency)  # Next mail
+        cliente.last_mail = today_date + \
+            timedelta(days=mail_frequency)  # Next mail
         cliente.save()
 
 
 def get_clients_with_mail_on() -> BaseManager[Cliente]:
-    clientes = Cliente.objects.filter(is_active=True, last_mail=timezone.now().date())
+    clientes = Cliente.objects.filter(
+        is_active=True, last_mail=timezone.now().date())
     return clientes
 
 
@@ -77,28 +80,22 @@ def get_context_for_pdf(query: dict, keyword_title: str, subkeywords: list[str])
     mongo_client = MongoConnection(str(os.getenv("MONGODB_DATABASE")), str(
         os.getenv("MONGODB_COLLECTION")))
     search_result_repository = SearchResultRepository(mongo_client)
-
-    search_results_ids = search_result_repository.get_keyword_search_results_ids(
+    search_results_found = search_result_repository.get_document_for_pdf_optimized(
         query)
-    search_results = []
-    context = {"data": search_results}
+    search_results_to_show = []
+    context = {"data": search_results_to_show}
 
-    for id in search_results_ids:
-        search_result = search_result_repository.get_document_for_pdf(
-            id["_id"])
-        if search_result:
-            change_title_label(search_result)
-            hightlighted_sinopsys = resaltar_keywords(
-                subkeywords, search_result["sinopsys"])
-            search_result["sinopsys"] = hightlighted_sinopsys
-            for attachment in search_result["urlAttach"]:
-                attachment["sinopsys"] = resaltar_keywords(
-                    subkeywords, attachment["sinopsys"])
-            search_result["keyword"] = keyword_title
-            search_results.append(search_result)
-        else:
-            continue
-    if len(search_results) >= 1:
+    for search_result in search_results_found:
+        change_title_label(search_result)
+        hightlighted_sinopsys = resaltar_keywords(
+            subkeywords, search_result["sinopsys"])
+        search_result["sinopsys"] = hightlighted_sinopsys
+        for attachment in search_result["urlAttach"]:
+            attachment["sinopsys"] = resaltar_keywords(
+                subkeywords, attachment["sinopsys"])
+        search_result["keyword"] = keyword_title
+        search_results_to_show.append(search_result)
+    if len(search_results_to_show) >= 1:
         return context
     else:
         return None
