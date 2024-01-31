@@ -39,15 +39,12 @@ def run():
                     {"date": {'$gte': start_date, '$lte': end_date}})
 
             keyword_title = keyword.title
-            subkeywords = list(
-                keyword.searchterms_set.values_list("name", flat=True))
-            keywords_list.append(
-                {"title": keyword_title, "subkeywords": subkeywords})
-
-            context = get_context_for_pdf(
-                keyword_query, keyword_title, subkeywords)
+            subkeywords = list(keyword.searchterms_set.values_list("name", flat=True))
+            
+            context = get_context_for_pdf(keyword_query, keyword_title, subkeywords)
             if context is None:
                 continue
+            keywords_list.append({"title": keyword_title, "subkeywords": subkeywords})
             pdf = renderers.render_to_pdf("pdf/report.html", context)
             pdfs_to_merge.append(pdf)
 
@@ -115,7 +112,7 @@ def merge_pdfs(pdf_list):
 
 
 def create_notification_mail(recipient, today_date, first_name, initial_date, final_date, keywords_list: list[dict], pdf):
-    subject = f"Resultados de búsqueda de Compass del {today_date.strftime('%Y-%m-%d')}"
+    subject = f"COMPASS: Resultados de búsqueda del {today_date.strftime('%Y-%m-%d')}"
     context = {
         "username": first_name,
         "keywords": keywords_list,
