@@ -42,6 +42,19 @@
                         <span id="error_title" class="text-danger"></span>
                     </div>
                     
+                    {% if user.user_type == "CLIENTE" %}
+                        <div class="col-12 ms-1">
+                            <label
+                                for="{{ create_keyword_form.is_mail_active.id_for_label }}"
+                                class="form-label"
+                            >
+                                {{ create_keyword_form.is_mail_active.label }}:
+                            </label>
+                            <span class="ms-1">{{ create_keyword_form.is_mail_active }}</span>
+                            <span id="error_is_mail_active" class="text-danger"></span>
+                        </div>
+                    {% endif %}
+
                     <div class="col-12 d-flex justify-content-center mt-3">
                         <p class="pt-2 text-secondary">
                             <em class="bi bi-info-circle">
@@ -292,18 +305,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="col-12 ms-1">
-                        <label
-                            for="{{ create_keyword_form.is_mail_active.id_for_label }}"
-                            class="form-label"
-                        >
-                            {{ create_keyword_form.is_mail_active.label }}:
-                        </label>
-                        <span class="ms-1">{{ create_keyword_form.is_mail_active }}</span>
-                        <span id="error_is_mail_active" class="text-danger"></span>
-                    </div>
+                    </div>                    
 
                     <div class="col-12 d-flex flex-column">
                         <button type="submit" class="btn btn-primary" id="create-keyword-submit-btn">
