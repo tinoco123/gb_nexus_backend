@@ -19,61 +19,52 @@ def run():
 
     for cliente in clientes:
         # Check if we have to send mail to this client
-        last_mail_date = cliente.last_mail  # 24/01
         mail_frequency = cliente.mail_frequency  # 1
-        today_date = timezone.now().date()  # 25/01
+        today_date = timezone.now().date()
+        last_mail_date = today_date - timedelta(days=mail_frequency)
 
         start_date = datetime.combine(last_mail_date, datetime.min.time())
         end_date = datetime.combine(today_date, datetime.min.time())
+        
+        keywords = get_keywords_with_mail_on(cliente)
+        pdfs_to_merge = []
+        keywords_list = []
+        for keyword in keywords:
+            keyword_query = keyword.query()
+            # time range to search information
+            if keyword.start_date or keyword.end_date:
+                keyword_query["$and"][-1]["date"] = {
+                    '$gte': start_date, '$lte': end_date}
+            else:
+                keyword_query['$and'].append(
+                    {"date": {'$gte': start_date, '$lte': end_date}})
 
-        if last_mail_date is None:
-            cliente.last_mail = today_date
-            cliente.save()
-            continue
-        elif last_mail_date == today_date - timedelta(days=mail_frequency):
-            keywords = get_keywords_with_mail_on(cliente)
-            pdfs_to_merge = []
-            keywords_list = []
-            for keyword in keywords:
-                keyword_query = keyword.query()
-                # time range to search information
-                if keyword.start_date or keyword.end_date:
-                    keyword_query["$and"][-1]["date"] = {
-                        '$gte': start_date, '$lte': end_date}
-                else:
-                    keyword_query['$and'].append(
-                        {"date": {'$gte': start_date, '$lte': end_date}})
-
-                keyword_title = keyword.title
-                subkeywords = list(
-                    keyword.searchterms_set.values_list("name", flat=True))
-                keywords_list.append(
-                    {"title": keyword_title, "subkeywords": subkeywords})
+            keyword_title = keyword.title
+            subkeywords = list(
+                keyword.searchterms_set.values_list("name", flat=True))
+            keywords_list.append({"title": keyword_title, "subkeywords": subkeywords})
                 
-                context = get_context_for_pdf(keyword_query, keyword, subkeywords)
-                if context is None:
-                    continue
-                pdf = renderers.render_to_pdf("pdf/report.html", context)
-                pdfs_to_merge.append(pdf)
+            context = get_context_for_pdf(keyword_query, keyword_title, subkeywords)
+            if context is None:
+                continue
+            pdf = renderers.render_to_pdf("pdf/report.html", context)
+            pdfs_to_merge.append(pdf)
 
-            if pdfs_to_merge >= 1:
-                merged_pdf = merge_pdfs(pdfs_to_merge)
-                pdf_to_attach = {
-                    "filename": f"Reporte-{today_date.strftime('%Y-%m-%d')}", "content": merged_pdf, "mimetype": "application/pdf"}
-                notification_mail = create_notification_mail(
-                    cliente.email, today_date, cliente.first_name, start_date, end_date, keywords_list, pdf_to_attach)
+        if len(pdfs_to_merge) >= 1:
+            merged_pdf = merge_pdfs(pdfs_to_merge)
+            pdf_to_attach = {
+                "filename": f"Reporte-{today_date.strftime('%Y-%m-%d')}", "content": merged_pdf, "mimetype": "application/pdf"}
+            notification_mail = create_notification_mail(
+                cliente.email, today_date, cliente.first_name, start_date, end_date, keywords_list, pdf_to_attach)
                 
-                notification_mail.send(fail_silently=False)
+            notification_mail.send(fail_silently=False)
 
-
-            cliente.last_mail = today_date
-            cliente.save()
-        else:
-            continue
+        cliente.last_mail = today_date + timedelta(days=mail_frequency)  # Next mail
+        cliente.save()
 
 
 def get_clients_with_mail_on() -> BaseManager[Cliente]:
-    clientes = Cliente.objects.filter(is_active=True, mail_frequency__gte=1)
+    clientes = Cliente.objects.filter(is_active=True, last_mail=timezone.now().date())
     return clientes
 
 
