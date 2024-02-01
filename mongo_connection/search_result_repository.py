@@ -30,8 +30,7 @@ class SearchResultRepository:
             return {}
 
     def get_document_for_pdf_optimized(self, query):
-        search_results = self.collection.aggregate(
-            get_pipeline_pdf_optimized(query))
+        search_results = self.collection.aggregate(get_pipeline_pdf_optimized(query))
         return search_results
 
     def count_results(self, query: dict):
