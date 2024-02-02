@@ -50,7 +50,7 @@ def run():
                     continue
                 pdf = renderers.render_to_pdf("pdf/report.html", context)
                 pdf_size = BytesIO(pdf.content).getbuffer().nbytes
-                if pdf_size + pdfs_size > 10485760:  # 10MB
+                if pdf_size + pdfs_size > 10000000:  # 10MB
                     pdf_size_limit_passed = True
                     break
                 pdfs_size += pdf_size
@@ -85,8 +85,6 @@ def get_keywords_with_mail_on(client: Cliente) -> BaseManager[Keyword]:
 
 
 def get_context_for_pdf(query: dict, keyword_title: str, subkeywords: list[str]) -> dict:
-    print("-----------------------------------------")
-    print(query)
     try:
         mongo_client = MongoConnection(str(os.getenv("MONGODB_DATABASE")), str(
             os.getenv("MONGODB_COLLECTION")))
@@ -134,7 +132,7 @@ def merge_pdfs(pdf_list):
 
 def create_notification_mail(recipient, today_date, first_name, initial_date, final_date, keywords_list: list[dict], pdf, pdf_size_limit_passed: bool):
     if pdf_size_limit_passed: 
-        attached_message = "adsf"
+        attached_message = "Le informamos que sus búsquedas fueron limitadas para evitar que su reporte superara el límite de peso de 10 MB. Por lo cual, le sugerimos que ingrese al sistema COMPASS y revise los resultados que no se pueden observar en este reporte adjunto."
     else:
         attached_message = "Los resultados de las búsquedas podrán encontrarla en los documentos PDFs anexos."
     subject = f"COMPASS: Resultados de búsqueda del {today_date.strftime('%Y-%m-%d')}"
