@@ -132,7 +132,7 @@ def merge_pdfs(pdf_list):
 
 def create_notification_mail(recipient, today_date, first_name, initial_date, final_date, keywords_list: list[dict], pdf, pdf_size_limit_passed: bool):
     if pdf_size_limit_passed: 
-        attached_message = "Le informamos que sus búsquedas fueron limitadas para evitar que su reporte superara el límite de peso de 10 MB. Por lo cual, le sugerimos que ingrese al sistema COMPASS y revise los resultados que no se pueden observar en este reporte adjunto."
+        attached_message = "Le informamos que sus búsquedas fueron limitadas para evitar que su reporte superara el límite de peso de 10 MB. Por lo cual, le sugerimos que ingrese al sistema COMPASS(<a href='http://compass.globalnexusdc.com/'>compass.globalnexusdc.com</a>) y revise más resultados de sus búsquedas requeridas."
     else:
         attached_message = "Los resultados de las búsquedas podrán encontrarla en los documentos PDFs anexos."
     subject = f"COMPASS: Resultados de búsqueda del {today_date.strftime('%Y-%m-%d')}"
