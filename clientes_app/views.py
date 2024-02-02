@@ -168,15 +168,15 @@ def set_mail_frequency(request):
                 messages.error(request, "La frecuencia debe estar en un rango de 1 a 30 días")
             else:
                 client.mail_frequency = custom_frequency
-                client.last_mail = today_date + timedelta(days=custom_frequency)
+                client.next_mail = today_date + timedelta(days=custom_frequency)
                 messages.success(request, "Mails personalizados configurados correctamente")
         elif frequency_selected == "1":
             client.mail_frequency = 1
-            client.last_mail = today_date + timedelta(days=1)
+            client.next_mail = today_date + timedelta(days=1)
             messages.success(request, "Mails diarios configurados correctamente")
         elif frequency_selected == "7":
             client.mail_frequency = 7
-            client.last_mail = today_date + timedelta(days=7)
+            client.next_mail = today_date + timedelta(days=7)
             messages.success(request, "Mails semanales configurados correctamente")
         client.save()
         return redirect("keywords") 

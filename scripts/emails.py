@@ -68,14 +68,14 @@ def run():
             print(ex)
             continue
         finally:
-            cliente.last_mail = today_date + timedelta(days=mail_frequency)  # Next mail
+            cliente.next_mail = today_date + timedelta(days=mail_frequency)  # Next mail
             cliente.save()
                 
 
 
 def get_clients_with_mail_on() -> BaseManager[Cliente]:
     clientes = Cliente.objects.filter(
-        is_active=True, last_mail=timezone.now().date())
+        is_active=True, next_mail=timezone.now().date())
     return clientes
 
 
