@@ -43,20 +43,20 @@
                     </div>
                     
                     {% if user.user_type == "CLIENTE" %}
-                        <div class="col-12 ms-1">
+                        <div class="col-12 ms-1 d-flex justify-content-center align-items-center">
+                            <p class="me-3 pt-2">Notificar por mail: </p>
                             <label
                                 for="{{ create_keyword_form.is_mail_active.id_for_label }}"
-                                class="form-label"
+                                class="form-label switch"
                             >
-                                {{ create_keyword_form.is_mail_active.label }}:
-                            </label>
-                            <span class="ms-1">{{ create_keyword_form.is_mail_active }}</span>
-                            <span id="error_is_mail_active" class="text-danger"></span>
+                                {{ create_keyword_form.is_mail_active }}
+                                <span class="slider"></span>
+                            </label>                            
                         </div>
                     {% endif %}
 
-                    <div class="col-12 d-flex justify-content-center mt-3">
-                        <p class="pt-2 text-secondary">
+                    <div class="col-12 d-flex justify-content-center mt-0">
+                        <p class="pt-0 text-secondary">
                             <em class="bi bi-info-circle">
                                 Para mejorar la calidad de las búsquedas, de favor, agregue keywords más específicas
                             </em>

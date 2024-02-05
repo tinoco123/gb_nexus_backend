@@ -46,7 +46,7 @@ class KeywordForm(forms.ModelForm):
             "congreso_search": forms.CheckboxSelectMultiple(attrs={"class": "form-check-input create-congreso-checkboxes"}),
             "estatal_search": forms.CheckboxSelectMultiple(attrs={"class": "form-check-input create-estatal-checkboxes"}),
             "federal_search": forms.CheckboxSelectMultiple(attrs={"class": "form-check-input create-federal-checkboxes"}),
-            "is_mail_active": forms.CheckboxInput(attrs={"class": "form-check-input"})
+            "is_mail_active": forms.CheckboxInput(attrs={"type": "checkbox"}),
         }
 
         labels = {
@@ -55,8 +55,7 @@ class KeywordForm(forms.ModelForm):
             "title": _("Título de la búsqueda"),
             "congreso_search": _("Buscar en Congresos Locales:"),
             "estatal_search": _("Buscar en Diarios Oficiales Estatales:"),
-            "federal_search": _("Buscar en Federal:"),
-            "is_mail_active": _("Notificar resultados por mail")
+            "federal_search": _("Buscar en Federal:")
         }
 
 
@@ -98,5 +97,5 @@ class EditKeywordForm(KeywordForm):
             "congreso_search": forms.CheckboxSelectMultiple(attrs={"class": "form-check-input edit-congreso-checkboxes", "id": "id_edit_congreso_search"}),
             "estatal_search": forms.CheckboxSelectMultiple(attrs={"class": "edit-estatal-checkboxes form-check-input", "id": "id_edit_estatal_search"}),
             "federal_search": forms.CheckboxSelectMultiple(attrs={"class": "edit-federal-checkboxes form-check-input", "id": "id_edit_federal_search"}),
-            "is_mail_active": forms.CheckboxInput(attrs={"class": "form-check-input", "id": "id_edit_is_mail_active"})
+            "is_mail_active": forms.CheckboxInput(attrs={"type": "checkbox", "id": "id_edit_is_mail_active"}),
         }
