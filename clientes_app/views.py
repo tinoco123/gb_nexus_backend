@@ -104,7 +104,8 @@ def get_client(request, client_id):
             "email": user.email,
             "address": user.address,
             "company": user.company,
-            "date_birth": user.date_birth
+            "date_birth": user.date_birth,
+            "is_active": user.is_active,
         }
         return JsonResponse(user_json, status=200)
 
@@ -128,8 +129,9 @@ def edit_client(request, client_id):
             address = edit_client_form.cleaned_data["address"]
             company = edit_client_form.cleaned_data["company"]
             date_birth = edit_client_form.cleaned_data["date_birth"]
+            is_active = edit_client_form.cleaned_data["is_active"]
             Cliente.objects.edit(id=client_id, email=email, password=password, first_name=first_name,
-                                 last_name=last_name, address=address, company=company, date_birth=date_birth)
+                                 last_name=last_name, address=address, company=company, date_birth=date_birth, is_active=is_active)
             return JsonResponse({}, status=200)
         else:
             errors = edit_client_form.errors.as_json(escape_html=True)

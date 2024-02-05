@@ -102,6 +102,17 @@
                         <span id="error_edit_date_birth" class="text-danger"></span>
                     </div>
 
+                    <div class="col-12 d-flex justify-content-center align-items-center">
+                        <p class="me-3 pt-2">Estatus: </p>
+                        <label
+                            for="{{ edit_client_form.is_active.id_for_label }}"
+                            class="form-label switch"
+                        >
+                            {{ edit_client_form.is_active }}
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
                     <div class="col-12 d-flex flex-column">
                         <button type="submit" class="btn btn-primary" id="edit-client-submit-btn"> 
                             Editar un cliente

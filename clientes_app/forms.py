@@ -7,7 +7,7 @@ class ClientForm(forms.ModelForm):
     class Meta:
         model = Cliente
         fields = ["email", "password", "first_name", "last_name",
-                  "address", "company", "date_birth"]
+                  "address", "company", "date_birth", "is_active"]
 
         widgets = {
             "email": forms.EmailInput(attrs={"class": "form-control"}),
@@ -40,5 +40,6 @@ class EditClientForm(ClientForm):
             "last_name": forms.TextInput(attrs={"class": "form-control", "id": "id_edit_last_name"}),
             "address": forms.Textarea(attrs={"class": "form-control", "rows": 4, "id": "id_edit_address"}),
             "company": forms.TextInput(attrs={"class": "form-control", "id": "id_edit_company"}),
-            "date_birth": forms.DateInput(attrs={"class": "form-control", "type": "date", "id": "id_edit_date_birth"})
+            "date_birth": forms.DateInput(attrs={"class": "form-control", "type": "date", "id": "id_edit_date_birth"}),
+            "is_active": forms.CheckboxInput(attrs={"type": "checkbox", "id": "id_edit_is_active"}),
         }
