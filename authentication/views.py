@@ -25,7 +25,7 @@ def sign_in(request):
                     login(request, user)
                     return redirect('keywords')
                 else:
-                    messages.error(request, "Email o contraseña inválidos.")
+                    messages.error(request, "Cuenta inactiva o datos incorrectos")
                     return render(request, "login.html", {"form": login_form})
             else:
                 return render(request, "login.html", {"form": login_form})
