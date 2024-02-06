@@ -75,7 +75,7 @@ def run():
                 logging.info(f"Sin mail que mandar a {client_email} con {keywords_count} keywords activas")
         except Exception as ex:
             print(ex)
-            logging.info(f"{traceback.print_exc()}")
+            logging.info(f"{traceback.format_exc()}")
             continue
         finally:
             cliente.next_mail = today_date + timedelta(days=mail_frequency)  # Next mail
