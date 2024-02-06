@@ -1,8 +1,6 @@
 from datetime import datetime
 from io import BytesIO
-import os
-
-import PyPDF2
+import os, traceback, logging, PyPDF2
 from gb_nexus_backend import renderers
 from keywords_app.models import Keyword
 from resultados_busqueda_app.utils import resaltar_keywords, change_title_label, create_mail
@@ -16,10 +14,13 @@ from pymongo.errors import OperationFailure, PyMongoError
 
 
 def run():
+    logging.basicConfig(filename='scripts/mails.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
     clientes = get_clients_with_mail_on()
-
+    logging.info(f"{clientes.count()} clientes con mails para hoy")
     for cliente in clientes:
         try:
+            client_email = cliente.email
+            logging.info(f"Cliente: {client_email}")
             mail_frequency = cliente.mail_frequency
             today_date = timezone.now().date()
             last_mail_date = today_date - timedelta(days=mail_frequency)
@@ -28,6 +29,8 @@ def run():
             end_date = datetime.combine(today_date, datetime.min.time())
 
             keywords = get_keywords_with_mail_on(cliente)
+            keywords_count = keywords.count()
+            logging.info(f"{client_email} tiene {keywords_count} keywords activas")
             pdfs_to_merge = []
             keywords_list = []
             pdfs_size = 0
@@ -47,10 +50,13 @@ def run():
                 
                 context = get_context_for_pdf(keyword_query, keyword_title, subkeywords)
                 if context is None:
+                    logging.info(f"Keyword {keyword_title} de {client_email} sin resultados en periodo del {start_date} al {end_date}")
                     continue
+                logging.info(f"Keyword {keyword_title} de {client_email} con resultados")
                 pdf = renderers.render_to_pdf("pdf/report.html", context)
                 pdf_size = BytesIO(pdf.content).getbuffer().nbytes
                 if pdf_size + pdfs_size > 10000000:  # 10MB
+                    logging.info(f"Keyword {keyword_title} de {client_email} supero tamaño de 10MB")
                     pdf_size_limit_passed = True
                     break
                 pdfs_size += pdf_size
@@ -61,11 +67,15 @@ def run():
                 pdf_to_attach = {
                     "filename": f"Reporte-{today_date.strftime('%Y-%m-%d')}", "content": merged_pdf, "mimetype": "application/pdf"}
                 notification_mail = create_notification_mail(
-                    cliente.email, today_date, cliente.first_name, start_date, end_date, keywords_list, pdf_to_attach, pdf_size_limit_passed)
+                    client_email, today_date, cliente.first_name, start_date, end_date, keywords_list, pdf_to_attach, pdf_size_limit_passed)
 
                 notification_mail.send(fail_silently=False)
+                logging.info(f"Mail enviado a {client_email} con {len(pdfs_to_merge)} pdfs unidos de {keywords_count} keywords")
+            else:
+                logging.info(f"Sin mail que mandar a {client_email} con {keywords_count} keywords activas")
         except Exception as ex:
             print(ex)
+            logging.info(f"{traceback.print_exc()}")
             continue
         finally:
             cliente.next_mail = today_date + timedelta(days=mail_frequency)  # Next mail
