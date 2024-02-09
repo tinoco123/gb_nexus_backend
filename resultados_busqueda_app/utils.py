@@ -132,6 +132,7 @@ mexico_states_dict = {
     'NayaritComunicacion': 'Congreso de Nayarit',
     'NayaritGaceta': 'Congreso de Nayarit',
     'NayaritIniciativa': 'Congreso de Nayarit',
+    'NayaritPeriodicoOficial': 'Diario Oficial de Nayarit',
     'OaxacaPeriodicoOficial': 'Diario Oficial de Oaxaca',
     'OaxacaDictamen': 'Congreso de Oaxaca',
     'OaxacaGaceta': 'Congreso de Oaxaca',
