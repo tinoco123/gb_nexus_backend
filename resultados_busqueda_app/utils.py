@@ -61,7 +61,7 @@ def is_common_title(title: str):
         return False
 
 
-def create_mail(email: str, subject: str, context: dict, template_path: str, attachments: list[dict]):
+def create_mail(recipient_list: list, subject: str, context: dict, template_path: str, attachments: list[dict]):
     template = get_template(template_path)
     content = template.render(context)
 
@@ -69,7 +69,7 @@ def create_mail(email: str, subject: str, context: dict, template_path: str, att
         subject=subject,
         body='',
         from_email=f"COMPASS <{settings.EMAIL_HOST_USERNAME}>",
-        to=[email]
+        to=recipient_list
     )
     mail.attach_alternative(content, "text/html")
 

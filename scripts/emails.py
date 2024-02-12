@@ -67,7 +67,7 @@ def run():
                 pdf_to_attach = {
                     "filename": f"Reporte-{today_date.strftime('%Y-%m-%d')}", "content": merged_pdf, "mimetype": "application/pdf"}
                 notification_mail = create_notification_mail(
-                    client_email, today_date, cliente.first_name, start_date, end_date, keywords_list, pdf_to_attach, pdf_size_limit_passed)
+                    [client_email], today_date, cliente.first_name, start_date, end_date, keywords_list, pdf_to_attach, pdf_size_limit_passed)
 
                 notification_mail.send(fail_silently=False)
                 logging.info(f"Mail enviado a {client_email} con {len(pdfs_to_merge)} pdfs unidos de {keywords_count} keywords")

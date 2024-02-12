@@ -1,0 +1,104 @@
+{% load static %}
+<div
+    class="modal fade"
+    id="send-mail-modal"
+    tabindex="-1"
+    aria-labelledby="modal enviar email"
+    aria-hidden="true"
+>
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="modal enviar email">
+                    <img
+                        src="{% static 'resultados_busqueda_app/img/enviar-email.svg' %}"
+                        alt=""
+                    />
+                    <span class="ms-2">Enviar resultados de búsqueda</span>
+                </h1>
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                ></button>
+            </div>
+            <div class="modal-body">
+                <div
+                    class="d-flex flex-column align-items-center justify-content-center enviar-email"
+                >
+                    <form id="send-mail-form" class="d-flex">
+                        {% csrf_token %}
+                        <div
+                            class="list-group list-group-radio d-grid gap-3 border-0"
+                        >
+                            <b>Selecciona una opción:</b>
+                            <div class="position-relative">
+                                <input
+                                    class="form-check-input position-absolute top-50 end-0 me-3 fs-5"
+                                    type="radio"
+                                    name="send-results"
+                                    id="send-mail-myself"
+                                    checked
+                                />
+                                <label
+                                    class="list-group-item py-3 pe-5"
+                                    for="send-mail-myself"
+                                >
+                                    <strong class="fw-semibold"
+                                        >Enviar a mi mismo:</strong
+                                    >
+                                    <span class="d-block small opacity-75"
+                                        >Los resultados de búsqueda se enviarán
+                                        al mail asociado de tu cuenta de
+                                        COMPASS</span
+                                    >
+                                </label>
+                            </div>
+
+                            <div class="position-relative">
+                                <input
+                                    class="form-check-input position-absolute top-50 end-0 me-3 fs-5"
+                                    type="radio"
+                                    name="send-results"
+                                    id="send-to-more-people"
+                                />
+                                <div class="list-group-item pt-3 pb-2 pe-5">
+                                    <label
+                                        for="send-to-more-people"
+                                        class="label-lista-difusion"
+                                    >
+                                        <strong class="fw-semibold"
+                                            >Enviar a otros:</strong
+                                        >
+                                        <span class="d-block small opacity-75"
+                                            >Los resultados de búsqueda se
+                                            enviarán a los mails que
+                                            indiques</span
+                                        >
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        class="form-control mt-3"
+                                        placeholder="Separa los mails por comas"
+                                        aria-label="Separa los mails por comas"
+                                        id="recipient-list"                                  
+                                    />
+                                </div>
+                            </div>                                                                            
+
+                        </div>
+                        
+                    </form>
+                    <div class="mt-3">
+                        <button class="btn btn-primary" id="send-mail-btn">
+                            Enviar resultados
+                        </button>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

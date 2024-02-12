@@ -137,7 +137,7 @@ def generate_pdf(request):
     else:
         try:
             data = json.loads(request.body.decode('utf-8'))
-            selected_ids = data.get('selectedIds', [])
+            selected_ids = data.get('selected_ids', [])
             keyword = data.get("keyword", [])
             response_validated_date = validate_data_to_generate_pdf(
                 selected_ids, keyword)
@@ -201,7 +201,7 @@ def get_context_data_pdf(selected_ids: list, keyword: str):
     return context
 
 
-def send_search_results_mail(request, data):
+def send_search_results_mail(request, data, recipient_list):
     keyword_id = data.get("keyword", [])
     keyword = get_object_or_404(Keyword, id=int(keyword_id))
     keyword_title = keyword.title
@@ -210,7 +210,7 @@ def send_search_results_mail(request, data):
     pdf = {"filename": f"{keyword_title}", "content": generate_pdf(
         request).content, "mimetype": "application/pdf"}
 
-    recipient = request.user.email
+    recipient = recipient_list
     context = {
         "username": request.user.first_name,
         "keyword_title": keyword_title,
@@ -230,12 +230,16 @@ def send_mail(request):
         try:
             data = json.loads(request.body.decode('utf-8'))
             response_validated_date = validate_data_to_generate_pdf(
-                data.get('selectedIds', []), data.get("keyword", []))
+                data.get('selected_ids', []), data.get("keyword", []))
+            
+            recipient_list = data.get('recipient_list', [])
+            if len(recipient_list) < 1:
+                recipient_list = [request.user.email]
             if response_validated_date:
                 return response_validated_date
 
             thread = threading.Thread(
-                target=send_search_results_mail(request, data))
+                target=send_search_results_mail(request, data, recipient_list))
             thread.start()
             return JsonResponse({}, status=200)
         except Exception as ex:

@@ -7,6 +7,7 @@
 
 {% block css %}
     <link rel="stylesheet" href="{% static 'resultados_busqueda_app/css/search_results.css' %}">
+    <link rel="stylesheet" href="{% static 'resultados_busqueda_app/css/enviar-email.css' %}">
 {% endblock css %}
 
 {% block header %}
@@ -52,7 +53,7 @@
             <i class="bi bi-file-earmark-pdf-fill fs-5 me-1 me-sm-2"></i>
                     Exportar PDF
         </button>
-        <button class="btn btn-primary px-1 p-sm-2 mt-2 mt-md-0" id="send-mail">
+        <button class="btn btn-primary px-1 p-sm-2 mt-2 mt-md-0" data-bs-toggle="modal" data-bs-target="#send-mail-modal">
             <i class="bi bi-envelope-fill fs-5 me-1 me-sm-2"></i>
             Enviar por email
         </button>
@@ -173,6 +174,8 @@
           </div>
         </div>
       </div>
+
+      {% include 'send_mail_modal.html' %}
 {% endblock modales %}
 
 {% block js-files%}
