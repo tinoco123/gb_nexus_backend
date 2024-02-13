@@ -7,32 +7,53 @@ const zoneSpan = document.getElementById("id-zone")
 const moreInformationContainer = document.getElementById("information-container")
 const footerMoreInformation = document.getElementById("footer-more-information")
 const modalVerResultadosBusqueda = document.getElementById("modalVerResultadosBusqueda")
+const footerDownloadPdf = document.getElementById("footer-download-pdf")
 
 modalVerResultadosBusqueda.addEventListener('show.bs.modal', event => {
     setTimeout(async () => {
-        var searchResult = await getSinopsys()
         pageSpan.innerHTML = rowSelected.getData().title
         stateSpan.innerHTML = rowSelected.getData().state
         dateSpan.innerHTML = rowSelected.getData().date
         zoneSpan.innerHTML = rowSelected.getData().federalEstatal
-        sinopsysSpan.innerHTML = searchResult.sinopsys
+        urlSpan.innerHTML = "<b>Cargando...</b>"
+        sinopsysSpan.innerHTML = "<b>Cargando...</b>"
 
-        if (searchResult.firstUrl != undefined) {
-            urlSpan.innerHTML = searchResult.firstUrl
-            urlSpan.setAttribute("href", searchResult.firstUrl)
-        } else {
-            urlSpan.innerHTML = rowSelected.getData().urlPage
+        if (rowSelected.getData().state == "Diario Oficial de la Federación") {
             urlSpan.setAttribute("href", rowSelected.getData().urlPage)
-        }
-
-        if (searchResult.urlAttach.length >= 1) {
-            footerMoreInformation.hidden = false
+            urlSpan.innerHTML = rowSelected.getData().urlPage
+            sinopsysSpan.innerHTML = "Sin sinopsis"
             moreInformationContainer.innerHTML = ""
-            moreInformation(searchResult, moreInformationContainer)
+            footerDownloadPdf.hidden = false
         } else {
-            footerMoreInformation.hidden = true
+            var searchResult = await getSinopsys()
+            sinopsysSpan.innerHTML = searchResult.sinopsys
+
+            if (searchResult.firstUrl != undefined) {
+                urlSpan.innerHTML = searchResult.firstUrl
+                urlSpan.setAttribute("href", searchResult.firstUrl)
+            } else {
+                urlSpan.innerHTML = rowSelected.getData().urlPage
+                urlSpan.setAttribute("href", rowSelected.getData().urlPage)
+            }
+
+            if (searchResult.urlAttach.length >= 1) {
+                footerMoreInformation.hidden = false
+                moreInformationContainer.innerHTML = ""
+                moreInformation(searchResult, moreInformationContainer)
+            }
         }
     }, 1)
+})
+
+modalVerResultadosBusqueda.addEventListener('hidden.bs.modal', event => {
+    pageSpan.innerHTML = ""
+    stateSpan.innerHTML = ""
+    dateSpan.innerHTML = ""
+    zoneSpan.innerHTML = ""
+    urlSpan.innerHTML = ""
+    sinopsysSpan.innerHTML = ""
+    footerMoreInformation.hidden = true
+    footerDownloadPdf.hidden = true
 })
 
 async function getSinopsys() {
