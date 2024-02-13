@@ -56,6 +56,32 @@ modalVerResultadosBusqueda.addEventListener('hidden.bs.modal', event => {
     footerDownloadPdf.hidden = true
 })
 
+footerDownloadPdf.addEventListener("click", async () => {
+    try {
+        var searchResultId = rowSelected.getData()._id;
+        var response = await fetch("/search-results/data/get-pdf/" + searchResultId, {
+            method: "GET"
+        })
+        if (response.ok) {
+            var pdf = await response.blob()
+            var pdfURL = URL.createObjectURL(pdf)
+            var a = document.createElement('a')
+            a.download = "Diario Oficial de la Federación.pdf"
+            a.href = pdfURL
+            a.target = '_self'
+            a.click()
+            URL.revokeObjectURL(pdfURL)
+            a.remove()
+        } else if (response.status === 404) {
+            showNotifications(response.status, "Sin implementar")
+        } else if (response.status === 500) {
+            showNotifications(response.status, "Sin implementar")
+        }
+    } catch (error) {
+        console.error('Error:', error)
+    }
+})
+
 async function getSinopsys() {
     try {
         const params = new URLSearchParams()
