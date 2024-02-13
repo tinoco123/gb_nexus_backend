@@ -90,6 +90,7 @@ mexico_states_dict = {
     'CdmxComunicacion': 'Congreso de la Ciudad de México',
     'CdmxGaceta': 'Congreso de la Ciudad de México',
     'CdmxIniciativa': 'Congreso de la Ciudad de México',
+    'CdmxPeriodicoOficial': 'Diario Oficial de la Ciudad de México',
     'ChiapasGaceta': 'Congreso de Chiapas',
     'ChiapasSesiones': 'Congreso de Chiapas',
     'ChihuahuaComunicacion': 'Congreso de Chihuahua',
