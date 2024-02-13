@@ -30,10 +30,10 @@ sendMailBtn.addEventListener("click", async () => {
             }
         }
         else {
-            alert("Ingresa al menos un mail")
+            showNotifications(400, "Ingresa al menos un mail")
         }
     } else {
-        alert("Selecciona una de las 2 opciones")
+        showNotifications(400, "Selecciona una de las 2 opciones")
     }
 })
 
