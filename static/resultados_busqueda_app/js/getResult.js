@@ -58,6 +58,7 @@ modalVerResultadosBusqueda.addEventListener('hidden.bs.modal', event => {
 
 footerDownloadPdf.addEventListener("click", async () => {
     try {
+        showNotifications(200, "Procesando descarga")
         var searchResultId = rowSelected.getData()._id;
         var response = await fetch("/search-results/data/get-pdf/" + searchResultId, {
             method: "GET"
@@ -72,10 +73,13 @@ footerDownloadPdf.addEventListener("click", async () => {
             a.click()
             URL.revokeObjectURL(pdfURL)
             a.remove()
-        } else if (response.status === 404) {
-            showNotifications(response.status, "Sin implementar")
+            showNotifications(response.status, "Pdf descargado")
+        } else if (response.status === 400) {
+            var error = await response.json()
+            showNotifications(response.status, error.error)
         } else if (response.status === 500) {
-            showNotifications(response.status, "Sin implementar")
+            var error = await response.json()
+            showNotifications(response.status, error.error)
         }
     } catch (error) {
         console.error('Error:', error)

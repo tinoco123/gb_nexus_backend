@@ -1,7 +1,6 @@
-import json
+import json, base64, re
 from bson import ObjectId
 from datetime import datetime, date
-import re
 from django.template.loader import get_template
 from django.core.mail import EmailMultiAlternatives
 from django.conf import settings
@@ -78,6 +77,14 @@ def create_mail(recipient_list: list, subject: str, context: dict, template_path
                     attachment["content"], attachment["mimetype"])
 
     return mail
+
+def conver_base64_to_bytes(base64_string: str) -> bytes:
+    try:
+        bytes_data = base64.b64decode(base64_string)
+        return bytes_data
+    except base64.binascii.Error as e:
+        raise ValueError(f"Invalid Base64 string: {e}")
+
 
 mexico_states_dict = {
     'BCNComunicacion': 'Congreso de Baja California Norte',

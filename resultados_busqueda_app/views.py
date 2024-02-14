@@ -2,14 +2,14 @@ import threading
 import traceback
 import json
 import os
-from django.http import Http404, HttpResponseNotAllowed, JsonResponse, HttpResponseBadRequest, HttpResponseServerError
+from django.http import Http404, HttpResponse, HttpResponseNotAllowed, JsonResponse, HttpResponseBadRequest, HttpResponseServerError
 from django.shortcuts import get_object_or_404, render
 from django.contrib.auth.decorators import login_required
 from mongo_connection.paginator import Pagination
 from dotenv import load_dotenv
 from pymongo.errors import OperationFailure, ServerSelectionTimeoutError, ConnectionFailure
 from bson.errors import InvalidId
-from .utils import MongoJSONEncoder, resaltar_keywords, change_title_labels, change_title_label, create_mail
+from .utils import MongoJSONEncoder, resaltar_keywords, change_title_labels, change_title_label, create_mail, conver_base64_to_bytes
 from mongo_connection.connection import MongoConnection
 from mongo_connection.search_result_repository import SearchResultRepository
 from keywords_app.models import Keyword
@@ -106,7 +106,7 @@ def get_search_result_by_id(request, id):
                 if len(search_result["urlAttach"]) >= 1:
                     first_attachment_url = search_result["urlAttach"][0]["urlAttach"]
                     search_result["firstUrl"] = first_attachment_url
-                
+
                 attachments_with_sinopsys = list(filter(lambda attachment: attachment["sinopsys"] != "",
                                                         search_result["urlAttach"]))
 
@@ -114,7 +114,7 @@ def get_search_result_by_id(request, id):
                                                       **attachment, "sinopsys": resaltar_keywords(subkeywords, attachment["sinopsys"])}, attachments_with_sinopsys))
 
                 search_result["urlAttach"] = attachments_with_bold_sinopsys
-                
+
                 return JsonResponse(search_result, encoder=MongoJSONEncoder)
             else:
                 return HttpResponseBadRequest("No se encontró el elemento solicitado")
@@ -128,6 +128,30 @@ def get_search_result_by_id(request, id):
             return HttpResponseServerError("Error en la conexión a la base de datos")
         except OperationFailure:
             return HttpResponseServerError("El servidor fallo en la ejecución de la operación")
+
+
+@login_required
+def get_pdf_of_dof_document(request, id):
+    if request.method != "GET":
+        return HttpResponseNotAllowed(permitted_methods=("GET"))
+    else:
+        try:
+            mongo_client = MongoConnection(str(os.getenv("MONGODB_DATABASE")), str(
+                os.getenv("MONGODB_COLLECTION")))
+            search_result_repo = SearchResultRepository(mongo_client)
+            base64_string = search_result_repo.get_base_64_string(id)
+            pdf_bytes = conver_base64_to_bytes(base64_string)
+            return HttpResponse(content=pdf_bytes, content_type='application/pdf')
+        except ValueError:
+            return JsonResponse({"error": "El documento no se puede convertir a pdf"}, status=500)
+        except InvalidId:
+            return JsonResponse({"error": "Documento con identificador invalido"}, status=400)
+        except ServerSelectionTimeoutError:
+            return JsonResponse({"error": "El servidor tardo en retornar una respuesta"}, status=500)
+        except ConnectionFailure:
+            return JsonResponse({"error": "Error en la conexión a la base de datos"}, status=500)
+        except OperationFailure:
+            return JsonResponse({"error": "El servidor fallo en la ejecución de la operación"}, status=500)
 
 
 @login_required
@@ -231,7 +255,7 @@ def send_mail(request):
             data = json.loads(request.body.decode('utf-8'))
             response_validated_date = validate_data_to_generate_pdf(
                 data.get('selected_ids', []), data.get("keyword", []))
-            
+
             recipient_list = data.get('recipient_list', [])
             if len(recipient_list) < 1:
                 recipient_list = [request.user.email]

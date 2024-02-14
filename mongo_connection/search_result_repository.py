@@ -30,8 +30,15 @@ class SearchResultRepository:
             return {}
 
     def get_document_for_pdf_optimized(self, query):
-        search_results = self.collection.aggregate(get_pipeline_pdf_optimized(query))
+        search_results = self.collection.aggregate(
+            get_pipeline_pdf_optimized(query))
         return search_results
+
+    def get_base_64_string(self, id: str) -> str:
+        id = ObjectId(id)
+        urlAttach = self.collection.find_one({"_id": id}, {"urlAttach": {"$slice" : 1}, "urlAttach": 1, "_id": 0})
+        base64_string = urlAttach["urlAttach"][0]["urlAttach"]
+        return base64_string
 
     def count_results(self, query: dict):
         results = self.collection.count_documents(query)
