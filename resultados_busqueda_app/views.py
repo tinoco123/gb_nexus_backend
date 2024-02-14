@@ -225,8 +225,7 @@ def get_context_data_pdf(selected_ids: list, keyword: str):
     return context
 
 
-def send_search_results_mail(request, data, recipient_list):
-    keyword_id = data.get("keyword", [])
+def send_search_results_mail(request, keyword_id, recipient_list):
     keyword = get_object_or_404(Keyword, id=int(keyword_id))
     keyword_title = keyword.title
     subkeywords = list(keyword.searchterms_set.values_list("name", flat=True))
@@ -236,7 +235,7 @@ def send_search_results_mail(request, data, recipient_list):
 
     recipient = recipient_list
     context = {
-        "username": request.user.first_name,
+        "username": "" if len(recipient_list) >= 1 else request.user.first_name,
         "keyword_title": keyword_title,
         "subkeywords": subkeywords
     }
@@ -253,17 +252,19 @@ def send_mail(request):
     else:
         try:
             data = json.loads(request.body.decode('utf-8'))
-            response_validated_date = validate_data_to_generate_pdf(
-                data.get('selected_ids', []), data.get("keyword", []))
-
+            selected_ids = data.get('selected_ids', [])
+            keyword_id = data.get("keyword", [])
             recipient_list = data.get('recipient_list', [])
-            if len(recipient_list) < 1:
-                recipient_list = [request.user.email]
-            if response_validated_date:
-                return response_validated_date
 
+            error_in_input_data = validate_data_to_generate_pdf(selected_ids, keyword_id)
+            if error_in_input_data:
+                return error_in_input_data
+            else:
+                if len(recipient_list) < 1:
+                    recipient_list = [request.user.email]  # Mail to logged user
+            
             thread = threading.Thread(
-                target=send_search_results_mail(request, data, recipient_list))
+                target=send_search_results_mail(request, keyword_id, recipient_list))
             thread.start()
             return JsonResponse({}, status=200)
         except Exception as ex:

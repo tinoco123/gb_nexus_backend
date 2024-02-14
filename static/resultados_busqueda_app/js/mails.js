@@ -4,6 +4,7 @@ const sendMailForm = document.getElementById("send-mail-form")
 const sendToMany = document.getElementById("send-to-more-people")
 const sendToMyself = document.getElementById("send-mail-myself")
 const recipientList = document.getElementById("recipient-list")
+const closeMailsModalBtn = document.getElementById("close-mails-modal")
 
 
 sendMailBtn.addEventListener("click", async () => {
@@ -13,6 +14,7 @@ sendMailBtn.addEventListener("click", async () => {
         if (sendToMyself.checked == true) {
             response = await sendRequestToBack(ids)
             if (response.status === 200) {
+                closeMailsModalBtn.click()
                 showNotifications(response.status, "Email enviado correctamente")
             } else if (response.status === 400) {
                 var error = await response.json()
@@ -23,6 +25,7 @@ sendMailBtn.addEventListener("click", async () => {
             var mails = getMailsFromInput()
             response = await sendRequestToBack(ids, mails)
             if (response.status === 200) {
+                closeMailsModalBtn.click()
                 showNotifications(response.status, "Email enviado correctamente")
             } else if (response.status === 400) {
                 var error = await response.json()
