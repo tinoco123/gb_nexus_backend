@@ -233,7 +233,7 @@ def send_search_results_mail(request, keyword_id, recipient_list):
     pdf = {"filename": f"{keyword_title}", "content": generate_pdf(
         request).content, "mimetype": "application/pdf"}
 
-    recipient = recipient_list
+    recipient = recipient_list if len(recipient_list) >= 1 else [request.user.email]
     context = {
         "username": "" if len(recipient_list) >= 1 else request.user.first_name,
         "keyword_title": keyword_title,
@@ -259,9 +259,6 @@ def send_mail(request):
             error_in_input_data = validate_data_to_generate_pdf(selected_ids, keyword_id)
             if error_in_input_data:
                 return error_in_input_data
-            else:
-                if len(recipient_list) < 1:
-                    recipient_list = [request.user.email]  # Mail to logged user
             
             thread = threading.Thread(
                 target=send_search_results_mail(request, keyword_id, recipient_list))

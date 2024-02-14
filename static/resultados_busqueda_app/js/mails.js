@@ -14,7 +14,7 @@ sendMailBtn.addEventListener("click", async () => {
         if (sendToMyself.checked == true) {
             response = await sendRequestToBack(ids)
             if (response.status === 200) {
-                closeMailsModalBtn.click()
+                closeMailsModalBtn.dispatchEvent(new Event("click"))
                 showNotifications(response.status, "Email enviado correctamente")
             } else if (response.status === 400) {
                 var error = await response.json()
@@ -25,7 +25,7 @@ sendMailBtn.addEventListener("click", async () => {
             var mails = getMailsFromInput()
             response = await sendRequestToBack(ids, mails)
             if (response.status === 200) {
-                closeMailsModalBtn.click()
+                closeMailsModalBtn.dispatchEvent(new Event("click"))
                 showNotifications(response.status, "Email enviado correctamente")
             } else if (response.status === 400) {
                 var error = await response.json()

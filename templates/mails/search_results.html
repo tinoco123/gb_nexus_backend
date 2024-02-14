@@ -7,7 +7,11 @@
                 alt="Logo de Global Nexus"
             />
             <p>
-                <b>Buenos días {{ username }}:</b>            
+                {% if username %}
+                    <b>Buenos días {{ username }}:</b>
+                {% else %}
+                    <b>Buenos días:</b>    
+                {% endif %}
             </p>
             <p>
                 A nombre de Global Nexus compartimos las últimas noticias
