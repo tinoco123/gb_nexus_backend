@@ -21,9 +21,14 @@ modalVerResultadosBusqueda.addEventListener('show.bs.modal', event => {
         if (rowSelected.getData().state == "Diario Oficial de la Federación") {
             urlSpan.setAttribute("href", rowSelected.getData().urlPage)
             urlSpan.innerHTML = rowSelected.getData().urlPage
-            sinopsysSpan.innerHTML = "Sin sinopsis"
             moreInformationContainer.innerHTML = ""
             footerDownloadPdf.hidden = false
+            var sinopsys = await getSinopsys(true)
+            if (sinopsys.sinopsys != undefined) {
+                sinopsysSpan.innerHTML = sinopsys.sinopsys
+            } else {
+                sinopsysSpan.innerHTML = "Sin sinopsis"
+            }
         } else {
             var searchResult = await getSinopsys()
             sinopsysSpan.innerHTML = searchResult.sinopsys
@@ -86,16 +91,22 @@ footerDownloadPdf.addEventListener("click", async () => {
     }
 })
 
-async function getSinopsys() {
+async function getSinopsys(dof_collection = false) {
     try {
         const params = new URLSearchParams()
         params.append('keyword', getKeyword())
         const searchResultId = rowSelected.getData()._id;
-        const response = await fetch("/search-results/data/get/" + searchResultId + "?" + params.toString(), {
+        var endpoint
+        if (dof_collection) {
+            endpoint = "/search-results/data/get-sinopsys/"
+        } else {
+            endpoint = "/search-results/data/get/"
+        }
+        var response = await fetch(endpoint + searchResultId + "?" + params.toString(), {
             method: "GET"
-        });
+        })
         if (!response.ok) {
-            throw new Error('Error en la petición al servidor');
+            showNotifications(response.status, "Se produjo un error, intentalo más tarde")
         }
         const jsonData = await response.json();
         return jsonData

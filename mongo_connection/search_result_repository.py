@@ -1,5 +1,5 @@
 from bson import ObjectId
-from .pipelines import get_pipeline_pdf, get_sinopsys_and_urlAttach, get_pipeline_pdf_optimized
+from .pipelines import get_pipeline_pdf, get_sinopsys_and_urlAttach, get_pipeline_pdf_optimized, get_base64_urlAttach_from_dof_collection, get_sinopsys_of_urlAttach_from_dof_collection
 
 
 class SearchResultRepository:
@@ -36,9 +36,14 @@ class SearchResultRepository:
 
     def get_base_64_string(self, id: str) -> str:
         id = ObjectId(id)
-        urlAttach = self.collection.find_one({"_id": id}, {"urlAttach": {"$slice" : 1}, "urlAttach": 1, "_id": 0})
-        base64_string = urlAttach["urlAttach"][0]["urlAttach"]
-        return base64_string
+        urlAttach = list(self.collection.aggregate(get_base64_urlAttach_from_dof_collection(id)))
+        return urlAttach[0]["urlAttach"][0]["urlAttach"]
+    
+    def get_doc_sinopsys_from_dof_collection(self, id:str) -> str:
+        id = ObjectId(id)
+        sinopsys = list(self.collection.aggregate(get_sinopsys_of_urlAttach_from_dof_collection(id)))
+        return sinopsys[0]["urlAttach"][0]["sinopsys"]
+
 
     def count_results(self, query: dict):
         results = self.collection.count_documents(query)

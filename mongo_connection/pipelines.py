@@ -131,3 +131,73 @@ def get_sinopsys_and_urlAttach(id: ObjectId):
         }
     ]
     return pipeline
+
+
+def get_base64_urlAttach_from_dof_collection(id: ObjectId):
+    pipeline = [
+        {
+            "$match": {"_id": id}
+        },
+        {
+            "$project": {
+                "urlAttach": {
+                    "$cond": {
+                        "if": {"$eq": ["$urlAttach", "na"]},
+                        "then": [],
+                        "else": {
+                            "$cond": {
+                                "if": {"$eq": ["$urlAttach", "N/A"]},
+                                "then": [],
+                                "else": {
+                                    "$map": {
+                                        "input": "$urlAttach",
+                                        "as": "attachment",
+                                        "in": {
+                                            "urlAttach": "$$attachment.urlAttach",
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+            }
+        }
+    ]
+    return pipeline
+
+
+def get_sinopsys_of_urlAttach_from_dof_collection(id: ObjectId):
+    pipeline = [
+        {
+            "$match": {"_id": id}
+        },
+        {
+            "$project": {
+                "urlAttach": {
+                    "$cond": {
+                        "if": {"$eq": ["$urlAttach", "na"]},
+                        "then": [],
+                        "else": {
+                            "$cond": {
+                                "if": {"$eq": ["$urlAttach", "N/A"]},
+                                "then": [],
+                                "else": {
+                                    "$map": {
+                                        "input": "$urlAttach",
+                                        "as": "attachment",
+                                        "in": {
+                                            "sinopsys": {
+                                                "$substrCP": ["$$attachment.sinopsys", 0, 3500]
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+            }
+        }
+    ]
+    return pipeline

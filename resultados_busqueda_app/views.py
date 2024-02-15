@@ -142,8 +142,39 @@ def get_pdf_of_dof_document(request, id):
             base64_string = search_result_repo.get_base_64_string(id)
             pdf_bytes = conver_base64_to_bytes(base64_string)
             return HttpResponse(content=pdf_bytes, content_type='application/pdf')
+        except TypeError:
+            return JsonResponse({"error": "El documento no se puede convertir a pdf"}, status=500)
         except ValueError:
             return JsonResponse({"error": "El documento no se puede convertir a pdf"}, status=500)
+        except InvalidId:
+            return JsonResponse({"error": "Documento con identificador invalido"}, status=400)
+        except ServerSelectionTimeoutError:
+            return JsonResponse({"error": "El servidor tardo en retornar una respuesta"}, status=500)
+        except ConnectionFailure:
+            return JsonResponse({"error": "Error en la conexión a la base de datos"}, status=500)
+        except OperationFailure:
+            return JsonResponse({"error": "El servidor fallo en la ejecución de la operación"}, status=500)
+
+
+@login_required
+def get_doc_sinopsys_from_dof_collection(request, id):
+    if request.method != "GET":
+        return HttpResponseNotAllowed(permitted_methods=("GET"))
+    else:
+        try:
+            mongo_client = MongoConnection(str(os.getenv("MONGODB_DATABASE")), str(
+                os.getenv("MONGODB_COLLECTION")))
+            search_result_repo = SearchResultRepository(mongo_client)
+
+            sinopsys = search_result_repo.get_doc_sinopsys_from_dof_collection(
+                id)
+            if sinopsys:
+                keyword_id = int(request.GET.get("keyword"))
+                keyword = get_object_or_404(Keyword, pk=keyword_id)
+                subkeywords = list(
+                    keyword.searchterms_set.values_list("name", flat=True))
+                sinopsys = resaltar_keywords(subkeywords, sinopsys)
+            return JsonResponse({"sinopsys": sinopsys}, status=200)
         except InvalidId:
             return JsonResponse({"error": "Documento con identificador invalido"}, status=400)
         except ServerSelectionTimeoutError:
@@ -259,7 +290,7 @@ def send_mail(request):
             error_in_input_data = validate_data_to_generate_pdf(selected_ids, keyword_id)
             if error_in_input_data:
                 return error_in_input_data
-            
+
             thread = threading.Thread(
                 target=send_search_results_mail(request, keyword_id, recipient_list))
             thread.start()
