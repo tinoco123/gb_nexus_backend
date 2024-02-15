@@ -3,7 +3,7 @@ generatePDFButton.addEventListener("click", () => {
     const selectedData = table.getSelectedData();
     const ids = selectedData.map(item => item._id);
     const data = {
-        selectedIds: ids,
+        selected_ids: ids,
         keyword: getKeyword()
     }
 
