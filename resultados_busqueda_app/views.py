@@ -9,7 +9,7 @@ from mongo_connection.paginator import Pagination
 from dotenv import load_dotenv
 from pymongo.errors import OperationFailure, ServerSelectionTimeoutError, ConnectionFailure
 from bson.errors import InvalidId
-from .utils import MongoJSONEncoder, resaltar_keywords, change_title_labels, change_title_label, create_mail, conver_base64_to_bytes
+from .utils import MongoJSONEncoder, resaltar_keywords, change_title_labels, change_title_label, create_mail, conver_base64_to_bytes, mexico_states_dict
 from mongo_connection.connection import MongoConnection
 from mongo_connection.search_result_repository import SearchResultRepository
 from keywords_app.models import Keyword
@@ -93,31 +93,40 @@ def get_search_result_by_id(request, id):
         try:
             mongo_client = MongoConnection(str(os.getenv("MONGODB_DATABASE")), str(
                 os.getenv("MONGODB_COLLECTION")))
-            keyword_id = int(request.GET.get("keyword"))
-            keyword = get_object_or_404(Keyword, pk=keyword_id)
             search_result_repo = SearchResultRepository(mongo_client)
             search_result = search_result_repo.get_by_id(id)
+
             if search_result:
+                keyword_id = int(request.GET.get("keyword"))
+                keyword = get_object_or_404(Keyword, pk=keyword_id)
                 subkeywords = list(
-                    keyword.searchterms_set.values_list("name", flat=True))
-                search_result["sinopsys"] = resaltar_keywords(
-                    subkeywords, search_result["sinopsys"])
+                        keyword.searchterms_set.values_list("name", flat=True))
+                
+                if search_result["sinopsys"] in ("na", "N/A"):
+                    collection_name = search_result["collectionName"]
+                    search_result["sinopsys"] = mexico_states_dict[collection_name]
+                else:
+                    search_result["sinopsys"] = resaltar_keywords(
+                        subkeywords, search_result["sinopsys"])
 
-                if len(search_result["urlAttach"]) >= 1:
-                    first_attachment_url = search_result["urlAttach"][0]["urlAttach"]
-                    search_result["firstUrl"] = first_attachment_url
+                if search_result.get("urlAttach") is not None:
+                    if len(search_result["urlAttach"]) >= 1:
+                        first_attachment_url = search_result["urlAttach"][0]["urlAttach"]
+                        search_result["firstUrl"] = first_attachment_url
 
-                attachments_with_sinopsys = list(filter(lambda attachment: attachment["sinopsys"] != "",
-                                                        search_result["urlAttach"]))
+                        attachments_with_sinopsys = list(filter(lambda attachment: attachment["sinopsys"] != "",
+                                                                    search_result["urlAttach"]))
 
-                attachments_with_bold_sinopsys = list(map(lambda attachment: {
-                                                      **attachment, "sinopsys": resaltar_keywords(subkeywords, attachment["sinopsys"])}, attachments_with_sinopsys))
+                        attachments_with_bold_sinopsys = list(map(lambda attachment: {
+                                                                **attachment, "sinopsys": resaltar_keywords(subkeywords, attachment["sinopsys"])}, attachments_with_sinopsys))
 
-                search_result["urlAttach"] = attachments_with_bold_sinopsys
+                        search_result["urlAttach"] = attachments_with_bold_sinopsys
 
                 return JsonResponse(search_result, encoder=MongoJSONEncoder)
             else:
                 return HttpResponseBadRequest("No se encontró el elemento solicitado")
+        except KeyError:
+            return JsonResponse(search_result, encoder=MongoJSONEncoder)
         except InvalidId:
             return HttpResponseBadRequest("El id que solicitaste tiene un formato erroneo")
         except ValueError:
