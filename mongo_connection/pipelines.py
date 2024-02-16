@@ -100,6 +100,7 @@ def get_sinopsys_and_urlAttach(id: ObjectId):
         },
         {
             "$project": {
+                "collectionName": 1,
                 "sinopsys": {
                     "$substrCP": ["$sinopsys", 0, 3500]
                 },

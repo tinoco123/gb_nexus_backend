@@ -47,7 +47,7 @@ def change_title_label(search_result: dict):
 
 
 common_titles = ["na", "-", "n/a", "descarga la gaceta",
-                 "orden del", "lista de ejemplares"]
+                 "orden del", "lista de ejemplares", "periodo actual"]
 
 
 def is_common_title(title: str):
@@ -94,6 +94,10 @@ mexico_states_dict = {
     'BCNPeriodicoOficial': 'Diario Oficial de Baja California Norte',
     'BCSComunicacion': 'Congreso de Baja California Sur',
     'BCSPeriodicoOficial': 'Diario Oficial de Baja California Sur',
+    'CampecheComunicacion': "Congreso de Campeche",
+    'CampecheGaceta': "Gaceta del Congreso de Campeche",
+    'CampecheIniciativas': "Congreso de Campeche",
+    'CampechePeriodicoOficial': "Diario Oficial de Campeche",
     'CdmxComunicacion': 'Congreso de la Ciudad de México',
     'CdmxGaceta': 'Congreso de la Ciudad de México',
     'CdmxIniciativa': 'Congreso de la Ciudad de México',
