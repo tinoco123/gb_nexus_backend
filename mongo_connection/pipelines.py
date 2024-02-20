@@ -93,7 +93,7 @@ def get_pipeline_pdf_optimized(query: dict) -> list[dict]:
     return pipeline
 
 
-def get_sinopsys_and_urlAttach(id: ObjectId):
+def get_sinopsys_and_urlAttach(id: ObjectId, keyword: str):
     pipeline = [
         {
             "$match": {"_id": id}
@@ -101,33 +101,51 @@ def get_sinopsys_and_urlAttach(id: ObjectId):
         {
             "$project": {
                 "collectionName": 1,
-                "sinopsys": {
-                    "$substrCP": ["$sinopsys", 0, 3500]
+                "sinopsys": 1,
+                "fragmento": {
+                    "$regexFind": {
+                        "input": "$sinopsys",
+                        "regex": keyword,
+                        "options": "i"
+                    }
                 },
                 "urlAttach": {
                     "$cond": {
-                        "if": {"$eq": ["$urlAttach", "na"]},
-                        "then": [],
-                        "else": {
-                            "$cond": {
-                                "if": {"$eq": ["$urlAttach", "N/A"]},
-                                "then": [],
-                                "else": {
-                                    "$map": {
-                                        "input": "$urlAttach",
-                                        "as": "attachment",
-                                        "in": {
-                                            "urlAttach": "$$attachment.urlAttach",
-                                            "sinopsys": {
-                                                "$substrCP": ["$$attachment.sinopsys", 0, 3500]
-                                            }
-                                        }
+                        "if": {"$isArray": "$urlAttach"},
+                        "then":
+                        {
+                            "$map":
+                            {
+                                "input": "$urlAttach",
+                                "as": "attachment",
+                                "in": {
+                                    "urlAttach": "$$attachment.urlAttach",
+                                    "sinopsys": {
+                                        "$substrCP": ["$$attachment.sinopsys", 0, 3500]
                                     }
                                 }
                             }
-                        }
+                        },
+                        "else": []
                     }
                 },
+            }
+        },
+        {
+            "$addFields": {
+                "sinopsys": {
+                    "$substr": [
+                        "$sinopsys",
+                        {"$cond":
+                            {
+                                "if": {"$lt": ["$fragmento.idx", 100]},
+                                "then": 0,
+                                "else": {"$subtract": ["$fragmento.idx", 100]}
+                            }
+                         },
+                        3000
+                    ]
+                }
             }
         }
     ]
