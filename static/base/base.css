@@ -11,7 +11,9 @@ html {
     top: 0;
     left: 0;
     width: 75px;
-    background-image: radial-gradient(circle 975px at 2.6% 48.3%, rgba(1, 62, 210, 1) 0%, rgba(0, 57, 197, 1) 99.7%);
+    background: #0575E6;
+    background: -webkit-linear-gradient(to bottom, #021B79, #0575E6);
+    background: linear-gradient(to bottom, #021B79, #0575E6);
     height: 100%;
     transition: all 0.3s ease;
 }
@@ -93,6 +95,10 @@ html {
 
 #custom-frequency-container{
     width: 40%;
+}
+
+.logo-sd{
+    height: 35px;
 }
 
 @media (min-width: 992px) {
