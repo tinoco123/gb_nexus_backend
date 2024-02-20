@@ -10,10 +10,10 @@
                 size: a4 portrait;
                 @frame header_frame {           
                     -pdf-frame-content: header_content;
-                    left: 50pt; width: 512pt; top: 10pt; height: 80pt;
+                    left: 50pt; width: 512pt; top: 20pt; height: 80pt;
                 }
                 @frame content_frame {          
-                    left: 50pt; width: 512pt; top: 90pt; height: 632pt;
+                    left: 50pt; width: 512pt; top: 70pt; height: 632pt;
                 }
                 @frame footer_frame {           
                     -pdf-frame-content: footer_content;
@@ -29,16 +29,16 @@
     <body>
         <div style="text-align: center" id="header_content">
             <img
-                src="http://nexus.ifo.com.mx/static/base/img/logo-pdf.png"
+                src="https://compass.globalnexusdc.com/static/base/img/logo-pdf.png"
                 alt="Logo Global Nexus DC"
-                width="300"
-                height="50"
+                width="320"
+                height="30"
                 style="margin: auto"
             />
         </div>
         
         <div id="footer_content" style="margin: 0;">
-            <img src="http://nexus.ifo.com.mx/static/base/img/footer.jpg" alt="footer del pdf" width="1510" height="85">
+            <img src="https://compass.globalnexusdc.com/static/base/img/footer.jpg" alt="footer del pdf" width="1510" height="85">
         </div>
 
         {% for document in data %}
