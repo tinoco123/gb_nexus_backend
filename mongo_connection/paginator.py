@@ -1,5 +1,5 @@
 from .connection import MongoConnection
-from pymongo import ASCENDING
+from pymongo import DESCENDING
 
 
 class Pagination:
@@ -11,7 +11,7 @@ class Pagination:
     def get_page(self, page_number):
         skip_value = (page_number - 1) * self.page_size
         documents = self.client.collection.find(self.query, {"sinopsys": 0, "urlAttach": 0}).sort(
-            "_id", ASCENDING).skip(skip_value).limit(self.page_size)
+            "date", DESCENDING).skip(skip_value).limit(self.page_size)
         documents = (document for document in documents)
         return documents
 
