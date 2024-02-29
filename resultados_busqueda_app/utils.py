@@ -116,6 +116,7 @@ mexico_states_dict = {
     'ColimaIniciativa': 'Congreso de Colima',
     'ColimaPeriodicoOficial': 'Diario Oficial de Colima',
     'CongresoDurangoComunicacion': 'Congreso de Durango',
+    'DurangoGaceta': 'Congreso de Durango',
     'DurangoComunicacion': 'Congreso de Durango',
     'DurangoPeriodicoOficial': 'Diario Oficial de Durango',
     'EdomexGaceta': 'Congreso del Estado de México',

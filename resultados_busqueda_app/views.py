@@ -267,9 +267,10 @@ def get_context_data_pdf(selected_ids: list, keyword: str):
         hightlighted_sinopsys = resaltar_keywords(
             subkeywords, document["sinopsys"])
         document["sinopsys"] = hightlighted_sinopsys
-        for attachment in document["urlAttach"]:
-            attachment["sinopsys"] = resaltar_keywords(
-                subkeywords, attachment["sinopsys"])
+        if document["urlAttach"]:
+            for attachment in document["urlAttach"]:
+                attachment["sinopsys"] = resaltar_keywords(
+                    subkeywords, attachment["sinopsys"])
         document["keyword"] = keyword_title
         documents_data.append(document)
     return context
