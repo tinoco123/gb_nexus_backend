@@ -1,0 +1,104 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>COMPASS: Términos y condiciones</title>
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ"
+            crossorigin="anonymous"
+        />
+        <link
+            rel="shortcut icon"
+            href="{% static 'base/img/favicon.ico' %}"
+            type="image/x-icon"
+        />
+        <link
+            rel="stylesheet"
+            href="{% static 'authentication/css/terms_conditions.css' %}"
+        />
+    </head>
+    <body>
+        <div class="container-lg mt-4 main-container">
+            <div class="logo-container mt-2">
+                <img
+                    src="{% static 'authentication/img/logo_lc-03.png' %}"
+                    class="img-fluid"
+                    alt="logo global nexus"
+                />
+            </div>
+            <div class="title-container mt-4">
+                <h1 class="title">Términos y condiciones</h1>
+            </div>
+            <div class="ul-terms-conditions">
+                <ul class="mt-3">
+                    <li class="mt-2">
+                        Compass es una herramienta de búsqueda y monitoreo de
+                        archivos oficiales de SITIOS de congresos locales,
+                        diarios oficiales estatales, Diario Oficial de la
+                        Federación y el Congreso de la Unión. La propiedad
+                        intelectual de dicha herramienta recae exclusivamente en
+                        Global Nexus LLC, a cualquier intento de replicar dicho
+                        insumo en contrasentido a la normativa de propiedad
+                        intelectual, se procederá conforme dicta la ley en la
+                        materia.
+                    </li>
+                    <li class="mt-2">
+                        Los resultados obtenidos y mostrados en Compass dependen
+                        de lo proporcionado por las páginas del Congreso y
+                        Diarios oficiales a nivel estatal. La profundidad de
+                        detalle por resultado, así como la obtención de un
+                        archivo de interés dependerá del desarrollo de las
+                        páginas oficiales de los estados.
+                    </li>
+                    <li class="mt-2">
+                        Compass cumple con los estándares de seguridad para los
+                        usuarios mientras se consulten los resultados obtenidos
+                        dentro del portal y en la alerta generada de email. Sin
+                        embargo, dicho estándar no es preciso en las páginas de
+                        gobiernos estatales, por lo que es responsabilidad del
+                        usuario la descarga de archivos provenientes de aquellas
+                        SITIOS.
+                    </li>
+                    <li class="mt-2">
+                        Compass es una herramienta en constante evolución para
+                        el beneficio de los usuarios, por lo que la interfaz
+                        puede contar con cambios sustantivos.
+                    </li>
+                    <li class="mt-2">
+                        La distribución de las alertas por parte de un usuario a
+                        una X cantidad de direcciones de e-mail, sin estar
+                        vinculadas a una cuenta de Compass no está permitida,
+                        por lo que al detectar dicha acción por más de 3 veces,
+                        se suspenderá la cuenta que dio origen a la distribución
+                        no permitida.
+                    </li>
+                    <li class="mt-2">
+                        Los SITIOS utilizados pueden dejar de funcionar
+                        correctamente sin previo aviso, por lo que Compass
+                        dejará de hacer la búsqueda sobre aquellos enlaces hasta
+                        que el equipo técnico determine que existen las
+                        condiciones para restablecer el servicio sobre dicho
+                        link.
+                    </li>
+                    <li class="mt-2">
+                        La temporalidad con la que los SITIOS actualicen su
+                        repositorio de archivos puede diferir al tiempo real de
+                        las sesiones o eventos recientes anunciados por los
+                        gobiernos estatales. La diferencia de temporalidad
+                        también es aplicable a SITIOS dentro de un mismo Estado
+                        o Congreso.
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+            crossorigin="anonymous"
+        ></script>
+    </body>
+</html>

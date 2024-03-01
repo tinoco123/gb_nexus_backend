@@ -25,7 +25,8 @@ def sign_in(request):
                     login(request, user)
                     return redirect('keywords')
                 else:
-                    messages.error(request, "Cuenta inactiva o datos incorrectos")
+                    messages.error(
+                        request, "Cuenta inactiva o datos incorrectos")
                     return render(request, "login.html", {"form": login_form})
             else:
                 return render(request, "login.html", {"form": login_form})
@@ -35,3 +36,7 @@ def sign_in(request):
 def sign_out(request):
     logout(request)
     return redirect('sign_in')
+
+
+def get_terms_conditions(request):
+    return render(request, "terms_conditions.html")
