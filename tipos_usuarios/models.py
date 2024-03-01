@@ -18,6 +18,7 @@ class UserBaseAccount(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(blank=True, null=True, default=True)
     next_mail = models.DateField(blank=True, null=True)
     mail_frequency = models.SmallIntegerField(blank=True, null=True, default=0)
+    terms_accepted = models.BooleanField(blank=True, null=True, default=False)
 
     USERNAME_FIELD = "email"
     objects = UserBaseAccountManager()
