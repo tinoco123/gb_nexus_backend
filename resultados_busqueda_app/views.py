@@ -14,11 +14,13 @@ from mongo_connection.connection import MongoConnection
 from mongo_connection.search_result_repository import SearchResultRepository
 from keywords_app.models import Keyword
 from gb_nexus_backend import renderers
+from gb_nexus_backend.decorators import terms_accepted_required
 
 load_dotenv()
 
 
 @login_required
+@terms_accepted_required
 def search_results(request):
     if request.method != "GET":
         return HttpResponseNotAllowed(permitted_methods=("GET"))
@@ -27,6 +29,7 @@ def search_results(request):
 
 
 @login_required
+@terms_accepted_required
 def get_page_of_search_results(request):
     if request.method != "GET":
         return HttpResponseNotAllowed(permitted_methods=("GET"))
@@ -86,6 +89,7 @@ def get_page_of_search_results(request):
 
 
 @login_required
+@terms_accepted_required
 def get_search_result_by_id(request, id):
     if request.method != "GET":
         return HttpResponseNotAllowed(permitted_methods=("GET"))
@@ -150,6 +154,7 @@ def get_search_result_by_id(request, id):
 
 
 @login_required
+@terms_accepted_required
 def get_pdf_of_dof_document(request, id):
     if request.method != "GET":
         return HttpResponseNotAllowed(permitted_methods=("GET"))
@@ -176,6 +181,7 @@ def get_pdf_of_dof_document(request, id):
 
 
 @login_required
+@terms_accepted_required
 def get_doc_sinopsys_from_dof_collection(request, id):
     if request.method != "GET":
         return HttpResponseNotAllowed(permitted_methods=("GET"))
@@ -205,6 +211,7 @@ def get_doc_sinopsys_from_dof_collection(request, id):
 
 
 @login_required
+@terms_accepted_required
 def generate_pdf(request):
     if request.method != "POST":
         return HttpResponseNotAllowed(permitted_methods=("POST"))
@@ -298,6 +305,7 @@ def send_search_results_mail(request, keyword_id, recipient_list):
 
 
 @login_required
+@terms_accepted_required
 def send_mail(request):
     if request.method != "POST":
         return HttpResponseNotAllowed(permitted_methods=("POST"))

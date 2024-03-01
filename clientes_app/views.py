@@ -8,9 +8,11 @@ from tipos_usuarios.models import Cliente
 from .forms import ClientForm, EditClientForm
 from usuarios_app.utils import DateJSONEnconder
 from datetime import timedelta
+from gb_nexus_backend.decorators import terms_accepted_required
 
 
 @login_required
+@terms_accepted_required
 @permission_required("tipos_usuarios.view_cliente", raise_exception=True)
 def clients(request):
     if request.method != "GET":
@@ -22,6 +24,7 @@ def clients(request):
 
 
 @login_required
+@terms_accepted_required
 @permission_required("tipos_usuarios.view_cliente", raise_exception=True)
 def paginate_clients(request):
     if request.method != "GET":
@@ -65,6 +68,7 @@ def paginate_clients(request):
 
 
 @login_required
+@terms_accepted_required
 @permission_required("tipos_usuarios.add_cliente", raise_exception=True)
 def create_client(request):
     if request.method != "POST":
@@ -88,6 +92,7 @@ def create_client(request):
 
 
 @login_required
+@terms_accepted_required
 @permission_required("tipos_usuarios.view_cliente", raise_exception=True)
 def get_client(request, client_id):
     if request.method != "GET":
@@ -111,6 +116,7 @@ def get_client(request, client_id):
 
 
 @login_required
+@terms_accepted_required
 @permission_required("tipos_usuarios.change_cliente", raise_exception=True)
 def edit_client(request, client_id):
     if request.method != "POST":
@@ -139,6 +145,7 @@ def edit_client(request, client_id):
 
 
 @login_required
+@terms_accepted_required
 @permission_required("tipos_usuarios.change_cliente", raise_exception=True)
 def delete_client(request, client_id):
     if request.method != "DELETE":
@@ -154,6 +161,7 @@ def delete_client(request, client_id):
 
 
 @login_required
+@terms_accepted_required
 def set_mail_frequency(request):
     if request.method != "POST":
         return HttpResponseNotAllowed(permitted_methods=("POST"))

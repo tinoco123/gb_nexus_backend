@@ -6,9 +6,11 @@ from .forms import UserForm, EditUserForm
 from tipos_usuarios.models import Usuario
 from datetime import date, datetime
 from .utils import DateJSONEnconder
+from gb_nexus_backend.decorators import terms_accepted_required
 
 
 @login_required
+@terms_accepted_required
 @permission_required("tipos_usuarios.view_usuario", raise_exception=True)
 def users(request):
     if request.method != "GET":
@@ -20,6 +22,7 @@ def users(request):
 
 
 @login_required
+@terms_accepted_required
 @permission_required("tipos_usuarios.view_usuario", raise_exception=True)
 def paginate_users(request):
     if request.method != "GET":
@@ -60,6 +63,7 @@ def paginate_users(request):
 
 
 @login_required
+@terms_accepted_required
 @permission_required("tipos_usuarios.add_usuario", raise_exception=True)
 def create_user(request):
     if request.method != "POST":
@@ -83,6 +87,7 @@ def create_user(request):
 
 
 @login_required
+@terms_accepted_required
 @permission_required("tipos_usuarios.change_usuario", raise_exception=True)
 def edit_user(request, user_id):
     if request.method != "POST":
@@ -108,6 +113,7 @@ def edit_user(request, user_id):
 
 
 @login_required
+@terms_accepted_required
 @permission_required("tipos_usuarios.view_usuario", raise_exception=True)
 def get_user(request, user_id):
     if request.method != "GET":
@@ -126,6 +132,7 @@ def get_user(request, user_id):
 
 
 @login_required
+@terms_accepted_required
 @permission_required("tipos_usuarios.delete_usuario", raise_exception=True)
 def delete_user(request, user_id):
     if request.method != "DELETE":

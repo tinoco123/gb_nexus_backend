@@ -10,11 +10,13 @@ from tipos_usuarios.models import UserBaseAccount, Cliente
 from django.contrib.auth.decorators import login_required, permission_required
 from dotenv import load_dotenv
 from usuarios_app.utils import DateJSONEnconder
+from gb_nexus_backend.decorators import terms_accepted_required
 
 load_dotenv()
 
 
 @login_required
+@terms_accepted_required
 @permission_required("keywords_app.view_keyword", raise_exception=True)
 def keywords(request):
     if request.method != "GET":
@@ -26,6 +28,7 @@ def keywords(request):
 
 
 @login_required
+@terms_accepted_required
 @permission_required("keywords_app.add_keyword", raise_exception=True)
 def create_keyword(request):
     if request.method != "POST":
@@ -96,6 +99,7 @@ def keyword_query_for_cliente(user: UserBaseAccount):
 
 
 @login_required
+@terms_accepted_required
 @permission_required("keywords_app.view_keyword", raise_exception=True)
 def paginate_keywords(request):
     if request.method != "GET":
@@ -147,6 +151,7 @@ def paginate_keywords(request):
 
 
 @login_required
+@terms_accepted_required
 @permission_required("keywords_app.view_keyword", raise_exception=True)
 def get_keyword(request, keyword_id):
     if request.method != "GET":
@@ -177,6 +182,7 @@ def get_keyword(request, keyword_id):
 
 
 @login_required
+@terms_accepted_required
 @permission_required("keywords_app.change_keyword", raise_exception=True)
 def edit_keyword(request, keyword_id):
     if request.method != "POST":
@@ -245,6 +251,7 @@ def set_search_terms(edit_keyword_form: EditKeywordForm, keyword: Keyword):
 
 
 @login_required
+@terms_accepted_required
 @permission_required("keywords_app.delete_keyword", raise_exception=True)
 def delete_keyword(request, keyword_id):
     if request.method != "DELETE":
@@ -278,6 +285,7 @@ def delete_keyword(request, keyword_id):
 
 
 @login_required
+@terms_accepted_required
 @permission_required("keywords_app.view_searchterms", raise_exception=True)
 def get_search_terms(request, keyword_id):
     if request.method != "GET":
@@ -323,6 +331,7 @@ def count_keyword_results(keyword: Keyword) -> int:
 
 
 @login_required
+@terms_accepted_required
 def get_user_information(request, keyword_id: int):
     if request.method != "GET":
         return HttpResponseNotAllowed(permitted_methods=("GET"))
