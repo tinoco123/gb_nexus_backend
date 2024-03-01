@@ -23,7 +23,10 @@ def sign_in(request):
 
                 if user is not None:
                     login(request, user)
-                    return redirect('keywords')
+                    if user.terms_accepted == False:
+                        return redirect('terms_conditions')
+                    else:
+                        return redirect('keywords')
                 else:
                     messages.error(
                         request, "Cuenta inactiva o datos incorrectos")
@@ -39,4 +42,16 @@ def sign_out(request):
 
 
 def get_terms_conditions(request):
-    return render(request, "terms_conditions.html")
+    if request.method == "GET":
+        return render(request, "terms_conditions.html")
+    elif request.method == "POST":
+        terms_accepted = request.POST.get('accept_terms')
+        if terms_accepted:                
+            user = request.user
+            if user is not None:
+                user.terms_accepted = True
+                user.save()
+                return redirect('keywords')
+        else:
+            return redirect('terms_conditions')
+        
