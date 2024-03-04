@@ -288,7 +288,7 @@ def send_search_results_mail(request, keyword_id, recipient_list):
     keyword_title = keyword.title
     subkeywords = list(keyword.searchterms_set.values_list("name", flat=True))
 
-    pdf = {"filename": f"{keyword_title}", "content": generate_pdf(
+    pdf = {"filename": f"{keyword_title}.pdf", "content": generate_pdf(
         request).content, "mimetype": "application/pdf"}
 
     recipient = recipient_list if len(recipient_list) >= 1 else [
