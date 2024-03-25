@@ -5,5 +5,6 @@ urlpatterns = [
     path("", views.sign_in, name='sign_in'),
     path("login/", views.sign_in, name='sign_in'),
     path('logout/', views.sign_out, name='sign_out'),
+    path("password_reset/", views.PrePasswordResetView.as_view(), name="password_reset"),
     path('terminos-condiciones/', views.get_terms_conditions, name='terms_conditions')
 ]

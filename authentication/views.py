@@ -3,6 +3,7 @@ from django.contrib import messages
 from .forms import LoginForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import PasswordResetView
 
 
 def sign_in(request):
@@ -39,6 +40,10 @@ def sign_out(request):
     logout(request)
     return redirect("sign_in")
 
+
+class PrePasswordResetView(PasswordResetView):
+    email_template_name = "registration/reset_email.html"
+    html_email_template_name = "registration/reset_email.html"
 
 def get_terms_conditions(request):
     if request.method == "GET":

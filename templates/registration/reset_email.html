@@ -1,0 +1,36 @@
+{% load inlinecss %} {% inlinecss "resultados_busqueda_app/css/email.css" %}
+<html>
+    <body>
+        <div class="container">
+            <img
+                style="width: 500px; height: 50px;"
+                src="https://compass.globalnexusdc.com/static/authentication/img/logo_lc-03.png"
+                alt="Logo de Global Nexus"
+            />
+            <p style="margin-top: 2em;">
+                Hola {{ user.first_name }},
+            </p>
+            <p>
+                A nombre de Global Nexus, usted está recibiendo este correo electrónico porque solicitó un restablecimiento de contraseña para su cuenta de usuario en COMPASS
+            </p>
+            <p style="margin-top: 2em;">
+                Por favor vaya a la siguiente página y elija una nueva contraseña:                
+            </p>
+
+            {% block reset_link %}
+                <a href="{{ protocol }}://{{ domain }}{% url 'password_reset_confirm' uidb64=uid token=token %}">
+                    {{ protocol }}://{{ domain }}{% url 'password_reset_confirm' uidb64=uid token=token %}
+                </a>            
+            {% endblock %}
+
+            <p style="margin-top: 2em;">
+                ¡Gracias por usar nuestro sitio!        
+            </p>
+            
+            <p>
+                El equipo de COMPASS
+            </p>
+        </div>
+    </body>
+</html>
+{% endinlinecss %}
